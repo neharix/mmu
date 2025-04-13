@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-montserrat: Montserrat;
+}
+
+.text-input {
+  @apply w-full border border-gray-300 dark:border-gray-500 rounded-md px-4 pt-6 pb-2 bg-gray-100 dark:bg-gray-700/50 placeholder-transparent focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition duration-300 ease-in-out;
+}
+
+.text-input-placeholder {
+  @apply absolute left-4 top-2 text-gray-500 text-sm peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 dark:peer-placeholder-shown:text-gray-500 peer-focus:top-2 peer-focus:text-sm peer-focus:text-emerald-600 transition-all ease-out duration-300;
+}
+
+.link {
+  @apply flex items-center space-x-2 text-sm px-4 py-2 my-2 rounded-lg select-none;
+}
+
+.link-inactive {
+  @apply hover:dark:text-emerald-400 hover:text-emerald-500 transition duration-300 ease-out;
+}
+
+.link-active {
+  @apply text-emerald-500 dark:text-emerald-400;
+}
+
+.breadcrumb-active {
+  @apply py-2 select-none text-nowrap px-3 my-2 text-[0.7rem] md:text-sm lg:text-sm rounded-lg shadow-md bg-emerald-500 dark:bg-[#113031] text-white;
+}
