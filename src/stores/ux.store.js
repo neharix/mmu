@@ -1,9 +1,11 @@
 import { useTranslation } from "i18next-vue";
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
+import { useRoute } from "vue-router";
 
 export const useUxStore = defineStore("ux", () => {
-  const { i18next } = useTranslation();
+  const { i18next, t } = useTranslation();
+  const route = useRoute();
 
   const language = ref("tk");
   const theme = ref(localStorage.getItem("theme") || "light");
@@ -11,9 +13,13 @@ export const useUxStore = defineStore("ux", () => {
   const sidebarHover = ref(false);
   const isLoading = ref(false);
 
-  function changeLanguage(language) {
-    i18next.changeLanguage(language);
-    theme.value = language;
+  function changeLanguage(lng) {
+    i18next.changeLanguage(lng);
+    language.value = lng;
+    let title = route.meta.title || "";
+    document.title = title.length > 0 ? t(title) + " | MMU" : "MMU";
+
+    localStorage.setItem("language", language.value);
   }
 
   function toggleTheme() {

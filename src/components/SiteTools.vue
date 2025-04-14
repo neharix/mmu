@@ -1,7 +1,7 @@
 <script setup>
 import ButtonWithTooltip from "./ButtonWithTooltip.vue";
 import useConfirmModal from "@/use/useModalWindow";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { useUxStore } from "@/stores/ux.store";
 import useTextUtils from "@/use/useUtils";
 
@@ -31,11 +31,20 @@ const props = defineProps({
 
 const isOpen = ref(false);
 const isMobileMenuOpen = ref(false);
-
+const isMobileLngMenuOpen = ref(false);
 
 function toggleMenu() {
   isOpen.value = !isOpen.value;
 }
+
+function toggleMobileLngMenu() {
+  isMobileLngMenuOpen.value = !isMobileLngMenuOpen.value;
+}
+
+
+watch(isOpen, (newVal) => {
+  console.log(newVal)
+})
 
 function toggleMobileMenu() {
   isMobileMenuOpen.value = !isMobileMenuOpen.value;
@@ -51,6 +60,12 @@ function onClickOutside(event) {
   }
 }
 
+function changeMobileLanguage(lng) {
+  uxStore.changeLanguage(lng);
+  isMobileLngMenuOpen.value = false;
+  isMobileMenuOpen.value = false;
+}
+
 window.addEventListener("click", onClickOutside);
 
 
@@ -59,7 +74,7 @@ const emit = defineEmits(["toggle-theme"]);
 </script>
 <template>
   <div :class="class">
-    <div class="hidden lg:flex lg:items-center space-x-2">
+    <div class="hidden lg:flex lg:items-center space-x-4">
       <div id="dropdown" class="relative inline-block text-left">
         <div>
           <button @click="toggleMenu" type="button" class="bg-none">
@@ -73,15 +88,15 @@ const emit = defineEmits(["toggle-theme"]);
             class="absolute right-0 z-10 mt-2 w-24 origin-top-right rounded-md bg-white dark:bg-[#112731] shadow-lg ring-1 ring-white dark:ring-gray-800 ring-opacity-5">
             <div class="py-1">
               <button @click="uxStore.changeLanguage('tk')" v-if="$t('language') !== 'türkmen'"
-                class="bg-none w-full flex items-center select-none px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-[#344750ef] transition duration-300 ease-in-out">
+                class="bg-none text-gray-800 dark:text-white w-full flex items-center select-none px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-[#344750ef] transition duration-300 ease-in-out">
                 Türkmen
               </button>
               <button @click="uxStore.changeLanguage('en')" v-if="$t('language') !== 'english'"
-                class="bg-none w-full flex items-center select-none px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-[#344750ef] transition duration-300 ease-in-out">
+                class="bg-none text-gray-800 dark:text-white w-full flex items-center select-none px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-[#344750ef] transition duration-300 ease-in-out">
                 English
               </button>
               <button @click="uxStore.changeLanguage('ru')" v-if="$t('language') !== 'русский'"
-                class="bg-none w-full flex items-center select-none px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-[#344750ef] transition duration-300 ease-in-out">
+                class="bg-none text-gray-800 dark:text-white w-full flex items-center select-none px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-[#344750ef] transition duration-300 ease-in-out">
                 Русский
               </button>
             </div>
@@ -133,32 +148,6 @@ const emit = defineEmits(["toggle-theme"]);
 
     </div>
     <div class="flex items-center space-x-2 lg:hidden">
-      <div id="dropdown" class="relative inline-block text-left">
-        <div>
-          <button @click="toggleMenu" type="button" class="bg-none">
-            Turkmen
-          </button>
-        </div>
-
-        <transition name="fade-scale" @before-enter="el => (el.style.display = 'block')"
-          @after-leave="el => (el.style.display = 'none')">
-          <div v-show="isOpen"
-            class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white dark:bg-[#112731] shadow-lg ring-1 ring-white dark:ring-gray-800 ring-opacity-5">
-            <div class="py-1">
-              <button @click="console.log('hello')"
-                class="bg-none w-full flex items-center text-red-500 px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-[#344750ef] transition duration-300 ease-in-out">
-                <span class="px-2 select-none"><svg class="w-6" viewBox="0 -0.5 25 25" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M11.75 9.874C11.75 10.2882 12.0858 10.624 12.5 10.624C12.9142 10.624 13.25 10.2882 13.25 9.874H11.75ZM13.25 4C13.25 3.58579 12.9142 3.25 12.5 3.25C12.0858 3.25 11.75 3.58579 11.75 4H13.25ZM9.81082 6.66156C10.1878 6.48991 10.3542 6.04515 10.1826 5.66818C10.0109 5.29121 9.56615 5.12478 9.18918 5.29644L9.81082 6.66156ZM5.5 12.16L4.7499 12.1561L4.75005 12.1687L5.5 12.16ZM12.5 19L12.5086 18.25C12.5029 18.25 12.4971 18.25 12.4914 18.25L12.5 19ZM19.5 12.16L20.2501 12.1687L20.25 12.1561L19.5 12.16ZM15.8108 5.29644C15.4338 5.12478 14.9891 5.29121 14.8174 5.66818C14.6458 6.04515 14.8122 6.48991 15.1892 6.66156L15.8108 5.29644ZM13.25 9.874V4H11.75V9.874H13.25ZM9.18918 5.29644C6.49843 6.52171 4.7655 9.19951 4.75001 12.1561L6.24999 12.1639C6.26242 9.79237 7.65246 7.6444 9.81082 6.66156L9.18918 5.29644ZM4.75005 12.1687C4.79935 16.4046 8.27278 19.7986 12.5086 19.75L12.4914 18.25C9.08384 18.2892 6.28961 15.5588 6.24995 12.1513L4.75005 12.1687ZM12.4914 19.75C16.7272 19.7986 20.2007 16.4046 20.2499 12.1687L18.7501 12.1513C18.7104 15.5588 15.9162 18.2892 12.5086 18.25L12.4914 19.75ZM20.25 12.1561C20.2345 9.19951 18.5016 6.52171 15.8108 5.29644L15.1892 6.66156C17.3475 7.6444 18.7376 9.79237 18.75 12.1639L20.25 12.1561Z"
-                      fill="currentColor" />
-                  </svg></span>
-                <span class="select-none">Ulgamdan çykmak</span>
-              </button>
-            </div>
-          </div>
-        </transition>
-      </div>
       <button @click="toggleMobileMenu">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-6" fill="currentColor">
           <path
@@ -168,7 +157,35 @@ const emit = defineEmits(["toggle-theme"]);
       <transition name="fade-scale" @before-enter="el => (el.style.display = 'block')"
         @after-leave="el => (el.style.display = 'none')">
         <div v-show="isMobileMenuOpen" :class="[mobileDropdownClasses]"
-          class="absolute overflow-y-auto space-y-4 p-4 z-10 mt-2 w-56 max-h-[40vh] origin-top-right rounded-md border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#171131ef] shadow-lg ring-1 ring-white dark:ring-gray-800 ring-opacity-5">
+          class="absolute overflow-y-auto space-y-4 p-4 z-10 mt-2 w-56 max-h-[40vh] origin-top-right rounded-md border border-gray-200 dark:border-gray-800 bg-white dark:bg-[#112731] shadow-lg ring-1 ring-white dark:ring-gray-800 ring-opacity-5">
+          <button class="flex items-center space-x-2 w-full" @click="toggleMobileLngMenu">
+            <svg class="w-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
+              <path
+                d="M8 .5A7.76 7.76 0 0 0 0 8a7.76 7.76 0 0 0 8 7.5A7.76 7.76 0 0 0 16 8 7.76 7.76 0 0 0 8 .5zm6.71 6.8L13.48 7c-.25-.07-.27-.09-.29-.12-.15-.2-.32-.47-.48-.73 0-.09-.13-.23-.16-.31s.35-.6.51-.84a2.43 2.43 0 0 1 .59-.45 5.87 5.87 0 0 1 1.06 2.75zM8 1.75l-.09.17a.19.19 0 0 1 0-.1c0 .06-.15.15-.25.25l-.3.29a.85.85 0 0 0-.08 1.08h-.12a1.05 1.05 0 0 0-.81.42 1.27 1.27 0 0 0-.2 1.07V5a3 3 0 0 0-.43.11l-.24.08-.64.21a1.2 1.2 0 0 0-.81.8 1 1 0 0 0 .2.93 5.67 5.67 0 0 0 1.38 1.09 4.17 4.17 0 0 0 1.67.65h1.68a1.2 1.2 0 0 1 1.04.51.49.49 0 0 1 .13.43.77.77 0 0 1-.15.35 2.71 2.71 0 0 0-.95 1.61 11.11 11.11 0 0 1-.48 1.38c-.12.31-.23.61-.31.85a3.32 3.32 0 0 1-1-.08 3.28 3.28 0 0 0-.5-2.12 2.24 2.24 0 0 1-.53-1.42 2.11 2.11 0 0 0-1.47-2.29 10.81 10.81 0 0 1-2.9-2.64A6.79 6.79 0 0 1 8 1.75zM1.25 8a5.64 5.64 0 0 1 .12-1.16 10.29 10.29 0 0 0 2.94 2.42c.6.22.69.45.69 1.12a3.45 3.45 0 0 0 .86 2.27A3.05 3.05 0 0 1 6 14a6.35 6.35 0 0 1-4.75-6zm8.32 6.08c0-.15.12-.32.18-.48a10.2 10.2 0 0 0 .55-1.6 1.55 1.55 0 0 1 .54-.86 1.91 1.91 0 0 0 .57-1.3 1.71 1.71 0 0 0-.47-1.27 2.45 2.45 0 0 0-2-.9H7.35a4.77 4.77 0 0 1-2-1.11l.47-.16.27-.08a.79.79 0 0 1 .38-.07l.09.15a.64.64 0 0 0 .81.29.65.65 0 0 0 .34-.8v-.18c-.11-.3-.24-.72-.32-1A1.42 1.42 0 0 0 8.68 4a1 1 0 0 0-.18-1 3.44 3.44 0 0 0 .33-.34 1 1 0 0 0 .22-.8 6.93 6.93 0 0 1 3.73 1.8 3 3 0 0 0-.79.7 9.14 9.14 0 0 0-.64 1.09 1.46 1.46 0 0 0 .24 1.39c.18.31.38.61.56.86a1.58 1.58 0 0 0 1 .58c.22.06 1 .22 1.55.33a6.44 6.44 0 0 1-5.13 5.47z" />
+            </svg>
+            <p>
+              {{ capitalize($t('language')) }}
+            </p>
+          </button>
+          <transition name="fade-scale" @before-enter="el => (el.style.display = 'block')"
+            @after-leave="el => (el.style.display = 'none')">
+            <div v-show="isMobileLngMenuOpen" class="bg-white dark:bg-[#112731] w-full">
+              <div class="py-1">
+                <button @click="changeMobileLanguage('tk')" v-if="$t('language') !== 'türkmen'"
+                  class="bg-none text-gray-800 dark:text-white w-full flex items-center select-none px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-[#344750ef] transition duration-300 ease-in-out">
+                  Türkmen
+                </button>
+                <button @click="changeMobileLanguage('en')" v-if="$t('language') !== 'english'"
+                  class="bg-none text-gray-800 dark:text-white w-full flex items-center select-none px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-[#344750ef] transition duration-300 ease-in-out">
+                  English
+                </button>
+                <button @click="changeMobileLanguage('ru')" v-if="$t('language') !== 'русский'"
+                  class="bg-none text-gray-800 dark:text-white w-full flex items-center select-none px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-[#344750ef] transition duration-300 ease-in-out">
+                  Русский
+                </button>
+              </div>
+            </div>
+          </transition>
           <button class="flex items-center space-x-2 w-full" @click="emit('toggle-theme')">
             <svg viewBox="0 0 24 24" class="w-6 h-6" :class="{ hidden: isDark }" fill="none"
               xmlns="http://www.w3.org/2000/svg">

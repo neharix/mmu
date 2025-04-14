@@ -7,7 +7,6 @@ export default function useTextUtils() {
           ? (formattedText += text[idx].toUpperCase())
           : (formattedText += text[idx]);
       }
-      console.log(formattedText);
       return formattedText;
     }
     return text;

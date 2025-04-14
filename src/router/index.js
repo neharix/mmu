@@ -8,18 +8,35 @@ const router = createRouter({
     {
       path: "/login",
       name: "login-page",
-      component: () => import("../views/LoginView.vue"),
+      component: () => import("../views/LoginViews/LoginView.vue"),
       meta: {
         layout: "EmptyLayout",
-        title: "Giriş",
+        title: "login",
         adminRequired: false,
       },
-      beforeEnter: (to, from, next) => {
-        let title = to.meta.title || "";
-        document.title = title.length > 0 ? title + " | MMU" : "MMU";
-
-        return next();
+      beforeEnter: guards.loginGuard,
+    },
+    {
+      path: "/reinstate-password",
+      name: "reinstate-password",
+      component: () => import("../views/LoginViews/ReinstatePasswordView.vue"),
+      meta: {
+        layout: "EmptyLayout",
+        title: "reinstatePassword",
+        adminRequired: false,
       },
+      beforeEnter: guards.loginGuard,
+    },
+    {
+      path: "/otp-confirmation",
+      name: "otp-confirmation",
+      component: () => import("../views/LoginViews/OtpConfirmationView.vue"),
+      meta: {
+        layout: "EmptyLayout",
+        title: "otp",
+        adminRequired: false,
+      },
+      beforeEnter: guards.loginGuard,
     },
     {
       path: "/",
