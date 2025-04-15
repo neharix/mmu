@@ -17,9 +17,9 @@ const router = createRouter({
       beforeEnter: guards.loginGuard,
     },
     {
-      path: "/reinstate-password",
-      name: "reinstate-password",
-      component: () => import("../views/LoginViews/ReinstatePasswordView.vue"),
+      path: "/reset-password",
+      name: "reset-password",
+      component: () => import("../views/LoginViews/ResetPasswordView.vue"),
       meta: {
         layout: "EmptyLayout",
         title: "reinstatePassword",
@@ -39,12 +39,23 @@ const router = createRouter({
       beforeEnter: guards.loginGuard,
     },
     {
+      path: "/new-password",
+      name: "set-new-password",
+      component: () => import("../views/LoginViews/NewPasswordView.vue"),
+      meta: {
+        layout: "EmptyLayout",
+        title: "newPassword",
+        adminRequired: false,
+      },
+      beforeEnter: guards.loginGuard,
+    },
+    {
       path: "/",
       name: "home",
       component: HomeView,
       meta: {
         layout: "MainLayout",
-        title: "Baş sahypa",
+        title: "mainPage",
       },
       beforeEnter: guards.defaultGuard,
     },

@@ -14,6 +14,16 @@ export const useAuthStore = defineStore("auth", () => {
   const censoredEmail = ref(null);
   const userForOtp = ref(null);
   const isOtpAvailable = ref(false);
+  const isCorrectOtp = ref(false);
+  const isPwdChangedSuccessfully = ref(false);
+
+  function resetAllOtpSessionFields() {
+    censoredEmail.value = null;
+    userForOtp.value = null;
+    isOtpAvailable.value = false;
+    isCorrectOtp.value = false;
+    isPwdChangedSuccessfully.value = false;
+  }
 
   async function login(credentials) {
     try {
@@ -40,6 +50,27 @@ export const useAuthStore = defineStore("auth", () => {
     } catch (error) {
       console.error("OTP failed", error);
       isOtpAvailable.value = false;
+    }
+  }
+
+  async function sendOtp(otp) {
+    try {
+      const response = await axiosInstance.get(
+        `/check-otp/${userForOtp.value}/${otp}/`
+      );
+      isCorrectOtp.value = response.data.is_successfully;
+    } catch (error) {
+      isCorrectOtp.value = false;
+      console.error("OTP failed", error);
+    }
+  }
+
+  async function changePassword(data) {
+    try {
+      const response = await axiosInstance.post("/change-password/", data);
+      isPwdChangedSuccessfully.value = true;
+    } catch (error) {
+      console.error("Password changing process failed", error);
     }
   }
 
@@ -79,7 +110,12 @@ export const useAuthStore = defineStore("auth", () => {
     censoredEmail,
     userForOtp,
     isOtpAvailable,
+    isCorrectOtp,
+    isPwdChangedSuccessfully,
+    resetAllOtpSessionFields,
     tryToGetOtpForUser,
+    sendOtp,
+    changePassword,
     login,
     logout,
     fetchUser,

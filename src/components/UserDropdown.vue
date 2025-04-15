@@ -1,8 +1,10 @@
 <script setup>
 import { ref } from "vue";
 import { useAuthStore } from "@/stores/auth.store.js";
+import { storeToRefs } from "pinia";
 
-const authStore = useAuthStore()
+const authStore = useAuthStore();
+const { user } = storeToRefs(authStore);
 
 const isOpen = ref(false);
 
@@ -31,10 +33,10 @@ window.addEventListener("click", onClickOutside);
       <button @click="toggleMenu" type="button" class="bg-none">
         <div class="hidden lg:flex items-center space-x-4">
           <div>
-            <p class="m-0 text-gray-900 dark:text-gray-100 font-medium select-none">{{ authStore.user.is_superuser ?
-              'Admin' : authStore.user.manager_of }}</p>
+            <p class="m-0 text-gray-900 dark:text-gray-100 font-medium select-none">{{
+              user.is_superuser ? $t('superuser') : authStore.user.manager_of }}</p>
             <p class="m-0 text-end text-gray-600 dark:text-gray-300 font-medium text-[0.8rem] select-none">{{
-              authStore.user.is_superuser ? "Admin" : "ÝOM" }}</p>
+              user.is_superuser ? $t('superuser') : $t('educationCenter') }}</p>
           </div>
           <div class="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-800 overflow-hidden">
             <img src="../assets/svgs/favicon.svg" alt="" class="select-none">

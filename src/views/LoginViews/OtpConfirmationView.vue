@@ -5,15 +5,17 @@ import TheSpinner from "@/components/TheSpinner.vue";
 
 import { useAuthStore } from '@/stores/auth.store.js';
 import SiteTools from "@/components/SiteTools.vue";
-import { onMounted, ref, watch } from "vue";
+import { onMounted, ref, useTransitionState, watch } from "vue";
 import router from "@/router/index.js";
 import { useDashboardStore } from '@/stores/api.store';
 import TooltipMessage from '@/components/TooltipMessage.vue';
 import { storeToRefs } from 'pinia';
 import { useUxStore } from '@/stores/ux.store';
+import { useTranslation } from 'i18next-vue';
 
+const otpStatus = ref(null);
 
-
+const { t } = useTranslation();
 const dashboardStore = useDashboardStore();
 const authStore = useAuthStore();
 const uxStore = useUxStore();
@@ -22,17 +24,18 @@ const { theme } = storeToRefs(uxStore);
 
 
 const schema = Yup.object().shape({
-  username: Yup.string().trim().required('validateError'),
+  otp: Yup.string().trim().required('validateError'),
 });
 
 
 function onSubmit(values, { setErrors }) {
-  const { username } = values;
-  return authStore.tryToGetOtpForUser(username).then(() => {
-    if (authStore.isOtpAvailable) {
-      router.push({ name: 'otp-confirmation' });
+  const { otp } = values;
+  otpStatus.value = null;
+  authStore.sendOtp(otp).then(() => {
+    if (authStore.isCorrectOtp) {
+      return router.push({ name: 'set-new-password' });
     } else {
-      console.log('#FIXME Some problem with otp')
+      otpStatus.value = 'otpInvalid';
     }
   })
     .catch(error => setErrors({ apiError: error }));
@@ -64,14 +67,17 @@ onMounted(() => {
       <div class="relative">
         <Field name="otp" type="text" id="otp" class="peer text-input" :placeholder="$t('otp')"
           :class="{ 'is-invalid': errors.otp }" />
-        <tooltip-message position-classes="-bottom-10" :is-visible="!!errors.username" :only-smooth-text="true">
+        <tooltip-message position-classes="-bottom-10" :is-visible="!!errors.otp" :only-smooth-text="true">
           <p class="text-red-500">{{ $t(errors.otp, { fieldName: $t('otp') }) }}</p>
         </tooltip-message>
         <label for="otp" class="text-input-placeholder">
           {{ $t('otp') }}
         </label>
       </div>
-      <div class="flex flex-wrap justify-center mt-16">
+      <div v-if="otpStatus" :class="{ '': !otpStatus, '-my-4': otpStatus }">
+        <p class="text-center text-red-500">{{ $t(otpStatus) }}</p>
+      </div>
+      <div class="flex flex-wrap justify-center" :class="{ 'mt-16': !otpStatus, 'mt-8': otpStatus }">
         <button :disabled="isSubmitting"
           class="flex justify-center w-50 py-2 px-2 border-none text-base rounded-xl bg-emerald-500 dark:bg-emerald-600 text-white shadow-emerald-500/30 ring-0 hover:ring-4 ring-emerald-400/10 transition-all duration-300 ease-in-out">
           <the-spinner :class="{ hidden: !isSubmitting }"></the-spinner><span class="select-none"

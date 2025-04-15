@@ -2,12 +2,15 @@ export default {
   // Global
   confirm: "Confirm",
   validateError: '"{{fieldName}}" field is required.',
-  // Login page
+  smthWrong: "Something went wrong",
   language: "english",
+  mainPage: "Baş sahypa",
+  // Login page
   hello: "Hello!",
   signIn: "Sign in to your account",
   username: "Username",
   password: "Password",
+  confirmPassword: "Retype password",
   login: "Login",
   forgotPassword: "Forgot password?",
   mmuAbbr: "Information System of Centers",
@@ -18,5 +21,26 @@ export default {
   // OTP confirmation page
   enterOtp: "Enter confirmation code",
   otp: "Confirmation code",
-  otpSendedTo: "OTP password sended to {{email}}.",
+  userNotFound: "User not found",
+  otpSendedTo: "OTP password sended to {{email}}",
+  otpInvalid: "OTP invalid",
+  // New password page
+  newPassword: "New password",
+  newPasswordDesc: "Set new password for your account",
+  pwdNotSame: "Passwords which you entered to fields are not same",
+  // Main Layout
+  superuser: "Superuser",
+  educationCenter: "Education center",
+  // Sidebar
+  mainPage: "Main page",
+  control: "Control",
+  educationCenters: "Education centers",
+  nationalities: "Nationalities",
+  students: "Students",
+  // Dashboard
+  males: "Males",
+  females: "Females",
+  admissions: "Admissions",
+  m2fPre: "Total female/male pre",
+  graduates: "Graduates",
 };

@@ -2,12 +2,15 @@ export default {
   // Global
   confirm: "Подтвердить",
   validateError: 'Поле "{{fieldName}}" объязателен.',
-  // Login page
+  smthWrong: "Что-то пошло не так",
   language: "русский",
+  mainPage: "Главная страница",
+  // Login page
   hello: "Привет!",
   signIn: "Войдите в свой аккаунт",
   username: "Имя пользователя",
   password: "Пароль",
+  confirmPassword: "Введите пароль заново",
   login: "Вход",
   forgotPassword: "Забыли пароль?",
   mmuAbbr: "Информационная система центров",
@@ -19,5 +22,25 @@ export default {
   // OTP confirmation page
   enterOtp: "Введите код подтверждения",
   otp: "Код подтверждения",
-  otpSendedTo: "Код подтвержения был отправлен в почту {{email}}.",
+  userNotFound: "Пользователь не найден",
+  otpSendedTo: "Код подтверждения был отправлен в почту {{email}}.",
+  otpInvalid: "Код подтверждения неправильный",
+  // New password page
+  newPassword: "Новый пароль",
+  newPasswordDesc: "Задайте новый пароль для своего аккаунта",
+  pwdNotSame: "Введенные вами пароли не схожи",
+  // Main Layout
+  superuser: "Админ",
+  educationCenter: "Центр обучения",
+  // Sidebar
+  control: "Управление",
+  educationCenters: "Центры обучения",
+  nationalities: "Национальности",
+  students: "Студенты",
+  // Dashboard
+  males: "Мужчины",
+  females: "Женщины",
+  admissions: "Поступления",
+  m2fPre: "Общий коэффицент женщин/мужчин",
+  graduates: "Выпускники",
 };

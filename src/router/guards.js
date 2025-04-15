@@ -36,7 +36,6 @@ async function defaultGuard(to, from, next) {
 
   let titleMeta = to.meta.title || "";
   let title = t(titleMeta);
-  console.log(title);
   document.title = title.length > 0 ? t(title) + " | MMU" : "MMU";
 
   return next();

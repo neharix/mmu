@@ -90,10 +90,10 @@ onMounted(() => {
       </div>
       <div>
         <p class="m-0 text-gray-900 dark:text-gray-100 font-medium select-none" v-if="user">
-          {{ user.is_superuser ? 'Admin' : user.manager_of }}
+          {{ user.is_superuser ? $t('superuser') : user.manager_of }}
         </p>
         <p class="m-0 text-gray-600 dark:text-gray-300 font-medium text-[0.8rem] select-none" v-if="user">
-          {{ user.is_superuser ? "Admin" : "Okuw merkezi" }}</p>
+          {{ user.is_superuser ? $t('superuser') : $t('educationCenter') }}</p>
       </div>
       <div>
         <button @click="authStore.logout()" class="bg-none w-full flex items-center text-red-500 text-sm rounded-2xl">

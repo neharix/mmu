@@ -11,14 +11,17 @@ import { useDashboardStore } from '@/stores/api.store';
 import TooltipMessage from '@/components/TooltipMessage.vue';
 import { storeToRefs } from 'pinia';
 import { useUxStore } from '@/stores/ux.store';
+import { useTranslation } from 'i18next-vue';
 
 
 
 const dashboardStore = useDashboardStore();
 const authStore = useAuthStore();
 const uxStore = useUxStore();
+const { t } = useTranslation();
 
 
+const userStatus = ref(null);
 
 const { theme } = storeToRefs(uxStore);
 
@@ -29,11 +32,12 @@ const schema = Yup.object().shape({
 
 function onSubmit(values, { setErrors }) {
   const { username } = values;
+  userStatus.value = null;
   return authStore.tryToGetOtpForUser(username).then(() => {
     if (authStore.isOtpAvailable) {
       router.push({ name: 'otp-confirmation' });
     } else {
-      console.log('#FIXME Some problem with otp')
+      userStatus.value = 'userNotFound';
     }
   })
     .catch(error => setErrors({ apiError: error }));
@@ -73,7 +77,10 @@ onMounted(() => {
           {{ $t('username') }}
         </label>
       </div>
-      <div class="flex flex-wrap justify-center mt-16">
+      <div v-if="userStatus" :class="{ '-my-4': userStatus }">
+        <p class="text-center text-red-500">{{ $t(userStatus) }}</p>
+      </div>
+      <div class="flex flex-wrap justify-center mt-8">
         <button :disabled="isSubmitting"
           class="flex justify-center w-50 py-2 px-2 border-none text-base rounded-xl bg-emerald-500 dark:bg-emerald-600 text-white shadow-emerald-500/30 ring-0 hover:ring-4 ring-emerald-400/10 transition-all duration-300 ease-in-out">
           <the-spinner :class="{ hidden: !isSubmitting }"></the-spinner><span class="select-none"

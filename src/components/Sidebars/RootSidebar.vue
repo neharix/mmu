@@ -21,12 +21,12 @@ const { sidebarExpanded } = storeToRefs(uxStore);
               <polyline points="9 22 9 12 15 12 15 22"></polyline>
             </svg>
           </div>
-          <span v-if="sidebarExpanded" class="text-nowrap">Baş sahypa</span>
+          <span v-if="sidebarExpanded" class="text-nowrap">{{ $t('mainPage') }}</span>
         </sidebar-link>
         <h4 class="uppercase text-gray-400 dark:text-gray-500 p-4 select-none text-nowrap"
           :class="{ 'text-center font-extrabold': !sidebarExpanded }">
-          {{ sidebarExpanded ? "Dolandyryş" : "..." }}</h4>
-        <sidebar-link link="/high-schools">
+          {{ sidebarExpanded ? $t('control') : "..." }}</h4>
+        <sidebar-link link="/education-centers">
           <div class="flex justify-center" :class="{ 'w-full': !sidebarExpanded }">
             <svg class="w-6" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g clip-path="url(#clip0_901_948)">
@@ -41,7 +41,7 @@ const { sidebarExpanded } = storeToRefs(uxStore);
               </defs>
             </svg>
           </div>
-          <span v-if="sidebarExpanded" class="text-nowrap">Ýokary okuw mek...</span>
+          <span v-if="sidebarExpanded" class="text-nowrap">{{ $t('educationCenters') }}</span>
         </sidebar-link>
 
         <div class="h-16"></div>

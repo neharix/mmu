@@ -13,7 +13,7 @@ const { data } = useDashboard();
   <!--    <the-leaflet-map></the-leaflet-map>-->
   <!--  </div>-->
   <div class="grid md:grid-cols-4 sm:grid-cols-2 gap-8">
-    <grid-cell link="/education-centers" label="Okuw merkezleri" :data-value="data.education_centers_count"
+    <grid-cell link="/education-centers" :label="$t('educationCenters')" :data-value="data.education_centers_count"
       icon-bg-class="bg-green-200 dark:bg-green-500/75">
       <svg class="w-6 stroke-green-500 dark:stroke-green-900" viewBox="0 0 32 32" fill="none"
         xmlns="http://www.w3.org/2000/svg">
@@ -29,7 +29,7 @@ const { data } = useDashboard();
         </defs>
       </svg>
     </grid-cell>
-    <grid-cell link="/nationalities" label="Milletler" :data-value="data.nationalities_count"
+    <grid-cell link="/nationalities" :label="$t('nationalities')" :data-value="data.nationalities_count"
       icon-bg-class="bg-red-200 dark:bg-red-500/75">
       <svg class="w-6 h-8 stroke-red-500 dark:stroke-red-900" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -37,7 +37,7 @@ const { data } = useDashboard();
         <circle cx="12" cy="10" r="3"></circle>
       </svg>
     </grid-cell>
-    <grid-cell link="/students" label="Talyplar" :data-value="data.students_count"
+    <grid-cell link="/students" :label="$t('students')" :data-value="data.students_count"
       icon-bg-class="bg-sky-200 dark:bg-sky-500/75">
       <svg class="w-6 h-8 stroke-sky-500 dark:stroke-sky-900" xmlns="http://www.w3.org/2000/svg" width="14" height="14"
         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -48,7 +48,8 @@ const { data } = useDashboard();
         <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
       </svg>
     </grid-cell>
-    <grid-cell label="Gyzlar" :data-value="data.female_students_count" icon-bg-class="bg-sky-200 dark:bg-sky-500/75">
+    <grid-cell :label="$t('females')" :data-value="data.female_students_count"
+      icon-bg-class="bg-sky-200 dark:bg-sky-500/75">
       <svg class="w-6 h-8 stroke-sky-500 dark:stroke-sky-900" xmlns="http://www.w3.org/2000/svg" width="14" height="14"
         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
         stroke-linejoin="round">
@@ -58,7 +59,8 @@ const { data } = useDashboard();
         <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
       </svg>
     </grid-cell>
-    <grid-cell label="Oglanlar" :data-value="data.male_students_count" icon-bg-class="bg-sky-200 dark:bg-sky-500/75">
+    <grid-cell :label="$t('males')" :data-value="data.male_students_count"
+      icon-bg-class="bg-sky-200 dark:bg-sky-500/75">
       <svg class="w-6 h-8 stroke-sky-500 dark:stroke-sky-900" xmlns="http://www.w3.org/2000/svg" width="14" height="14"
         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
         stroke-linejoin="round">
@@ -75,8 +77,9 @@ const { data } = useDashboard();
     <radial-bar-chart :studentsCount="data.students_count" :femaleCount="data.female_students_count"
       :maleCount="data.male_students_count"></radial-bar-chart>
     <div class="space-y-6">
-      <h2 class="my-8 text-2xl select-none">Okuwy tamamlaýanlar</h2>
-      <grid-cell label="Gyzlar" :data-value="data.female_graduates" icon-bg-class="bg-sky-200 dark:bg-sky-500/75">
+      <h2 class="my-8 text-2xl select-none">{{ $t('graduates') }}</h2>
+      <grid-cell :label="$t('females')" :data-value="data.female_graduates"
+        icon-bg-class="bg-sky-200 dark:bg-sky-500/75">
         <svg class="w-6 h-8 stroke-sky-500 dark:stroke-sky-900" xmlns="http://www.w3.org/2000/svg" width="14"
           height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
           stroke-linejoin="round">
@@ -86,7 +89,7 @@ const { data } = useDashboard();
           <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
         </svg>
       </grid-cell>
-      <grid-cell label="Oglanlar" :data-value="data.male_graduates" icon-bg-class="bg-sky-200 dark:bg-sky-500/75">
+      <grid-cell :label="$t('males')" :data-value="data.male_graduates" icon-bg-class="bg-sky-200 dark:bg-sky-500/75">
         <svg class="w-6 h-8 stroke-sky-500 dark:stroke-sky-900" xmlns="http://www.w3.org/2000/svg" width="14"
           height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
           stroke-linejoin="round">
