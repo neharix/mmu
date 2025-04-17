@@ -1,0 +1,1 @@
+import{_ as e}from"./TheError-BKuk3oWu.js";import{d as a,c as s}from"./index-B-o_4aAC.js";const m={__name:"Page403",setup(t){return(o,r)=>(s(),a(e,{"status-code":403,message:"rugsat ýok","is-home-link-enabled":!0}))}};export{m as default};
