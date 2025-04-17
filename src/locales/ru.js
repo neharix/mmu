@@ -5,6 +5,7 @@ export default {
   smthWrong: "Что-то пошло не так",
   language: "русский",
   mainPage: "Главная страница",
+  add: "Добавить",
   // Login page
   hello: "Привет!",
   signIn: "Войдите в свой аккаунт",
@@ -30,6 +31,7 @@ export default {
   newPasswordDesc: "Задайте новый пароль для своего аккаунта",
   pwdNotSame: "Введенные вами пароли не схожи",
   // Main Layout
+  rights: '© {{year}} "Sanly Çözgüt IT Meýdança" ЭО,  Все права защищены',
   superuser: "Админ",
   educationCenter: "Центр обучения",
   // Sidebar

@@ -5,6 +5,7 @@ export default {
   smthWrong: "Something went wrong",
   language: "english",
   mainPage: "Baş sahypa",
+  add: "Add",
   // Login page
   hello: "Hello!",
   signIn: "Sign in to your account",
@@ -29,6 +30,7 @@ export default {
   newPasswordDesc: "Set new password for your account",
   pwdNotSame: "Passwords which you entered to fields are not same",
   // Main Layout
+  rights: '© {{year}} "Sanly Çözgüt IT Meýdança" ES, All rights reserved',
   superuser: "Superuser",
   educationCenter: "Education center",
   // Sidebar

@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/HomeView.vue";
 import guards from "@/router/guards.js";
 
 const router = createRouter({
@@ -50,92 +49,108 @@ const router = createRouter({
       beforeEnter: guards.loginGuard,
     },
     {
-      path: "/",
-      name: "home",
-      component: HomeView,
+      path: "/workspace",
+      name: "workspace",
+      component: () => import("../views/WorkspaceViews/Workspace.vue"),
       meta: {
         layout: "MainLayout",
         title: "mainPage",
-      },
-      beforeEnter: guards.defaultGuard,
-    },
-    {
-      path: "/education-centers",
-      name: "education-centers",
-      component: () =>
-        import("../views/EducationCenterViews/EducationCenters.vue"),
-      meta: {
-        layout: "MainLayout",
-        title: "Ýokary okuw mekdepleri",
         adminRequired: true,
       },
+      beforeEnter: guards.authGuard,
       children: [
         {
           path: "",
-          name: "education-centers-list",
-          component: () =>
-            import(
-              "../views/EducationCenterViews/EducationCentersListView.vue"
-            ),
+          name: "workspace-view",
+          component: () => import("../views/WorkspaceViews/WorkspaceView.vue"),
           meta: {
             layout: "MainLayout",
-            title: "Okuw merkezleri",
+            title: "mainPage",
             adminRequired: true,
           },
           beforeEnter: guards.authGuard,
         },
         {
-          path: "add",
-          name: "add-education-center",
+          path: "education-centers",
+          name: "education-centers",
           component: () =>
-            import("../views/EducationCenterViews/AddEducationCenter.vue"),
+            import("../views/EducationCenterViews/EducationCenters.vue"),
           meta: {
             layout: "MainLayout",
-            title: "Ýokary okuw mekdebi goşmak",
+            title: "educationCenters",
             adminRequired: true,
           },
-          beforeEnter: guards.authGuard,
-        },
-        {
-          path: "edit/:id",
-          name: "edit-high-school",
-          component: () =>
-            import("../views/EducationCenterViews/EditEducationCenter.vue"),
-          meta: {
-            layout: "MainLayout",
-            title: "Ýokary okuw mekdebi üýtgetmek",
-            adminRequired: true,
-          },
-          beforeEnter: guards.authGuard,
-        },
-        {
-          path: "view/:id",
-          name: "about-high-school",
-          component: () =>
-            import("../views/EducationCenterViews/AboutEducationCenter.vue"),
-          meta: {
-            layout: "MainLayout",
-            title: "Ýokary okuw mekdebi",
-            adminRequired: true,
-          },
-          beforeEnter: guards.authGuard,
           children: [
             {
               path: "",
-              name: "high-school",
+              name: "education-centers-list",
               component: () =>
-                import("../views/EducationCenterViews/EducationCenter.vue"),
+                import(
+                  "../views/EducationCenterViews/EducationCentersListView.vue"
+                ),
+              meta: {
+                layout: "MainLayout",
+                title: "educationCenters",
+                adminRequired: true,
+              },
               beforeEnter: guards.authGuard,
+            },
+            {
+              path: "add",
+              name: "add-education-center",
+              component: () =>
+                import("../views/EducationCenterViews/AddEducationCenter.vue"),
+              meta: {
+                layout: "MainLayout",
+                title: "Ýokary okuw mekdebi goşmak",
+                adminRequired: true,
+              },
+              beforeEnter: guards.authGuard,
+            },
+            {
+              path: "edit/:id",
+              name: "edit-high-school",
+              component: () =>
+                import("../views/EducationCenterViews/EditEducationCenter.vue"),
+              meta: {
+                layout: "MainLayout",
+                title: "Ýokary okuw mekdebi üýtgetmek",
+                adminRequired: true,
+              },
+              beforeEnter: guards.authGuard,
+            },
+            {
+              path: "view/:id",
+              name: "about-high-school",
+              component: () =>
+                import(
+                  "../views/EducationCenterViews/AboutEducationCenter.vue"
+                ),
               meta: {
                 layout: "MainLayout",
                 title: "Ýokary okuw mekdebi",
                 adminRequired: true,
               },
+              beforeEnter: guards.authGuard,
+              children: [
+                {
+                  path: "",
+                  name: "high-school",
+                  component: () =>
+                    import("../views/EducationCenterViews/EducationCenter.vue"),
+                  beforeEnter: guards.authGuard,
+                  meta: {
+                    layout: "MainLayout",
+                    title: "Ýokary okuw mekdebi",
+                    adminRequired: true,
+                  },
+                },
+              ],
             },
           ],
+          beforeEnter: guards.authGuard,
         },
       ],
-      beforeEnter: guards.authGuard,
     },
     {
       path: "/403",

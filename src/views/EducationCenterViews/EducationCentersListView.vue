@@ -20,8 +20,8 @@ onMounted(() => {
 })
 
 const breadcrumbPaths = [
-  { path: "/high-schools", name: "Ýokary okuw mekdepleri" },
-  { path: "/high-schools/add", name: "Goşmak" },
+  { path: "/workspace/education-centers", name: "educationCenters" },
+  { path: "/workspace/education-centers/add", name: "add" },
 ]
 
 </script>

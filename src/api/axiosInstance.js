@@ -14,7 +14,7 @@ axiosInstance.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("access_token");
     if (token) {
-      config.headers["Authorization"] = `BMDU ${token}`;
+      config.headers["Authorization"] = `EDUSYSTEM ${token}`;
     }
     return config;
   },

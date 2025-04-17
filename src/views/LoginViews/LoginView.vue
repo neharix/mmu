@@ -28,7 +28,7 @@ function onSubmit(values, { setErrors }) {
   const { username, password } = values;
   loginStatus.value = null;
   return authStore.login({ username, password }).then(() => {
-    router.push('/');
+    router.push({ name: 'workspace-view' });
   })
     .catch(error => setErrors({ apiError: error }));
 }

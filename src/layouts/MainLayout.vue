@@ -151,9 +151,8 @@ onMounted(() => {
       <router-view></router-view>
       <div class="mt-8">
         <p class="select-none lg:text-end md:text-end text-center text-[0.75rem] text-gray-500 dark:text-gray-400">
-          &copy; {{ year }} "Sanly Çözgüt IT Meýdança" HJ,
-          Ähli hukuklar
-          goralan</p>
+          {{ $t('rights', { year }) }}
+        </p>
       </div>
     </div>
   </div>

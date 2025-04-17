@@ -5,6 +5,7 @@ export default {
   smthWrong: "Näsazlyk döredi",
   language: "türkmen",
   mainPage: "Baş sahypa",
+  add: "Goşmak",
   // Login page
   hello: "Salam!",
   signIn: "Öz şahsy hasabyňyza giriň",
@@ -29,6 +30,7 @@ export default {
   newPasswordDesc: "Şahsy hasabyňyz üçin täze açar sözi kesgitläň",
   pwdNotSame: "Girizen açar sözleriňiz deň däl",
   // Main Layout
+  rights: '© {{year}} "Sanly Çözgüt IT Meýdança" HJ, Ähli hukuklar goralan',
   superuser: "Admin",
   educationCenter: "Okuw merkezi",
   // Sidebar

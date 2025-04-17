@@ -1,8 +1,8 @@
 <template>
-  <router-link :to="link" v-slot="{ isActive }">
+  <router-link :to="link" v-slot="{ isExactActive }">
     <div class="link" :class="{
-      'link-active': isActive,
-      'link-inactive': !isActive,
+      'link-active': isExactActive,
+      'link-inactive': !isExactActive,
     }">
       <slot name="default"></slot>
     </div>
@@ -11,13 +11,7 @@
 <script setup>
 import { useUxStore } from "@/stores/ux.store.js";
 
-defineProps({
-  link: {
-    type: String,
-    required: true,
-    default: null,
-  }
-})
+defineProps(['link'])
 
 const uxStore = useUxStore();
 
