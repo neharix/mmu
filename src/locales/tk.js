@@ -1,11 +1,17 @@
 export default {
   // Global
+  lightTheme: "Ýagty tema",
+  darkTheme: "Garaňky tema",
   confirm: "Tassyklamak",
   validateError: '"{{fieldName}}" meýdançasy hökmanydyr.',
   smthWrong: "Näsazlyk döredi",
   language: "türkmen",
   mainPage: "Baş sahypa",
+  workspace: "Iş meýdançasy",
   add: "Goşmak",
+  // Errors
+  pageForbidden: "Rugsat berilmedi",
+  pageNotFound: "Sahypa tapylmady",
   // Login page
   hello: "Salam!",
   signIn: "Öz şahsy hasabyňyza giriň",

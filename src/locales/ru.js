@@ -1,11 +1,17 @@
 export default {
   // Global
+  lightTheme: "Светлая тема",
+  darkTheme: "Тёмная тема",
   confirm: "Подтвердить",
   validateError: 'Поле "{{fieldName}}" объязателен.',
   smthWrong: "Что-то пошло не так",
   language: "русский",
   mainPage: "Главная страница",
+  workspace: "Рабочий стол",
   add: "Добавить",
+  // Errors
+  pageForbidden: "Отказано в доступе",
+  pageNotFound: "Страница не найдена",
   // Login page
   hello: "Привет!",
   signIn: "Войдите в свой аккаунт",

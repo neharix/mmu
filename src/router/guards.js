@@ -8,11 +8,27 @@ async function loginGuard(to, from, next) {
   const { isAuthenticated } = storeToRefs(authStore);
 
   if (isAuthenticated.value) {
-    router.push("/");
+    router.push({ name: "workspace-view" });
   }
   const { t, i18next } = useTranslation();
 
   let title = to.meta.title || "";
+  document.title = title.length > 0 ? t(title) + " | MMU" : "MMU";
+
+  return next();
+}
+
+async function anonGuard(to, from, next) {
+  const { t, i18next } = useTranslation();
+  const authStore = useAuthStore();
+  const { user } = storeToRefs(authStore);
+
+  while (!i18next.isInitialized) {
+    await new Promise((resolve) => setTimeout(resolve, 50));
+  }
+
+  let titleMeta = to.meta.title || "";
+  let title = t(titleMeta);
   document.title = title.length > 0 ? t(title) + " | MMU" : "MMU";
 
   return next();
@@ -104,4 +120,4 @@ async function filterGuard(to, from, next) {
   return next();
 }
 
-export default { loginGuard, authGuard, defaultGuard, filterGuard };
+export default { loginGuard, authGuard, defaultGuard, filterGuard, anonGuard };

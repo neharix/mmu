@@ -48,7 +48,7 @@ function mouseLeave() {
   <transition name="fade-scale" @before-enter="el => (el.style.display = 'block')"
     @after-leave="el => (el.style.display = 'none')">
     <div :class="positionClasses"
-      class="absolute z-10 mt-24 rounded-lg bg-white dark:bg-[#112731] shadow-lg ring-1 ring-gray-200 dark:ring-gray-800 ring-opacity-5"
+      class="absolute z-10 mt-24 rounded-lg bg-white dark:bg-[#112731] shadow-lg ring-1 ring-gray-200 dark:ring-gray-800 text-gray-800 dark:text-gray-100 ring-opacity-5"
       v-show="isTooltipVisible">
       <div class="p-2 select-none transition-all">
         {{ textValue }}

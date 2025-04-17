@@ -1,9 +1,20 @@
 import { createRouter, createWebHistory } from "vue-router";
 import guards from "@/router/guards.js";
+import MainPage from "@/views/MainPage.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    {
+      path: "/",
+      name: "main",
+      component: MainPage,
+      meta: {
+        layout: "EmptyLayout",
+        title: "mainPage",
+      },
+      beforeEnter: guards.anonGuard,
+    },
     {
       path: "/login",
       name: "login-page",
@@ -11,7 +22,6 @@ const router = createRouter({
       meta: {
         layout: "EmptyLayout",
         title: "login",
-        adminRequired: false,
       },
       beforeEnter: guards.loginGuard,
     },
@@ -22,7 +32,6 @@ const router = createRouter({
       meta: {
         layout: "EmptyLayout",
         title: "reinstatePassword",
-        adminRequired: false,
       },
       beforeEnter: guards.loginGuard,
     },
@@ -33,7 +42,6 @@ const router = createRouter({
       meta: {
         layout: "EmptyLayout",
         title: "otp",
-        adminRequired: false,
       },
       beforeEnter: guards.loginGuard,
     },
@@ -44,7 +52,6 @@ const router = createRouter({
       meta: {
         layout: "EmptyLayout",
         title: "newPassword",
-        adminRequired: false,
       },
       beforeEnter: guards.loginGuard,
     },
@@ -54,8 +61,8 @@ const router = createRouter({
       component: () => import("../views/WorkspaceViews/Workspace.vue"),
       meta: {
         layout: "MainLayout",
-        title: "mainPage",
-        adminRequired: true,
+        title: "workspace",
+        authRequired: true,
       },
       beforeEnter: guards.authGuard,
       children: [
@@ -65,8 +72,8 @@ const router = createRouter({
           component: () => import("../views/WorkspaceViews/WorkspaceView.vue"),
           meta: {
             layout: "MainLayout",
-            title: "mainPage",
-            adminRequired: true,
+            title: "workspace",
+            authRequired: true,
           },
           beforeEnter: guards.authGuard,
         },
@@ -78,7 +85,7 @@ const router = createRouter({
           meta: {
             layout: "MainLayout",
             title: "educationCenters",
-            adminRequired: true,
+            authRequired: true,
           },
           children: [
             {
@@ -91,7 +98,7 @@ const router = createRouter({
               meta: {
                 layout: "MainLayout",
                 title: "educationCenters",
-                adminRequired: true,
+                authRequired: true,
               },
               beforeEnter: guards.authGuard,
             },
@@ -103,7 +110,7 @@ const router = createRouter({
               meta: {
                 layout: "MainLayout",
                 title: "Ýokary okuw mekdebi goşmak",
-                adminRequired: true,
+                authRequired: true,
               },
               beforeEnter: guards.authGuard,
             },
@@ -115,7 +122,7 @@ const router = createRouter({
               meta: {
                 layout: "MainLayout",
                 title: "Ýokary okuw mekdebi üýtgetmek",
-                adminRequired: true,
+                authRequired: true,
               },
               beforeEnter: guards.authGuard,
             },
@@ -129,7 +136,7 @@ const router = createRouter({
               meta: {
                 layout: "MainLayout",
                 title: "Ýokary okuw mekdebi",
-                adminRequired: true,
+                authRequired: true,
               },
               beforeEnter: guards.authGuard,
               children: [
@@ -142,7 +149,7 @@ const router = createRouter({
                   meta: {
                     layout: "MainLayout",
                     title: "Ýokary okuw mekdebi",
-                    adminRequired: true,
+                    authRequired: true,
                   },
                 },
               ],
@@ -158,7 +165,7 @@ const router = createRouter({
       component: () => import("@/views/Errors/Page403.vue"),
       meta: {
         layout: "EmptyLayout",
-        title: "403 | Rugsat ýok",
+        title: "pageForbidden",
       },
       beforeEnter: guards.defaultGuard,
     },
@@ -167,8 +174,9 @@ const router = createRouter({
       component: () => import("../views/Errors/Page404.vue"),
       meta: {
         layout: "EmptyLayout",
-        title: "404 | Sahypa tapylmady",
+        title: "pageNotFound",
       },
+      beforeEnter: guards.defaultGuard,
     },
   ],
 });

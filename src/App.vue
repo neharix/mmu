@@ -34,14 +34,15 @@ onBeforeMount(() => {
 })
 
 onMounted(() => {
-  if (authStore.token) {
-    if (!authStore.user) {
-      authStore.fetchUser();
+  if (route.meta.adminRequired || route.meta.staffRequired || route.meta.authRequired) {
+    if (authStore.token) {
+      if (!authStore.user) {
+        authStore.fetchUser();
+      }
+    } else {
+      router.push("/login");
     }
-  } else {
-    router.push("/login");
   }
-
 });
 
 </script>

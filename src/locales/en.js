@@ -1,11 +1,17 @@
 export default {
   // Global
+  lightTheme: "Light Theme",
+  darkTheme: "Dark Theme",
   confirm: "Confirm",
   validateError: '"{{fieldName}}" field is required.',
   smthWrong: "Something went wrong",
   language: "english",
-  mainPage: "Baş sahypa",
+  mainPage: "Main page",
+  workspace: "Workspace",
   add: "Add",
+  // Errors
+  pageForbidden: "Forbidden",
+  pageNotFound: "Page not found",
   // Login page
   hello: "Hello!",
   signIn: "Sign in to your account",

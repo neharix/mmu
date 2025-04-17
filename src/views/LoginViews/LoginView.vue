@@ -15,7 +15,6 @@ import { useUxStore } from '@/stores/ux.store';
 const dashboardStore = useDashboardStore();
 const authStore = useAuthStore();
 const uxStore = useUxStore();
-const { theme } = storeToRefs(uxStore);
 
 const { loginStatus } = storeToRefs(authStore);
 
@@ -33,13 +32,6 @@ function onSubmit(values, { setErrors }) {
     .catch(error => setErrors({ apiError: error }));
 }
 
-const isDark = ref(null);
-
-watch(theme, (newVal) => {
-  isDark.value = newVal === "dark";
-})
-
-
 function togglePwdVisibility() {
   let pwdField = document.querySelector('#password');
   if (pwdField.getAttribute('type') === "password") {
@@ -52,18 +44,23 @@ function togglePwdVisibility() {
 
 onMounted(() => {
   dashboardStore.clearData();
-  const theme = localStorage.getItem("theme")
-  isDark.value = theme === "dark"
 })
 
 </script>
 
 <template>
-  <site-tools class="absolute top-5 right-5 md:right-20 text-white" :is-dark="isDark"
-    @toggle-theme="uxStore.toggleTheme()" :notifications="false" :without-tooltips="true"
+  <site-tools class="absolute top-5 right-5 md:right-20 text-white" :without-tooltips="true"
     mobile-dropdown-classes="top-8 right-0"></site-tools>
   <div class="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center bg-white dark:bg-gray-800">
-    <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-2">{{ $t('hello') }}</h2>
+    <div class="flex justify-between">
+      <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-2">{{ $t('hello') }}</h2>
+      <router-link :to="{ name: 'main' }">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6" viewBox="0 0 24 24" fill="transparent" stroke="currentColor"
+          stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg></router-link>
+    </div>
     <p class="text-gray-600 dark:text-gray-400 mb-6">{{ $t('signIn') }}</p>
     <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors, isSubmitting }" class="space-y-10">
       <div class="relative">

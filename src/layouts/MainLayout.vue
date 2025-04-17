@@ -141,8 +141,7 @@ onMounted(() => {
 
       <div class="flex items-center">
         <the-spinner class="hidden lg:block" v-if="uxStore.isLoading"></the-spinner>
-        <site-tools class="mx-3" mobile-dropdown-classes="top-16 right-0" :is-dark="isDark"
-          :notifications="role === 'root' && user.notifications.length > 0" @toggle-theme="toggleTheme"></site-tools>
+        <site-tools class="mx-3" mobile-dropdown-classes="top-16 right-0"></site-tools>
         <user-dropdown v-if="user"></user-dropdown>
       </div>
     </div>

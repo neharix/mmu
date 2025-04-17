@@ -1,8 +1,6 @@
 <script setup>
 import { onBeforeMount, onMounted, ref } from "vue";
 
-const isDark = ref(null)
-
 onBeforeMount(() => {
   if (!(document.body.classList.contains("empty-layout"))) {
     document.body.className = "empty-layout font-montserrat bg-gradient-to-br from-emerald-300 via-emerald-400 to-emerald-500 dark:from-[#0a4141] dark:via-[#03412a] dark:to-[#061f1f] min-h-screen flex items-center justify-center px-4 transition duration-300 ease-in-out dark:text-white";
@@ -15,12 +13,9 @@ onMounted(() => {
   const theme = localStorage.getItem("theme")
   if (theme !== null) {
     document.querySelector("html").setAttribute("class", theme)
-    isDark.value = theme === "dark"
-
   } else {
     localStorage.setItem("theme", "light")
     document.querySelector("html").setAttribute("class", "light")
-    isDark.value = false
   }
 })
 

@@ -13,6 +13,10 @@ export const useUxStore = defineStore("ux", () => {
   const sidebarHover = ref(false);
   const isLoading = ref(false);
 
+  const isDark = computed(() => {
+    return theme.value === "dark";
+  });
+
   function changeLanguage(lng) {
     i18next.changeLanguage(lng);
     language.value = lng;
@@ -76,6 +80,7 @@ export const useUxStore = defineStore("ux", () => {
     sidebarExpanded,
     sidebarHover,
     isLoading,
+    isDark,
     changeLanguage,
     toggleTheme,
     toggleSidebar,

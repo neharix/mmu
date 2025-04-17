@@ -1,4 +1,8 @@
 <script setup>
+import SiteTools from './SiteTools.vue';
+import { useUxStore } from '@/stores/ux.store';
+
+const uxStore = useUxStore();
 
 const props = defineProps({
   statusCode: Number,
@@ -9,15 +13,25 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="w-full h-full flex justify-center items-center bg-gray-100 dark:bg-[#171131ef]">
+  <site-tools class="absolute top-5 right-5 md:right-20 text-white" @toggle-theme="uxStore.toggleTheme()"
+    :notifications="false" :without-tooltips="true" mobile-dropdown-classes="top-8 right-0"></site-tools>
+  <div class="w-full h-full flex justify-center items-center px-4 md:px-0">
     <div>
-      <div class="w-full my-12">
-        <p class="lg:text-5xl text-2xl text-center text-black dark:text-white select-none">{{ statusCode }} | {{
-          message.toUpperCase() }}</p>
+      <div class="w-full my-12 hidden md:block">
+        <p class="lg:text-3xl text-2xl text-center text-black dark:text-white select-none">{{ statusCode
+          }} | {{
+            $t(message).toUpperCase() }}</p>
       </div>
+      <div class="w-full my-12 block md:hidden space-y-4">
+        <p class="lg:text-5xl text-2xl text-center text-black dark:text-white select-none">{{ statusCode
+          }}</p>
+        <p class="lg:text-5xl text-2xl text-center text-black dark:text-white select-none">{{
+          $t(message).toUpperCase() }}</p>
+      </div>
+
       <div class="w-full flex justify-center my-12" v-if="isHomeLinkEnabled">
         <router-link to="/"
-          class="flex items-center space-x-2 px-4 py-2 rounded-lg ease-out border-none dark:border-violet-500/50 border-1 bg-gradient-to-r from-blue-400 to-blue-500 dark:from-violet-600 dark:to-violet-500 text-white shadow-lg shadow-blue-300/50 dark:shadow-violet-500/50 select-none">
+          class="flex justify-center w-50 py-2 px-2 border-none text-base rounded-xl bg-emerald-500 dark:bg-emerald-600 text-white shadow-emerald-500/30 ring-0 hover:ring-4 ring-emerald-400/10 transition-all duration-300 ease-in-out">
           Baş sahypa
         </router-link>
       </div>

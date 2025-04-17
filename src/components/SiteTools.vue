@@ -1,25 +1,19 @@
 <script setup>
 import ButtonWithTooltip from "./ButtonWithTooltip.vue";
-import useConfirmModal from "@/use/useModalWindow";
-import { ref, watch } from "vue";
+import { ref } from "vue";
 import { useUxStore } from "@/stores/ux.store";
 import useTextUtils from "@/use/useUtils";
+import { storeToRefs } from "pinia";
 
 
 
-const { isModalOpen, openModal, header, context } = useConfirmModal();
 
 const { capitalize } = useTextUtils()
 const uxStore = useUxStore();
+const { isDark } = storeToRefs(uxStore)
 
-function submitModal(func) {
-  func();
-  isModalOpen.value = false;
-}
 const props = defineProps({
-  isDark: Boolean,
   isMobile: Boolean,
-  notifications: Boolean,
   class: String,
   withoutTooltips: {
     type: Boolean,
@@ -65,7 +59,6 @@ function changeMobileLanguage(lng) {
 window.addEventListener("click", onClickOutside);
 
 
-const emit = defineEmits(["toggle-theme"]);
 
 </script>
 <template>
@@ -99,8 +92,8 @@ const emit = defineEmits(["toggle-theme"]);
           </div>
         </transition>
       </div>
-      <button-with-tooltip @clicked="emit('toggle-theme')" position-classes="right-20"
-        :disable-tooltip="withoutTooltips" :text-value="isDark ? 'Ýagty tema' : 'Garaňky tema'"
+      <button-with-tooltip @clicked="uxStore.toggleTheme()" position-classes="right-20"
+        :disable-tooltip="withoutTooltips" :text-value="isDark ? $t('lightTheme') : $t('darkTheme')"
         class="flex items-center p-2 dark:text-gray-100 rounded">
         <template #btn-content>
           <svg viewBox="0 0 24 24" class="w-6 h-6 m-0" :class="{ hidden: isDark }" fill="none"
@@ -183,7 +176,7 @@ const emit = defineEmits(["toggle-theme"]);
             </div>
           </transition>
           <button class="flex items-center space-x-2 w-full text-gray-800 dark:text-white"
-            @click="emit('toggle-theme')">
+            @click="uxStore.toggleTheme()">
             <svg viewBox="0 0 24 24" class="w-6 h-6" :class="{ hidden: isDark }" fill="none"
               xmlns="http://www.w3.org/2000/svg">
               <path
@@ -221,7 +214,7 @@ const emit = defineEmits(["toggle-theme"]);
                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
             <p>
-              {{ isDark ? 'Garaňky tema' : 'Ýagty tema' }}
+              {{ isDark ? $t("darkTheme") : $t("lightTheme") }}
             </p>
           </button>
 

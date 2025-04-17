@@ -2,28 +2,18 @@
 import { Field, Form } from 'vee-validate';
 import * as Yup from 'yup';
 import TheSpinner from "@/components/TheSpinner.vue";
-
 import { useAuthStore } from '@/stores/auth.store.js';
 import SiteTools from "@/components/SiteTools.vue";
-import { onMounted, ref, watch } from "vue";
+import { ref } from "vue";
 import router from "@/router/index.js";
-import { useDashboardStore } from '@/stores/api.store';
 import TooltipMessage from '@/components/TooltipMessage.vue';
-import { storeToRefs } from 'pinia';
 import { useUxStore } from '@/stores/ux.store';
-import { useTranslation } from 'i18next-vue';
 
-
-
-const dashboardStore = useDashboardStore();
 const authStore = useAuthStore();
 const uxStore = useUxStore();
-const { t } = useTranslation();
 
 
 const userStatus = ref(null);
-
-const { theme } = storeToRefs(uxStore);
 
 const schema = Yup.object().shape({
   username: Yup.string().trim().required('validateError'),
@@ -43,25 +33,10 @@ function onSubmit(values, { setErrors }) {
     .catch(error => setErrors({ apiError: error }));
 }
 
-const isDark = ref(null);
-
-watch(theme, (newVal) => {
-  isDark.value = newVal === "dark";
-})
-
-
-
-onMounted(() => {
-  dashboardStore.clearData();
-  const theme = localStorage.getItem("theme")
-  isDark.value = theme === "dark"
-})
-
 </script>
 
 <template>
-  <site-tools class="absolute top-5 right-5 md:right-20 text-white" :is-dark="isDark"
-    @toggle-theme="uxStore.toggleTheme()" :notifications="false" :without-tooltips="true"
+  <site-tools class="absolute top-5 right-5 md:right-20 text-white" :without-tooltips="true"
     mobile-dropdown-classes="top-8 right-0"></site-tools>
   <div class="w-full p-8 md:p-12 flex flex-col justify-center bg-white dark:bg-gray-800">
     <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-2">{{ $t('reinstatePassword') }}</h2>
