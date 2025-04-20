@@ -7,17 +7,15 @@
       <div class="grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-1 gap-4">
         <div class="lg:col-span-2 md:col-span-2">
           <Field name="high_school_name" type="text" id="high-school-name"
-                 class="w-full dark:text-gray-300 bg-transparent px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md focus:ring focus:ring-blue-200 focus:outline-none"
-                 :class="{ 'is-invalid': errors.high_school_name }"
-                 placeholder="Ýokary okuw mekdebiniň ady"></Field>
+            class="w-full dark:text-gray-300 bg-transparent px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md focus:ring focus:ring-blue-200 focus:outline-none"
+            :class="{ 'is-invalid': errors.high_school_name }" placeholder="Ýokary okuw mekdebiniň ady"></Field>
           <div class="invalid-feedback select-none text-red-500 my-2 text-sm">{{ errors.high_school_name }}
           </div>
         </div>
         <div>
           <Field name="abbreviation" type="text" id="abbreviation"
-                 class="w-full dark:text-gray-300 bg-transparent px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md focus:ring focus:ring-blue-200 focus:outline-none"
-                 :class="{ 'is-invalid': errors.abbreviation }"
-                 placeholder="Ýokary okuw mekdebiniň gysgaltmasy"></Field>
+            class="w-full dark:text-gray-300 bg-transparent px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md focus:ring focus:ring-blue-200 focus:outline-none"
+            :class="{ 'is-invalid': errors.abbreviation }" placeholder="Ýokary okuw mekdebiniň gysgaltmasy"></Field>
           <div class="invalid-feedback select-none text-red-500 my-2 text-sm">{{ errors.abbreviation }}
           </div>
         </div>
@@ -25,29 +23,28 @@
       <div class="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 gap-4">
         <div>
           <Field name="username" type="text" id="username"
-                 class="w-full dark:text-gray-300 bg-transparent px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md focus:ring focus:ring-blue-200 focus:outline-none"
-                 :class="{ 'is-invalid': errors.username }"
-                 placeholder="Ulanyjy ady"></Field>
+            class="w-full dark:text-gray-300 bg-transparent px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md focus:ring focus:ring-blue-200 focus:outline-none"
+            :class="{ 'is-invalid': errors.username }" placeholder="Ulanyjy ady"></Field>
           <div class="invalid-feedback select-none text-red-500 my-2 text-sm">{{ errors.username }}
           </div>
         </div>
         <div>
           <Field name="password" type="text" id="password"
-                 class="w-full dark:text-gray-300 bg-transparent px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md focus:ring focus:ring-blue-200 focus:outline-none"
-                 :class="{ 'is-invalid': errors.password }"
-                 placeholder="Açar sözi"></Field>
+            class="w-full dark:text-gray-300 bg-transparent px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md focus:ring focus:ring-blue-200 focus:outline-none"
+            :class="{ 'is-invalid': errors.password }" placeholder="Açar sözi"></Field>
           <div class="invalid-feedback select-none text-red-500 my-2 text-sm">{{ errors.password }}
           </div>
         </div>
       </div>
       <div class="flex flex-wrap justify-center md:justify-end lg:justify-end">
         <button :disabled="isSubmitting"
-                class="flex w-50 px-4 py-2 my-2 justify-center rounded-lg border-none dark:border-violet-500/50 border-1 bg-gradient-to-r from-blue-400 to-blue-500 dark:from-violet-600 dark:to-violet-500 text-white hover:shadow-lg hover:shadow-blue-300/50 hover:ease-in ease-out duration-200 dark:hover:shadow-violet-500/50 select-none">
+          class="flex w-50 px-4 py-2 my-2 justify-center rounded-lg border-none dark:border-violet-500/50 border-1 bg-gradient-to-r from-blue-400 to-blue-500 dark:from-violet-600 dark:to-violet-500 text-white hover:shadow-lg hover:shadow-blue-300/50 hover:ease-in ease-out duration-200 dark:hover:shadow-violet-500/50 select-none">
           <the-spinner :class="{ hidden: !isSubmitting }"></the-spinner>
           <span :class="{ hidden: isSubmitting }">Hasaba al</span>
         </button>
       </div>
-      <div v-if="errors.apiError" class="text-center text-red-500 mt-3 mb-0 text-sm select-none">{{ errors.apiError }}</div>
+      <div v-if="errors.apiError" class="text-center text-red-500 mt-3 mb-0 text-sm select-none">{{ errors.apiError }}
+      </div>
     </Form>
   </div>
 
@@ -57,9 +54,9 @@
 
 import TheSpinner from "@/components/TheSpinner.vue";
 import TheBreadcrumb from "@/components/TheBreadcrumb.vue";
-import {Field, Form} from "vee-validate";
+import { Field, Form } from "vee-validate";
 import * as Yup from 'yup';
-import {useHighSchoolsStore} from "@/stores/api.store.js";
+import { useHighSchoolsStore } from "@/stores/api.store.js";
 import router from "@/router/index.js";
 
 const highSchoolsStore = useHighSchoolsStore();
@@ -73,17 +70,17 @@ const schema = Yup.object().shape({
   password: Yup.string().required('Açar sözi hökmany şekilde girizilmeli').min(PASSWORD_MIN_LENGTH, `Açar sözi ${PASSWORD_MIN_LENGTH} simwoldan az bolmaly däldir`),
 });
 
-function onSubmit(values, {setErrors}) {
-  const {high_school_name, abbreviation, username, password} = values;
-  return highSchoolsStore.create({high_school_name, abbreviation, username, password}).then(() => {
+function onSubmit(values, { setErrors }) {
+  const { high_school_name, abbreviation, username, password } = values;
+  return highSchoolsStore.create({ high_school_name, abbreviation, username, password }).then(() => {
     router.push('/high-schools');
   })
-    .catch(error => setErrors({apiError: error}));
+    .catch(error => setErrors({ apiError: error }));
 }
 
-
 const breadcrumbPaths = [
-  {path: "/high-schools", name: "Ýokary okuw mekdepleri"},
-  {path: "/high-schools/add", name: "Goşmak"},
+  { name: "educationCenters", routeName: "education-centers-list" },
+  { name: "add", routeName: "add-education-center" },
 ]
+
 </script>

@@ -23,10 +23,21 @@ const { sidebarExpanded } = storeToRefs(uxStore);
           </div>
           <span v-if="sidebarExpanded" class="text-nowrap">{{ $t('mainPage') }}</span>
         </sidebar-link>
+        <sidebar-link link="/workspace">
+          <div class="flex justify-center" :class="{ 'w-full': !sidebarExpanded }">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6" viewBox="0 0 24 24" fill="transparent"
+              stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+              <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+          </div>
+          <span v-if="sidebarExpanded" class="text-nowrap">{{ $t('workspace') }}</span>
+        </sidebar-link>
+
         <h4 class="uppercase text-gray-400 dark:text-gray-500 p-4 select-none text-nowrap"
           :class="{ 'text-center font-extrabold': !sidebarExpanded }">
           {{ sidebarExpanded ? $t('control') : "..." }}</h4>
-        <sidebar-link :link="{ name: 'education-centers' }">
+        <sidebar-link :link="{ name: 'education-centers-list' }">
           <div class="flex justify-center" :class="{ 'w-full': !sidebarExpanded }">
             <svg class="w-6" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g clip-path="url(#clip0_901_948)">

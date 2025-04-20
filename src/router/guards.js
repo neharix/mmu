@@ -1,14 +1,16 @@
-import { useFilterStore } from "@/stores/api.store";
+import { useDashboardStore, useFilterStore } from "@/stores/api.store";
 import { useAuthStore } from "@/stores/auth.store.js";
 import { storeToRefs } from "pinia";
 import { useTranslation } from "i18next-vue";
 
 async function loginGuard(to, from, next) {
   const authStore = useAuthStore();
+  const dashboardStore = useDashboardStore();
   const { isAuthenticated } = storeToRefs(authStore);
 
   if (isAuthenticated.value) {
-    router.push({ name: "workspace-view" });
+    dashboardStore.clearData();
+    return next({ name: "workspace-view" });
   }
   const { t, i18next } = useTranslation();
 

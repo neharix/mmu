@@ -5,6 +5,7 @@ export default {
   confirm: "Tassyklamak",
   validateError: '"{{fieldName}}" meýdançasy hökmanydyr.',
   smthWrong: "Näsazlyk döredi",
+  mmuAbbr: "Merkezleriň Maglumat Ulgamy",
   language: "türkmen",
   mainPage: "Baş sahypa",
   workspace: "Iş meýdançasy",
@@ -20,7 +21,6 @@ export default {
   confirmPassword: "Açar sözi täzeden giriziň",
   login: "Giriş",
   forgotPassword: "Açar sözüňizi ýatdan çykardyňyzmy?",
-  mmuAbbr: "Merkezleriň Maglumat Ulgamy",
   // Reinstate password page
   reinstatePassword: "Açar sözi dikeltmek",
   enterUsername: "Açar sözüni dikeltmek isleýän ulanyjy adyňyzy giriziň",

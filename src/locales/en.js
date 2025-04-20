@@ -5,6 +5,7 @@ export default {
   confirm: "Confirm",
   validateError: '"{{fieldName}}" field is required.',
   smthWrong: "Something went wrong",
+  mmuAbbr: "Information System of Centers",
   language: "english",
   mainPage: "Main page",
   workspace: "Workspace",
@@ -20,7 +21,6 @@ export default {
   confirmPassword: "Retype password",
   login: "Login",
   forgotPassword: "Forgot password?",
-  mmuAbbr: "Information System of Centers",
   // Reinstate password page
   reinstatePassword: "Reinstate password",
   enterUsername: "For reinstating password, please enter your username",
@@ -40,7 +40,6 @@ export default {
   superuser: "Superuser",
   educationCenter: "Education center",
   // Sidebar
-  mainPage: "Main page",
   control: "Control",
   educationCenters: "Education centers",
   nationalities: "Nationalities",

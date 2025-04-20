@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 
+
 defineEmits(['clicked'])
 const props = defineProps({
   class: {

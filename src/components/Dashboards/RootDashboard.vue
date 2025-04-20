@@ -12,7 +12,7 @@ const { data } = useDashboard();
   <!--  <div>-->
   <!--    <the-leaflet-map></the-leaflet-map>-->
   <!--  </div>-->
-  <div class="grid md:grid-cols-4 sm:grid-cols-2 gap-8">
+  <div class="grid md:grid-cols-3 sm:grid-cols-2 gap-8">
     <grid-cell link="/education-centers" :label="$t('educationCenters')" :data-value="data.education_centers_count"
       icon-bg-class="bg-green-200 dark:bg-green-500/75">
       <svg class="w-6 stroke-green-500 dark:stroke-green-900" viewBox="0 0 32 32" fill="none"

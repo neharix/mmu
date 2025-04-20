@@ -4,15 +4,18 @@ import * as Yup from 'yup';
 import TheSpinner from "@/components/TheSpinner.vue";
 import { useAuthStore } from '@/stores/auth.store.js';
 import SiteTools from "@/components/SiteTools.vue";
-import { ref } from "vue";
+import { onBeforeMount, ref } from "vue";
 import router from "@/router/index.js";
 import TooltipMessage from '@/components/TooltipMessage.vue';
 import { useUxStore } from '@/stores/ux.store';
+import { storeToRefs } from 'pinia';
 
 const otpStatus = ref(null);
 
 const authStore = useAuthStore();
 const uxStore = useUxStore();
+
+const { censoredEmail } = storeToRefs(authStore)
 
 
 const schema = Yup.object().shape({
@@ -32,6 +35,15 @@ function onSubmit(values, { setErrors }) {
   })
     .catch(error => setErrors({ apiError: error }));
 }
+
+onBeforeMount(() => {
+  let mail = sessionStorage.getItem('censored_email');
+  if (!mail) {
+    router.push({ name: 'login-page' })
+  } else {
+    censoredEmail.value = mail;
+  }
+})
 
 
 </script>

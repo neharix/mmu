@@ -5,6 +5,7 @@ export default {
   confirm: "Подтвердить",
   validateError: 'Поле "{{fieldName}}" объязателен.',
   smthWrong: "Что-то пошло не так",
+  mmuAbbr: "Информационная система центров",
   language: "русский",
   mainPage: "Главная страница",
   workspace: "Рабочий стол",
@@ -20,7 +21,6 @@ export default {
   confirmPassword: "Введите пароль заново",
   login: "Вход",
   forgotPassword: "Забыли пароль?",
-  mmuAbbr: "Информационная система центров",
   // Reinstate password page
   reinstatePassword: "Восстановление пароля",
   enterUsername:

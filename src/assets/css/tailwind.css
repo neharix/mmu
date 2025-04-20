@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@plugin "daisyui";
+
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
@@ -7,7 +9,7 @@
 }
 
 .text-input {
-  @apply w-full border border-gray-300 dark:border-gray-500 rounded-md px-4 pt-6 pb-2 bg-gray-100 dark:bg-gray-700/50 placeholder-transparent focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition duration-300 ease-in-out;
+  @apply w-full border text-gray-800 dark:text-gray-100 border-gray-300 dark:border-gray-500 rounded-md px-4 pt-6 pb-2 bg-gray-100 dark:bg-gray-700/50 placeholder-transparent focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition duration-300 ease-in-out;
 }
 
 .text-input-placeholder {
@@ -15,11 +17,11 @@
 }
 
 .link {
-  @apply flex items-center space-x-2 text-sm px-4 py-2 my-2 rounded-lg select-none;
+  @apply flex items-center space-x-2 text-sm px-4 py-2 my-2 rounded-lg select-none no-underline;
 }
 
 .link-inactive {
-  @apply hover:dark:text-emerald-400 hover:text-emerald-500 transition duration-300 ease-out;
+  @apply hover:dark:text-emerald-400 hover:text-emerald-500 transition duration-300 ease-out no-underline;
 }
 
 .link-active {

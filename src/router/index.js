@@ -109,7 +109,7 @@ const router = createRouter({
                 import("../views/EducationCenterViews/AddEducationCenter.vue"),
               meta: {
                 layout: "MainLayout",
-                title: "Ýokary okuw mekdebi goşmak",
+                title: "addEducationCenter",
                 authRequired: true,
               },
               beforeEnter: guards.authGuard,

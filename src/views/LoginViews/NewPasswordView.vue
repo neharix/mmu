@@ -5,7 +5,7 @@ import TheSpinner from "@/components/TheSpinner.vue";
 
 import { useAuthStore } from '@/stores/auth.store.js';
 import SiteTools from "@/components/SiteTools.vue";
-import { ref } from "vue";
+import { onBeforeMount, ref } from "vue";
 import router from "@/router/index.js";
 import TooltipMessage from '@/components/TooltipMessage.vue';
 import { useUxStore } from '@/stores/ux.store';
@@ -24,7 +24,7 @@ const schema = Yup.object().shape({
 function onSubmit(values, { setErrors }) {
   const { password, confirmedPassword } = values;
   if (password === confirmedPassword) {
-    authStore.changePassword({ username: authStore.userForOtp, password }).then(() => {
+    authStore.changePassword({ username: authStore.userForOtp, password, secure_key: authStore.secureKey }).then(() => {
       if (authStore.isPwdChangedSuccessfully) {
         authStore.resetAllOtpSessionFields();
         router.push({ name: 'login-page' });
@@ -54,6 +54,15 @@ function toggleRetypedPwdVisibility() {
     pwdField.setAttribute('type', 'password')
   }
 }
+
+
+onBeforeMount(() => {
+  if (!authStore.userForOtp || !authStore.secureKey) {
+    router.push({ name: 'login-page' })
+  }
+})
+
+
 
 
 </script>

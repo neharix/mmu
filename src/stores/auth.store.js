@@ -12,10 +12,11 @@ export const useAuthStore = defineStore("auth", () => {
   const isAuthenticated = ref(false);
 
   const censoredEmail = ref(null);
-  const userForOtp = ref(null);
+  const userForOtp = ref(sessionStorage.getItem("user_otp") || null);
   const isOtpAvailable = ref(false);
   const isCorrectOtp = ref(false);
   const isPwdChangedSuccessfully = ref(false);
+  const secureKey = ref(sessionStorage.getItem("secure_key") || null);
 
   function resetAllOtpSessionFields() {
     censoredEmail.value = null;
@@ -23,6 +24,9 @@ export const useAuthStore = defineStore("auth", () => {
     isOtpAvailable.value = false;
     isCorrectOtp.value = false;
     isPwdChangedSuccessfully.value = false;
+    sessionStorage.removeItem("user_otp");
+    sessionStorage.removeItem("secure_key");
+    sessionStorage.removeItem("censored_email");
   }
 
   async function login(credentials) {
@@ -43,10 +47,14 @@ export const useAuthStore = defineStore("auth", () => {
 
   async function tryToGetOtpForUser(username) {
     try {
-      const response = await axiosInstance.get(`/try-otp/${username}/`);
+      const response = await axiosInstance.post(`/try-otp/`, { username });
       censoredEmail.value = response.data.email;
       userForOtp.value = response.data.username;
+
       isOtpAvailable.value = true;
+
+      sessionStorage.setItem("user_otp", userForOtp.value);
+      sessionStorage.setItem("censored_email", censoredEmail.value);
     } catch (error) {
       console.error("OTP failed", error);
       isOtpAvailable.value = false;
@@ -55,10 +63,14 @@ export const useAuthStore = defineStore("auth", () => {
 
   async function sendOtp(otp) {
     try {
-      const response = await axiosInstance.get(
-        `/check-otp/${userForOtp.value}/${otp}/`
-      );
+      const response = await axiosInstance.post(`/check-otp/`, {
+        user: userForOtp.value,
+        otp,
+      });
+      secureKey.value = response.data.temp_key;
       isCorrectOtp.value = response.data.is_successfully;
+
+      sessionStorage.setItem("secure_key", secureKey.value);
     } catch (error) {
       isCorrectOtp.value = false;
       console.error("OTP failed", error);
@@ -112,6 +124,7 @@ export const useAuthStore = defineStore("auth", () => {
     isOtpAvailable,
     isCorrectOtp,
     isPwdChangedSuccessfully,
+    secureKey,
     resetAllOtpSessionFields,
     tryToGetOtpForUser,
     sendOtp,
