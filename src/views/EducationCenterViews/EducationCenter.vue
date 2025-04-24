@@ -73,7 +73,7 @@ import RadialBarChart from "@/components/Charts/RadialBarChart.vue";
 import DoubleBarChart from "@/components/Charts/DoubleBarChart.vue";
 import GridCell from "@/components/GridCell.vue";
 // import TheHighSchoolTree from "@/components/TheHighSchoolTree.vue";
-import { useDiplomasStore, useHighSchoolsStore } from "@/stores/api.store.js";
+// import { useDiplomasStore, useHighSchoolsStore } from "@/stores/api.store.js";
 import { useRoute } from "vue-router";
 import { storeToRefs } from "pinia";
 import { computed, onMounted } from "vue";

@@ -1,13 +1,23 @@
 <script setup>
+import { onBeforeMount } from 'vue';
 import SiteTools from './SiteTools.vue';
 import { useUxStore } from '@/stores/ux.store';
+import { useRoute } from 'vue-router';
+import router from '@/router';
 
 const uxStore = useUxStore();
+const route = useRoute();
 
 const props = defineProps({
   statusCode: Number,
   message: String,
   isHomeLinkEnabled: Boolean,
+})
+
+onBeforeMount(() => {
+  if (route.name !== uxStore.errorPageStatus) {
+    router.push({ name: 'main' })
+  }
 })
 
 </script>

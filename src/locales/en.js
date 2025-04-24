@@ -13,6 +13,8 @@ export default {
   // Errors
   pageForbidden: "Forbidden",
   pageNotFound: "Page not found",
+  tooManyRequests: "Too Many Requests",
+  serviceUnavailable: "Service Unavailable",
   // Login page
   hello: "Hello!",
   signIn: "Sign in to your account",
@@ -40,8 +42,11 @@ export default {
   superuser: "Superuser",
   educationCenter: "Education center",
   // Sidebar
+  enableService: "Enable Service",
+  disableService: "Disable Service",
   control: "Control",
   educationCenters: "Education centers",
+  users: "Users",
   nationalities: "Nationalities",
   students: "Students",
   // Dashboard
@@ -50,4 +55,6 @@ export default {
   admissions: "Admissions",
   m2fPre: "Total female/male pre",
   graduates: "Graduates",
+  // Data tables
+  numeration: "№",
 };

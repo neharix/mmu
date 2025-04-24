@@ -13,6 +13,8 @@ export default {
   // Errors
   pageForbidden: "Rugsat berilmedi",
   pageNotFound: "Sahypa tapylmady",
+  tooManyRequests: "Örän köp talap ugradyldy",
+  serviceUnavailable: "Ulgam elýeter däl",
   // Login page
   hello: "Salam!",
   signIn: "Öz şahsy hasabyňyza giriň",
@@ -40,8 +42,11 @@ export default {
   superuser: "Admin",
   educationCenter: "Okuw merkezi",
   // Sidebar
+  enableService: "Ulgamy işletmek",
+  disableService: "Ulgamy öçürmek",
   control: "Dolandyryş",
   educationCenters: "Okuw merkezleri",
+  users: "Ulanyjylar",
   nationalities: "Milletler",
   students: "Talyplar",
   // Dashboard
@@ -50,4 +55,6 @@ export default {
   admissions: "Okuwa tabşyryşyklar",
   m2fPre: "Umumy gyz/oglan koefissenti",
   graduates: "Okuwy tamamlaýanlar",
+  // Data tables
+  numeration: "T/B",
 };

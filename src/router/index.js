@@ -1,6 +1,11 @@
 import { createRouter, createWebHistory } from "vue-router";
 import guards from "@/router/guards.js";
 import MainPage from "@/views/MainPage.vue";
+import { useAuthStore } from "@/stores/auth.store";
+import { useDashboardStore } from "@/stores/api.store";
+import { storeToRefs } from "pinia";
+import { useTranslation } from "i18next-vue";
+import { useUxStore } from "@/stores/ux.store";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -157,6 +162,52 @@ const router = createRouter({
           ],
           beforeEnter: guards.authGuard,
         },
+        {
+          path: "users",
+          name: "users",
+          component: () => import("../views/UserViews/Users.vue"),
+          meta: {
+            layout: "MainLayout",
+            title: "users",
+            authRequired: true,
+          },
+          children: [
+            {
+              path: "",
+              name: "users-list",
+              component: () => import("../views/UserViews/UsersListView.vue"),
+              meta: {
+                layout: "MainLayout",
+                title: "users",
+                authRequired: true,
+              },
+              beforeEnter: guards.authGuard,
+            },
+            {
+              path: "add",
+              name: "add-user",
+              component: () => import("../views/UserViews/AddUserView.vue"),
+              meta: {
+                layout: "MainLayout",
+                title: "addUser",
+                authRequired: true,
+              },
+              beforeEnter: guards.authGuard,
+            },
+            {
+              path: "edit/:id",
+              name: "edit-user",
+              component: () => import("../views/UserViews/EditUserView.vue"),
+              meta: {
+                layout: "MainLayout",
+                title: "editUser",
+                authRequired: true,
+              },
+              beforeEnter: guards.authGuard,
+            },
+          ],
+          beforeEnter: guards.authGuard,
+        },
       ],
     },
     {
@@ -167,16 +218,73 @@ const router = createRouter({
         layout: "EmptyLayout",
         title: "pageForbidden",
       },
-      beforeEnter: guards.defaultGuard,
+      beforeEnter: async (to, from, next) => {
+        const { t, i18next } = useTranslation();
+
+        while (!i18next.isInitialized) {
+          await new Promise((resolve) => setTimeout(resolve, 50));
+        }
+
+        let title = to.meta.title || "";
+        document.title = title.length > 0 ? t(title) + " | MMU" : "MMU";
+
+        return next();
+      },
+    },
+    {
+      path: "/429",
+      name: "page-429",
+      component: () => import("@/views/Errors/Page429.vue"),
+      meta: {
+        layout: "EmptyLayout",
+        title: "tooManyRequests",
+      },
+      beforeEnter: async (to, from, next) => {
+        const { t, i18next } = useTranslation();
+
+        while (!i18next.isInitialized) {
+          await new Promise((resolve) => setTimeout(resolve, 50));
+        }
+
+        let title = to.meta.title || "";
+        document.title = title.length > 0 ? t(title) + " | MMU" : "MMU";
+
+        return next();
+      },
+    },
+    {
+      path: "/503",
+      name: "page-503",
+      component: () => import("@/views/Errors/Page503.vue"),
+      meta: {
+        layout: "EmptyLayout",
+        title: "serviceUnavailable",
+      },
+      beforeEnter: guards.errorGuard,
     },
     {
       path: "/:pathMatch(.*)*",
+      name: "page-404",
       component: () => import("../views/Errors/Page404.vue"),
       meta: {
         layout: "EmptyLayout",
         title: "pageNotFound",
       },
-      beforeEnter: guards.defaultGuard,
+      beforeEnter: async (to, from, next) => {
+        const { t, i18next } = useTranslation();
+
+        while (!i18next.isInitialized) {
+          await new Promise((resolve) => setTimeout(resolve, 50));
+        }
+
+        const uxStore = useUxStore();
+        uxStore.errorPageStatus = "page-404";
+
+        let title = to.meta.title || "";
+        document.title = title.length > 0 ? t(title) + " | MMU" : "MMU";
+
+        return next();
+      },
     },
   ],
 });

@@ -13,6 +13,8 @@ export default {
   // Errors
   pageForbidden: "Отказано в доступе",
   pageNotFound: "Страница не найдена",
+  tooManyRequests: "Слишком много запросов",
+  serviceUnavailable: "Сервис недоступен",
   // Login page
   hello: "Привет!",
   signIn: "Войдите в свой аккаунт",
@@ -41,8 +43,11 @@ export default {
   superuser: "Админ",
   educationCenter: "Центр обучения",
   // Sidebar
+  enableService: "Включить сервис",
+  disableService: "Отключить сервис",
   control: "Управление",
   educationCenters: "Центры обучения",
+  users: "Пользователи",
   nationalities: "Национальности",
   students: "Студенты",
   // Dashboard
@@ -51,4 +56,6 @@ export default {
   admissions: "Поступления",
   m2fPre: "Общий коэффицент женщин/мужчин",
   graduates: "Выпускники",
+  // Data tables
+  numeration: "№",
 };

@@ -1,14 +1,14 @@
 <script setup>
-import { useHighSchoolsStore } from "@/stores/api.store.js";
-import HighSchoolsDataTable from "@/components/DataTables/HighSchoolsDataTable.vue";
 import { storeToRefs } from "pinia";
 import TheBreadcrumb from "@/components/TheBreadcrumb.vue";
 import { onMounted } from "vue";
 import { useUxStore } from "@/stores/ux.store";
 import TheSpinner from "@/components/TheSpinner.vue";
+import TheDraft from "@/components/TheDraft.vue";
 
-const highSchoolsStore = useHighSchoolsStore();
-const { highSchools } = storeToRefs(highSchoolsStore);
+
+// const highSchoolsStore = useHighSchoolsStore();
+// const { highSchools } = storeToRefs(highSchoolsStore);
 const uxStore = useUxStore();
 
 
@@ -29,6 +29,7 @@ const breadcrumbPaths = [
 <template>
   <div class="w-full">
     <the-breadcrumb :paths="breadcrumbPaths"></the-breadcrumb>
+    <!-- <the-draft></the-draft> -->
     <!-- <div v-if="uxStore.isLoading"
       class="flex w-full h-[58vh] items-center justify-center dark:bg-[#171131ef] bg-white rounded-lg border border-gray-200 dark:border-[#36314e]">
       <the-spinner class="w-24"></the-spinner>

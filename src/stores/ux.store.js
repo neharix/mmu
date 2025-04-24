@@ -1,3 +1,4 @@
+import router from "@/router";
 import { useTranslation } from "i18next-vue";
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
@@ -12,6 +13,7 @@ export const useUxStore = defineStore("ux", () => {
   const sidebarExpand = ref(localStorage.getItem("sidebarExpanded") || "1");
   const sidebarHover = ref(false);
   const isLoading = ref(false);
+  const errorPageStatus = ref(null);
 
   const isDark = computed(() => {
     return theme.value === "dark";
@@ -69,6 +71,11 @@ export const useUxStore = defineStore("ux", () => {
     sidebarHover.value = false;
   }
 
+  function goToError(errorPage) {
+    errorPageStatus.value = errorPage;
+    router.push({ name: errorPage });
+  }
+
   const sidebarExpanded = computed(() => {
     return sidebarExpand.value === "1";
   });
@@ -81,6 +88,7 @@ export const useUxStore = defineStore("ux", () => {
     sidebarHover,
     isLoading,
     isDark,
+    errorPageStatus,
     changeLanguage,
     toggleTheme,
     toggleSidebar,
@@ -88,5 +96,6 @@ export const useUxStore = defineStore("ux", () => {
     expandSidebar,
     mouseLeaveSidebar,
     mouseOverSidebar,
+    goToError,
   };
 });

@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref, shallowRef, watch } from "vue";
+import { onMounted, shallowRef, watch } from "vue";
 import EmptyDashboard from "@/components/Dashboards/EmptyDashboard.vue";
 import RootDashboard from "@/components/Dashboards/RootDashboard.vue";
 import UserDashboard from "@/components/Dashboards/UserDashboard.vue";

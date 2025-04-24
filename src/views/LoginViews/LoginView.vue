@@ -5,7 +5,7 @@ import TheSpinner from "@/components/TheSpinner.vue";
 
 import { useAuthStore } from '@/stores/auth.store.js';
 import SiteTools from "@/components/SiteTools.vue";
-import { onMounted, ref, watch } from "vue";
+import { onBeforeMount, onMounted, ref, watch } from "vue";
 import router from "@/router/index.js";
 import { useDashboardStore } from '@/stores/api.store';
 import TooltipMessage from '@/components/TooltipMessage.vue';
@@ -14,7 +14,6 @@ import { useUxStore } from '@/stores/ux.store';
 
 const dashboardStore = useDashboardStore();
 const authStore = useAuthStore();
-const uxStore = useUxStore();
 
 const { loginStatus } = storeToRefs(authStore);
 
@@ -44,6 +43,12 @@ function togglePwdVisibility() {
 
 onMounted(() => {
   dashboardStore.clearData();
+})
+
+onBeforeMount(() => {
+  if (authStore.isAuthenticated) {
+    router.push({ name: 'workspace-view' });
+  }
 })
 
 </script>

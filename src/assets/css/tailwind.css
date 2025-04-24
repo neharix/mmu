@@ -29,5 +29,9 @@
 }
 
 .breadcrumb-active {
-  @apply py-2 select-none text-nowrap px-3 my-2 text-[0.7rem] md:text-sm lg:text-sm rounded-lg shadow-md bg-emerald-500 dark:bg-[#113031] text-white;
+  @apply py-2 select-none text-nowrap px-3 my-2 text-[0.7rem] md:text-sm lg:text-sm rounded-lg shadow-md bg-emerald-500 dark:bg-emerald-900 text-white;
+}
+
+.btn-primary {
+  @apply py-2 select-none text-nowrap px-3 my-2 text-[0.7rem] md:text-sm rounded-lg shadow-md bg-emerald-500 dark:bg-emerald-900 text-white;
 }

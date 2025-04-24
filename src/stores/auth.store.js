@@ -2,8 +2,11 @@ import { defineStore } from "pinia";
 import axiosInstance from "@/api/axiosInstance.js";
 import router from "@/router/index.js";
 import { ref } from "vue";
+import { useSpecialFunctionsStore } from "./api.store";
 
 export const useAuthStore = defineStore("auth", () => {
+  const specialFunctionsStore = useSpecialFunctionsStore();
+
   const user = ref(null);
   const role = ref("empty");
   const token = ref(localStorage.getItem("access_token") || null);
@@ -36,7 +39,9 @@ export const useAuthStore = defineStore("auth", () => {
       token.value = response.data.access;
 
       localStorage.setItem("access_token", token.value);
-      axiosInstance.defaults.headers["Authorization"] = `BMDU ${token.value}`;
+      axiosInstance.defaults.headers[
+        "Authorization"
+      ] = `EDUSYSTEM ${token.value}`;
       isAuthenticated.value = true;
     } catch (error) {
       loginStatus.value = "Ulanyjy ady ýa-da açar sözi ýalňyş girizildi";
@@ -105,6 +110,9 @@ export const useAuthStore = defineStore("auth", () => {
         role.value = user.value.is_superuser ? "root" : "user";
       } else {
         isAuthenticated.value = false;
+      }
+      if (role.value === "root") {
+        specialFunctionsStore.setServiceAs(response.data.is_service_enabled);
       }
       isLoading.value = false;
     } catch (error) {
