@@ -6,7 +6,7 @@ import { storeToRefs } from "pinia";
 import { onMounted } from "vue";
 import UsersDataTable from "@/components/DataTables/UsersDataTable.vue";
 const usersStore = useUsersStore();
-const { users } = storeToRefs(usersStore);
+const { users, dataTablePageCount } = storeToRefs(usersStore);
 
 onMounted(() => {
   usersStore.isLoading = true;
@@ -14,6 +14,14 @@ onMounted(() => {
     usersStore.isLoading = false;
   })
 })
+
+
+function updateData() {
+  usersStore.isLoading = true;
+  usersStore.getAll().then(() => {
+    usersStore.isLoading = false;
+  })
+}
 
 // const authStore = useAuthStore()
 // const nationalizationsStore = useNationalizationsStore()
@@ -44,7 +52,7 @@ const breadcrumbPaths = [
       <the-spinner class="w-24"></the-spinner>
     </div>
     <div v-else>
-      <users-data-table :data="users" @update="usersStore.getAll()"></users-data-table>
+      <users-data-table :data="users" @update="updateData" :total-pages="dataTablePageCount"></users-data-table>
     </div>
   </div>
 </template>

@@ -5,12 +5,11 @@ import TheSpinner from "@/components/TheSpinner.vue";
 
 import { useAuthStore } from '@/stores/auth.store.js';
 import SiteTools from "@/components/SiteTools.vue";
-import { onBeforeMount, onMounted, ref, watch } from "vue";
+import { onBeforeMount, onMounted } from "vue";
 import router from "@/router/index.js";
 import { useDashboardStore } from '@/stores/api.store';
 import TooltipMessage from '@/components/TooltipMessage.vue';
 import { storeToRefs } from 'pinia';
-import { useUxStore } from '@/stores/ux.store';
 
 const dashboardStore = useDashboardStore();
 const authStore = useAuthStore();
@@ -109,7 +108,7 @@ onBeforeMount(() => {
       <div class="-mt-4">
         <router-link :to="{ name: 'reset-password' }" class="w-full">
           <p class="text-center text-emerald-500 dark:text-emerald-600 underline">{{ $t('forgotPassword')
-          }}</p>
+            }}</p>
         </router-link>
       </div>
       <div v-if="loginStatus" class="text-center text-red-500 mt-3 mb-0 text-sm">{{ loginStatus }}</div>

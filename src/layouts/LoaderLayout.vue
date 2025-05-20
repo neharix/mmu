@@ -7,7 +7,7 @@ const isDark = ref(null)
 
 
 if (!(document.body.classList.contains("loader-layout"))) {
-  document.body.classList.add("loader-layout", "font-montserrat", "h-screen", "bg-gray-100", "dark:bg-[#113031]");
+  document.body.classList.add("loader-layout", "font-manrope", "h-screen", "bg-gray-100", "dark:bg-[#113031]");
 }
 
 onUnmounted(() => {

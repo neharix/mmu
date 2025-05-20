@@ -1,10 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./src/**/*.{html,vue,js}", "./index.html", "./node_modules/flowbite/**/*.js"],
+  content: ["./src/**/*.{html,vue,js}", "./index.html"],
   theme: {
     extend: {},
   },
-  plugins: [
-    require('flowbite/plugin')
-  ],
+  plugins: [],
 };

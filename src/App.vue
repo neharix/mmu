@@ -8,10 +8,19 @@ import { useRoute } from "vue-router";
 import LoaderLayout from "@/layouts/LoaderLayout.vue";
 import { useAuthStore } from "@/stores/auth.store.js";
 import router from "@/router/index.js";
-
+import { useTranslation } from "i18next-vue";
+import axiosInstance from "./api/axiosInstance";
 
 const layout = shallowRef(LoaderLayout)
 const layoutName = ref('LoaderLayout');
+
+const { i18next } = useTranslation();
+
+i18next.on('languageChanged', (lng) => {
+  console.log(lng);
+  axiosInstance.defaults.headers["Accept-Language"] = lng;
+  console.log(axiosInstance.defaults.headers["Accept-Language"]);
+})
 
 const route = useRoute();
 watch(route, (newValue, oldValue) => {

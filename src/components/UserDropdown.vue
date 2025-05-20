@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import { useAuthStore } from "@/stores/auth.store.js";
 import { storeToRefs } from "pinia";
+import Logo from "./Icons/Logo.vue";
 
 const authStore = useAuthStore();
 const { user } = storeToRefs(authStore);
@@ -38,8 +39,9 @@ window.addEventListener("click", onClickOutside);
             <p class="m-0 text-end text-gray-600 dark:text-gray-300 font-medium text-[0.8rem] select-none">{{
               user.is_superuser ? $t('superuser') : $t('educationCenter') }}</p>
           </div>
-          <div class="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-800 overflow-hidden">
-            <img src="../assets/svgs/favicon.svg" alt="" class="select-none">
+          <div
+            class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-800 overflow-hidden">
+            <Logo class="w-8 -mt-2" />
           </div>
         </div>
       </button>

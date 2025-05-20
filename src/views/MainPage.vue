@@ -1,8 +1,8 @@
 <script setup>
-import { computed, onBeforeMount, onBeforeUnmount, onMounted, onUnmounted, ref, useTemplateRef, watch } from 'vue';
+import { computed, onBeforeMount, onBeforeUnmount, ref, shallowReactive } from 'vue';
 import { onBeforeRouteLeave } from 'vue-router';
 import SiteTools from '@/components/SiteTools.vue';
-import { useNetwork, useScroll, useWindowScroll } from '@vueuse/core';
+import { useWindowScroll } from '@vueuse/core';
 
 
 onBeforeMount(() => {
@@ -47,7 +47,7 @@ const isScrolled = computed(() => {
   <div ref="block">
     <header
       :class="[isScrolled ? 'backdrop-blur-sm shadow-lg bg-gray-700/25 dark:bg-emerald-700/75' : 'backdrop-blur-none shadow-none bg-transparent']"
-      class="text-white px-6 py-4 flex items-center justify-between  fixed top-0 left-0 w-full z-50 transition-all duration-300 rounded-b-4xl">
+      class="text-white px-6 py-4 flex items-center justify-between fixed top-0 left-0 w-full z-50 transition-all duration-300 ">
       <h1 class="text-2xl font-bold select-none">MMU</h1>
       <nav class="flex items-center space-x-2">
         <site-tools mobile-dropdown-classes="top-15 right-10"></site-tools>

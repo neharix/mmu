@@ -3,14 +3,20 @@ export default {
   lightTheme: "Ýagty tema",
   darkTheme: "Garaňky tema",
   confirm: "Tassyklamak",
-  validateError: '"{{fieldName}}" meýdançasy hökmanydyr.',
   smthWrong: "Näsazlyk döredi",
   mmuAbbr: "Merkezleriň Maglumat Ulgamy",
   language: "türkmen",
   mainPage: "Baş sahypa",
   workspace: "Iş meýdançasy",
   add: "Goşmak",
+  search: "Gözleg",
+  role: "Roly",
+  default: "Ýönekeý",
+  email: "Elektron poçta",
   // Errors
+  selectRequiredError: '"{{fieldName}}" saýlanylmady',
+  validateError: '"{{fieldName}}" meýdançasy hökmanydyr.',
+  emailTypeError: "Bu meýdança elektron poçta üçindir",
   pageForbidden: "Rugsat berilmedi",
   pageNotFound: "Sahypa tapylmady",
   tooManyRequests: "Örän köp talap ugradyldy",
@@ -56,5 +62,26 @@ export default {
   m2fPre: "Umumy gyz/oglan koefissenti",
   graduates: "Okuwy tamamlaýanlar",
   // Data tables
-  numeration: "T/B",
+  id: "ID",
+  rows: "setir",
+  rowCount: "Setir sany",
+  tools: "Gurallar",
+  exportData: "Saýlanan elementleri eksportirlemek",
+  edit: "Üýtgetmek",
+  view: "Görmek",
+  delete: "Ýok etmek",
+  // Routes
+  // Users route
+  addUser: "Ulanyjy goşmak",
+  // Education centers route
+  studentsCount: "Diňleýji sany",
+  mainInfo: "Esasy maglumatlar",
+  materialSupply: "Maddy üpjünçilik",
+  // Forms
+  unselected: "Saýlanmadyk",
+  addAccept: "Hasaba almak",
+  // Roles
+  publisher: "Makala redaktory",
+  director: "Okuw merkeziniň ýolbaşçysy",
+  personal: "Okuw merkeziniň işgäri",
 };

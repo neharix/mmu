@@ -3,14 +3,20 @@ export default {
   lightTheme: "Light Theme",
   darkTheme: "Dark Theme",
   confirm: "Confirm",
-  validateError: '"{{fieldName}}" field is required.',
   smthWrong: "Something went wrong",
   mmuAbbr: "Information System of Centers",
   language: "english",
   mainPage: "Main page",
   workspace: "Workspace",
   add: "Add",
+  search: "Search",
+  role: "Role",
+  default: "Default",
+  email: "Email",
   // Errors
+  selectRequiredError: `"{{fieldName}}" doesn't selected `,
+  validateError: '"{{fieldName}}" field is required.',
+  emailTypeError: "This field only for email",
   pageForbidden: "Forbidden",
   pageNotFound: "Page not found",
   tooManyRequests: "Too Many Requests",
@@ -56,5 +62,26 @@ export default {
   m2fPre: "Total female/male pre",
   graduates: "Graduates",
   // Data tables
-  numeration: "№",
+  id: "ID",
+  rows: "rows",
+  rowCount: "Row count",
+  tools: "Tools",
+  exportData: "Export selected elements",
+  edit: "Edit",
+  view: "View",
+  delete: "Delete",
+  // Routes
+  // Users route
+  addUser: "Add User",
+  // Education centers route
+  studentsCount: "Students count",
+  mainInfo: "Main Information",
+  materialSupply: "Material Supply",
+  // Forms
+  unselected: "Unselected",
+  addAccept: "Register",
+  // Roles
+  publisher: "Publisher",
+  director: "Education center director",
+  personal: "Education center personal",
 };

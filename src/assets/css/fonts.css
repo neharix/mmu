@@ -1,5 +1,5 @@
-/*Google Fonts*/
-@import url('@/assets/fonts/montserrat/init/default.css');
+/* Montserrat */
+@import url("@/assets/fonts/montserrat/init/default.css");
+@import url("@/assets/fonts/manrope/init/default.css");
 
-/* Production */
-/* @import url('https://bmdu.depder.com/api/static/fonts/montserrat/init/default.css');*/
+/* Manrope */

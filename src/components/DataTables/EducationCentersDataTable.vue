@@ -34,7 +34,7 @@ const data = ref([]);
 const filteredData = ref([]);
 const selectedItem = ref(null);
 
-const sortColumn = ref(route.query.column || "username");
+const sortColumn = ref(route.query.column || "name");
 const sortOrder = ref(route.query.order || 'asc');
 const currentPage = ref(Number(route.query.page || 1));
 const rowsPerPage = ref(localStorage.getItem("rowsPerPage") || 10);
@@ -72,7 +72,7 @@ const checkboxClicked = (id) => {
 }
 
 const applySearch = () => {
-  router.push({ name: 'users-list', query: { ...route.query, search: searchQuery.value.toLowerCase() } }).then(() => {
+  router.push({ name: 'education-centers-list', query: { ...route.query, search: searchQuery.value.toLowerCase() } }).then(() => {
     emit('update')
   });
 };
@@ -175,20 +175,20 @@ watch(deleteStatus, (newVal, oldVal) => {
 })
 
 watch(currentPage, (newVal) => {
-  router.push({ name: 'users-list', query: { ...route.query, page: newVal } }).then(() => {
+  router.push({ name: 'education-centers-list', query: { ...route.query, page: newVal } }).then(() => {
     emit('update')
   });
 })
 watch(sortColumn, (newVal) => {
   setTimeout(() => {
-    router.push({ name: 'users-list', query: { ...route.query, order: sortOrder.value, column: newVal } }).then(() => {
+    router.push({ name: 'education-centers-list', query: { ...route.query, order: sortOrder.value, column: newVal } }).then(() => {
       emit('update');
     })
   }, 50)
 })
 
 watch(sortOrder, (newVal) => {
-  router.push({ name: 'users-list', query: { ...route.query, order: newVal, column: sortColumn.value } }).then(() => {
+  router.push({ name: 'education-centers-list', query: { ...route.query, order: newVal, column: sortColumn.value } }).then(() => {
     emit('update');
   })
 })
@@ -263,7 +263,7 @@ window.addEventListener("click", onClickOutside);
   <confirm-modal :is-open="isModalOpen" @close="closeModal" @submit="submitModal" :header="header"
     :context='`\"${context}\" ýok edilmegini tassyklaýarsyňyzmy?`'></confirm-modal>
   <div class="w-full rounded-lg shadow-lg">
-    <div class="pt-1  rounded-t-lg dark:bg-[#112731] bg-white">
+    <div class="pt-1 rounded-t-lg dark:bg-[#112731] bg-white">
       <div class="flex items-center justify-between space-x-2 py-3 px-4">
         <div class="flex items-center">
           <div class="dropdown relative inline-block text-left">
@@ -273,7 +273,6 @@ window.addEventListener("click", onClickOutside);
                 {{ $t('rowCount') }}: {{ rowsPerPage }}
               </button>
             </div>
-
             <transition name="fade-scale" @before-enter="el => (el.style.display = 'block')"
               @after-leave="el => (el.style.display = 'none')">
               <div v-show="isOpen"
@@ -284,7 +283,6 @@ window.addEventListener("click", onClickOutside);
                     class="w-full text-start text-gray-700 dark:text-gray-200 block px-4 py-2 md:text-sm text-[0.75rem] hover:bg-gray-100 dark:hover:bg-[#113031] select-none">
                     {{ option }} {{ $t('rows') }}
                   </button>
-
                 </div>
               </div>
             </transition>
@@ -369,31 +367,23 @@ window.addEventListener("click", onClickOutside);
             </th>
             <th
               class="transition duration-200 ease-in border-y border-gray-300 dark:border-[#113031] dark:hover:bg-emerald-800 p-3 select-none cursor-pointer hover:bg-gray-300  text-left text-[0.8rem]"
-              @click="sort('username')">
-              {{ $t('username').toUpperCase() }}
-              <span :class="sortColumn === 'username' ? (sortOrder === 'asc' ? 'rotate-180' : '') : 'opacity-25'"
+              @click="sort('name')">
+              {{ $t('name').toUpperCase() }}
+              <span :class="sortColumn === 'name' ? (sortOrder === 'asc' ? 'rotate-180' : '') : 'opacity-25'"
                 class="ml-2 transition-transform duration-200 inline-block">
                 ▲
               </span>
             </th>
             <th
               class="transition duration-200 ease-in border-y border-gray-300 dark:border-[#113031] dark:hover:bg-emerald-800 p-3 select-none cursor-pointer hover:bg-gray-300  text-left text-[0.8rem]"
-              @click="sort('email')">
-              {{ $t("email").toUpperCase() }}
-              <span :class="sortColumn === 'email' ? (sortOrder === 'asc' ? 'rotate-180' : '') : 'opacity-25'"
+              @click="sort('students_count')">
+              {{ $t('studentsCount').toUpperCase() }}
+              <span :class="sortColumn === 'students_count' ? (sortOrder === 'asc' ? 'rotate-180' : '') : 'opacity-25'"
                 class="ml-2 transition-transform duration-200 inline-block">
                 ▲
               </span>
             </th>
-            <th
-              class="transition duration-200 ease-in border-y border-gray-300 dark:border-[#113031] dark:hover:bg-emerald-800 p-3 select-none cursor-pointer hover:bg-gray-300  text-left text-[0.8rem]"
-              @click="sort('role')">
-              {{ $t("role").toUpperCase() }}
-              <span :class="sortColumn === 'role' ? (sortOrder === 'asc' ? 'rotate-180' : '') : 'opacity-25'"
-                class="ml-2 transition-transform duration-200 inline-block">
-                ▲
-              </span>
-            </th>
+
             <th class="border-y border-gray-300 dark:border-[#113031] p-3 select-none text-center text-[0.8rem]">
               {{ $t("tools").toUpperCase() }}
             </th>
@@ -419,21 +409,19 @@ window.addEventListener("click", onClickOutside);
               }}
             </td>
             <td class="border-y border-gray-300 dark:border-[#113031] p-2 break-words text-[0.8rem]">{{
-              item.username
+              item.name
               }}
             </td>
-            <td class="border-y border-gray-300 dark:border-[#113031] p-2 break-words text-[0.8rem]">
-              {{ item.email }}
-            </td>
-            <td class="border-y border-gray-300 dark:border-[#113031] p-2 break-words text-[0.8rem]">
-              {{ $t(item.role) }}
+            <td class="border-y border-gray-300 dark:border-[#113031] p-2 break-words text-[0.8rem]">{{
+              item.students_count
+              }}
             </td>
             <td class="border-y border-gray-300 dark:border-[#113031] p-2 break-words text-[0.8rem]">
               <div class="w-full flex items-center justify-center">
                 <div class="inline-flex rounded-md shadow-xs" role="group">
-                  <button type="button" :key="item.id" @click="router.push(`/high-schools/edit/${item.id}`)"
+                  <button type="button" :key="item.id" @click="router.push(`/education-centers/edit/${item.id}`)"
                     class="px-4 py-2 text-[0.8rem] font-medium bg-emerald-400 hover:bg-emerald-500 transition ease-in hover:ease-out duration-200 text-white dark:bg-emerald-700 border border-gray-200 rounded-s-lg focus:z-10 focus:ring-2 focus:ring-emerald-500 dark:border-gray-700 select-none"
-                    title="Üýtgetmek">
+                    :title="$t('edit')">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5" viewBox="0 0 24 24">
                       <title />
                       <g id="Complete">
@@ -448,9 +436,10 @@ window.addEventListener("click", onClickOutside);
                       </g>
                     </svg>
                   </button>
-                  <button type="button" :key="item.id" @click="router.push(`/high-schools/view/${item.id}`)"
+                  <button type="button" :key="item.id"
+                    @click="router.push({ name: 'about-education-center', params: { id: item.id } })"
                     class="px-4 py-2 text-[0.8rem] font-medium bg-violet-400 hover:bg-violet-500 transition ease-in hover:ease-out duration-200 text-white dark:bg-violet-700 border border-gray-200 focus:z-10 focus:ring-2 focus:ring-violet-500 dark:border-gray-700 select-none"
-                    title="Görmek">
+                    :title="$t('view')">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5" viewBox="0 0 24 24" fill="none">
                       <path fill-rule="evenodd" clip-rule="evenodd"
                         d="M12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9ZM11 12C11 11.4477 11.4477 11 12 11C12.5523 11 13 11.4477 13 12C13 12.5523 12.5523 13 12 13C11.4477 13 11 12.5523 11 12Z"
@@ -462,7 +451,7 @@ window.addEventListener("click", onClickOutside);
                   </button>
                   <button type="button" :key="item.id" @click="openModalWrapper('Ýok etmek', item.name, item.id)"
                     class="px-4 py-2 text-[0.8rem] font-medium bg-red-400 hover:bg-red-500 transition ease-in hover:ease-out duration-200 text-white dark:bg-pink-900 dark:hover:bg-pink-600 border border-gray-200 rounded-e-lg focus:z-10 focus:ring-2 focus:ring-red-500 dark:border-gray-700 dark:focus:ring-pink-500 select-none"
-                    title="Pozmak">
+                    :title="$t('delete')">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5" viewBox="0 0 24 24" fill="none">
                       <path
                         d="M18 6L17.1991 18.0129C17.129 19.065 17.0939 19.5911 16.8667 19.99C16.6666 20.3412 16.3648 20.6235 16.0011 20.7998C15.588 21 15.0607 21 14.0062 21H9.99377C8.93927 21 8.41202 21 7.99889 20.7998C7.63517 20.6235 7.33339 20.3412 7.13332 19.99C6.90607 19.5911 6.871 19.065 6.80086 18.0129L6 6M4 6H20M16 6L15.7294 5.18807C15.4671 4.40125 15.3359 4.00784 15.0927 3.71698C14.8779 3.46013 14.6021 3.26132 14.2905 3.13878C13.9376 3 13.523 3 12.6936 3H11.3064C10.477 3 10.0624 3 9.70951 3.13878C9.39792 3.26132 9.12208 3.46013 8.90729 3.71698C8.66405 4.00784 8.53292 4.40125 8.27064 5.18807L8 6M14 10V17M10 10V17"

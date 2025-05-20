@@ -8,6 +8,9 @@ import VueApexCharts from "vue3-apexcharts";
 import I18NextVue from "i18next-vue";
 import i18next from "i18next";
 import locales from "./locales/init";
+import axiosInstance from "./api/axiosInstance";
+import App from "./App.vue";
+import router from "./router";
 
 let language = localStorage.getItem("language") || "tk";
 i18next
@@ -26,9 +29,7 @@ i18next
   .then(() => {
     localStorage.setItem("language", language);
   });
-
-import App from "./App.vue";
-import router from "./router";
+axiosInstance.defaults.headers["Accept-Language"] = language;
 
 const app = createApp(App);
 

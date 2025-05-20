@@ -9,6 +9,8 @@ import UserSidebar from "@/components/Sidebars/UserSidebar.vue";
 import EmptySidebar from "@/components/Sidebars/EmptySidebar.vue";
 import { useUxStore } from "@/stores/ux.store.js";
 import TheSpinner from "@/components/TheSpinner.vue";
+import Logo from "@/components/Icons/Logo.vue";
+import { Icon } from "@iconify/vue";
 
 const uxStore = useUxStore();
 const { sidebarExpanded, sidebarHover } = storeToRefs(uxStore);
@@ -85,8 +87,8 @@ onMounted(() => {
     :class="{ '-translate-x-full': showSidebar === false, 'w-64': sidebarExpanded, 'w-25': !sidebarExpanded }"
     class="fixed z-30 shadow-md inset-y-0 left-0 bg-white/90 lg:bg-white text-gray-800 dark:text-white dark:bg-[#112731ef] lg:dark:bg-[#112731] flex flex-col transform duration-200 ease-out lg:translate-x-0 transition-all">
     <div class="flex items-center justify-between py-8 px-4 lg:hidden">
-      <div class="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-800 overflow-hidden">
-        <img src="../assets/svgs/favicon.svg" alt="User Avatar" />
+      <div class="w-10 h-10 flex justify-center items-center rounded-full bg-gray-200 dark:bg-gray-800 overflow-hidden">
+        <Logo class="-my-4" />
       </div>
       <div>
         <p class="m-0 text-gray-900 dark:text-gray-100 font-medium select-none" v-if="user">
@@ -106,13 +108,8 @@ onMounted(() => {
       </div>
     </div>
     <button @click="uxStore.toggleSidebar" class="hidden lg:flex lg:justify-center mt-4">
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="10"></circle>
-        <circle :class="{ 'opacity-0': !sidebarExpanded, 'opacity-100': sidebarExpanded }"
-          class="transition duration-300 ease-out" cx="12" cy="12" r="3">
-        </circle>
-      </svg>
+      <Icon icon="lucide:chevrons-down" />
+
     </button>
     <component :is="sidebar"></component>
 
@@ -134,9 +131,10 @@ onMounted(() => {
           <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7"></path>
         </svg>
       </button>
-      <router-link to="/">
-        <div class="text-xl font-semibold flex items-center"><img class="w-12 h-12 select-none"
-            src="/src/assets/svgs/favicon.svg" alt=""><span class="px-2 select-none">MMU</span></div>
+      <router-link to="/workspace">
+        <div class="text-xl font-semibold flex items-center">
+          <Logo class="w-18 -mt-2 mx-2" />
+        </div>
       </router-link>
 
       <div class="flex items-center">

@@ -7,6 +7,7 @@ import { storeToRefs } from "pinia";
 import TheSpinner from "../TheSpinner.vue";
 import { onBeforeMount, ref } from "vue";
 import useSidebar from "@/use/useSidebar";
+import { PowerIcon } from "@heroicons/vue/24/solid"
 
 const uxStore = useUxStore();
 const { sidebarExpanded } = storeToRefs(uxStore);
@@ -19,22 +20,16 @@ onBeforeMount(() => {
   beforeMount("root");
 })
 
-
-
-
 </script>
 
 <template>
   <div class="mx-6 mt-4">
     <button class="btn-primary w-full flex items-center justify-center h-10"
       @click="specialFunctionsStore.toggleService()" :disabled="specialFunctionsStore.serviceTogglerLoading">
-      <the-spinner v-if="specialFunctionsStore.serviceTogglerLoading"></the-spinner>
+      <TheSpinner v-if="specialFunctionsStore.serviceTogglerLoading" />
       <div v-else class="flex items-center justify-center space-x-2">
         <div class="flex justify-center" :class="{ 'w-full': !sidebarExpanded }">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-6" viewBox="-2 0 19 19">
-            <path
-              d="M7.498 17.1a7.128 7.128 0 0 1-.98-.068 7.455 7.455 0 0 1-1.795-.483 7.26 7.26 0 0 1-3.028-2.332A7.188 7.188 0 0 1 .73 12.52a7.304 7.304 0 0 1 .972-7.128 7.221 7.221 0 0 1 1.387-1.385 1.03 1.03 0 0 1 1.247 1.638 5.176 5.176 0 0 0-.993.989 5.313 5.313 0 0 0-.678 1.181 5.23 5.23 0 0 0-.348 1.292 5.22 5.22 0 0 0 .326 2.653 5.139 5.139 0 0 0 .69 1.212 5.205 5.205 0 0 0 .992.996 5.257 5.257 0 0 0 1.178.677 5.37 5.37 0 0 0 1.297.35 5.075 5.075 0 0 0 1.332.008 5.406 5.406 0 0 0 1.32-.343 5.289 5.289 0 0 0 2.211-1.682 5.18 5.18 0 0 0 1.02-2.465 5.2 5.2 0 0 0 .01-1.336 5.315 5.315 0 0 0-.343-1.318 5.195 5.195 0 0 0-.695-1.222 5.134 5.134 0 0 0-.987-.989 1.03 1.03 0 1 1 1.24-1.643 7.186 7.186 0 0 1 1.384 1.386 7.259 7.259 0 0 1 .97 1.706 7.413 7.413 0 0 1 .473 1.827 7.296 7.296 0 0 1-4.522 7.65 7.476 7.476 0 0 1-1.825.471 7.203 7.203 0 0 1-.89.056zM7.5 9.613a1.03 1.03 0 0 1-1.03-1.029V2.522a1.03 1.03 0 0 1 2.06 0v6.062a1.03 1.03 0 0 1-1.03 1.03z" />
-          </svg>
+          <PowerIcon class="w-5" />
         </div>
         <span v-if="sidebarExpanded" class="text-nowrap">{{
           serviceStatus ? $t('disableService') : $t('enableService') }}</span>
@@ -73,26 +68,22 @@ onBeforeMount(() => {
           :class="{ 'pr-6 justify-between': sidebarExpanded, 'justify-center rounded-full': !sidebarExpanded }"
           @click="toggleLinksCarousel(0)">
           <h4 class="uppercase p-4 select-none text-nowrap rounded-full transition-all duration-200 ease-in-out"
-            :class="{ 'text-center font-extrabold': !sidebarExpanded, 'ring-2 ring-emerald-400': linksCarouselSettings[0] && !sidebarExpanded, 'text-gray-400 dark:text-gray-500': !(linksCarouselSettings[0] && !sidebarExpanded) }">
+            :class="{ 'text-center font-extrabold': !sidebarExpanded, 'text-gray-400 dark:text-gray-500': !(linksCarouselSettings[0] && !sidebarExpanded) }">
             {{ sidebarExpanded ? $t('control') : "..." }}</h4>
           <div v-show="sidebarExpanded"
-            :class="{ 'rotate-0': linksCarouselSettings[0] && sidebarExpanded, 'rotate-90': !linksCarouselSettings[0] && sidebarExpanded }"
-            class="transition duration-200 ease-in-out">ch</div>
+            :class="{ '-rotate-90': linksCarouselSettings[0] && sidebarExpanded, 'rotate-0': !linksCarouselSettings[0] && sidebarExpanded }"
+            class="transition duration-200 ease-in-out"><svg xmlns="http://www.w3.org/2000/svg" class="w-6"
+              viewBox="0 0 24 24" fill="none">
+              <path d="M15 6L9 12L15 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg></div>
         </button>
         <div v-show="linksCarouselSettings[0]">
           <sidebar-link :link="{ name: 'users-list' }">
             <div class="flex justify-center" :class="{ 'w-full': !sidebarExpanded }">
-              <svg class="w-6" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g clip-path="url(#clip0_901_948)">
-                  <path
-                    d="M21 28V2C21 1.447 20.553 1 20 1H2C1.447 1 1 1.447 1 2V31H8V25H14V31H31V8C31 8 31 7 30 7H24M16 6V8M26 12V14M26 18V20M11 6V8M6 6V8M16 12V14M11 12V14M6 12V14M16 18V20M11 18V20M6 18V20"
-                    stroke-width="2" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
-                </g>
-                <defs>
-                  <clipPath id="clip0_901_948">
-                    <rect width="32" height="32" fill="white" />
-                  </clipPath>
-                </defs>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-6" viewBox="0 0 16 16" fill="currentColor">
+                <path
+                  d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816zM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275zM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z" />
               </svg>
             </div>
             <span v-if="sidebarExpanded" class="text-nowrap">{{ $t('users') }}</span>

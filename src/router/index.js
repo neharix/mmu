@@ -1,9 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import guards from "@/router/guards.js";
 import MainPage from "@/views/MainPage.vue";
-import { useAuthStore } from "@/stores/auth.store";
-import { useDashboardStore } from "@/stores/api.store";
-import { storeToRefs } from "pinia";
 import { useTranslation } from "i18next-vue";
 import { useUxStore } from "@/stores/ux.store";
 
@@ -133,7 +130,7 @@ const router = createRouter({
             },
             {
               path: "view/:id",
-              name: "about-high-school",
+              name: "about-education-center",
               component: () =>
                 import(
                   "../views/EducationCenterViews/AboutEducationCenter.vue"
