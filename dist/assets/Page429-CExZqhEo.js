@@ -1,0 +1,1 @@
+import{_ as e}from"./TheError-Cxk5-q4s.js";import{c as s,b as a}from"./index-ClwzeL6-.js";const m={__name:"Page429",setup(t){return(o,c)=>(a(),s(e,{"status-code":429,message:"tooManyRequests"}))}};export{m as default};

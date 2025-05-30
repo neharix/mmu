@@ -137,24 +137,10 @@ const router = createRouter({
                 ),
               meta: {
                 layout: "MainLayout",
-                title: "Ýokary okuw mekdebi",
+                title: "educationCenter",
                 authRequired: true,
               },
               beforeEnter: guards.authGuard,
-              children: [
-                {
-                  path: "",
-                  name: "high-school",
-                  component: () =>
-                    import("../views/EducationCenterViews/EducationCenter.vue"),
-                  beforeEnter: guards.authGuard,
-                  meta: {
-                    layout: "MainLayout",
-                    title: "Ýokary okuw mekdebi",
-                    authRequired: true,
-                  },
-                },
-              ],
             },
           ],
           beforeEnter: guards.authGuard,

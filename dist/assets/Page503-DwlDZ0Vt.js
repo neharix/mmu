@@ -1,0 +1,1 @@
+import{_ as e}from"./TheError-Cxk5-q4s.js";import{c as a,b as s}from"./index-ClwzeL6-.js";const m={__name:"Page503",setup(c){return(r,t)=>(s(),a(e,{"status-code":503,message:"serviceUnavailable"}))}};export{m as default};

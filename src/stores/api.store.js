@@ -3,6 +3,84 @@ import { defineStore } from "pinia";
 import axiosInstance from "@/api/axiosInstance.js";
 import { ref } from "vue";
 import { useRoute } from "vue-router";
+import { useAuthStore } from "./auth.store";
+
+export const useFilesStore = defineStore("files", () => {
+  const authStore = useAuthStore();
+
+  const fileId = ref(null);
+  const isDownloading = ref(false);
+  const downloadedProgress = ref(0);
+  const downloadedSize = ref(0);
+  const fileSize = ref(0);
+
+  async function downloadFile(id, name) {
+    fileId.value = id;
+    isDownloading.value = true;
+    try {
+      const response = await fetch(
+        `${axiosInstance.defaults.baseURL}/download/${id}/`,
+        {
+          headers: authStore.isAuthenticated
+            ? {
+                Authorization: `EDUSYSTEM ${authStore.token}`,
+              }
+            : undefined,
+        }
+      );
+
+      if (!response.ok) {
+        console.error(`HTTP error! status: ${response.status}`);
+        return;
+      }
+      fileSize.value = parseInt(response.headers.get("Content-Length"), 10);
+      const reader = response.body.getReader();
+      const chunks = [];
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) {
+          break;
+        }
+        chunks.push(value);
+        downloadedSize.value += value.length;
+        if (fileSize.value) {
+          downloadedProgress.value = Math.round(
+            (downloadedSize.value / fileSize.value) * 100
+          );
+        }
+      }
+      const blob = new Blob(chunks, {
+        type: response.headers.get("Content-Type"),
+      });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+
+      a.href = url;
+      a.download = name;
+      a.className = "hidden";
+      a.target = "_blank";
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      isDownloading.value = false;
+      downloadedSize.value = 0;
+      downloadedProgress.value = 0;
+    }
+  }
+  return {
+    fileId,
+    fileSize,
+    isDownloading,
+    downloadedSize,
+    downloadedProgress,
+    downloadFile,
+  };
+});
 
 export const useDashboardStore = defineStore("root", () => {
   const data = ref({});
@@ -84,6 +162,8 @@ export const useEducationCentersStore = defineStore("education-centers", () => {
 
   const aboutEducationCenter = ref({});
   const educationCenters = ref([]);
+  const educationCenterFiles = ref([]);
+  const educationCenterStaff = ref([]);
 
   const route = useRoute();
 
@@ -96,6 +176,58 @@ export const useEducationCentersStore = defineStore("education-centers", () => {
     } catch (e) {
       console.error(e);
     }
+  }
+
+  async function getFiles(id, withoutQueries = false) {
+    let order = route.query.order ? route.query.order : "asc";
+    let column = route.query.column ? route.query.column : "name";
+    let search = route.query.search ? route.query.search : false;
+
+    let page = route.query.page ? route.query.page : 1;
+    let pageSize = localStorage.getItem("rowsPerPage");
+    let response = null;
+    if (!withoutQueries) {
+      if (search) {
+        response = await axiosInstance.get(`/education-centers/${id}/files/`, {
+          params: { page, page_size: pageSize, order, column, search },
+        });
+      } else {
+        response = await axiosInstance.get(`/education-centers/${id}/files/`, {
+          params: { page, page_size: pageSize, order, column },
+        });
+      }
+    } else {
+      response = await axiosInstance.get(`/education-centers/${id}/files/`);
+    }
+
+    educationCenterFiles.value = response.data.results.data;
+    dataTablePageCount.value = response.data.results.total_pages;
+  }
+  async function getStaff(id, withoutQueries = false) {
+    let order = route.query.order ? route.query.order : "asc";
+    let column = route.query.column ? route.query.column : "full_name";
+    let search = route.query.search ? route.query.search : false;
+
+    let page = route.query.page ? route.query.page : 1;
+    let pageSize = localStorage.getItem("rowsPerPage");
+    let response = null;
+    if (!withoutQueries) {
+      if (search) {
+        response = await axiosInstance.get(`/education-centers/${id}/staff/`, {
+          params: { page, page_size: pageSize, order, column, search },
+        });
+      } else {
+        response = await axiosInstance.get(`/education-centers/${id}/staff/`, {
+          params: { page, page_size: pageSize, order, column },
+        });
+      }
+    } else {
+      response = await axiosInstance.get(`/education-centers/${id}/staff/`);
+    }
+
+    educationCenterStaff.value = response.data.results.data;
+    console.log(educationCenterStaff.value);
+    dataTablePageCount.value = response.data.results.total_pages;
   }
 
   async function getAll() {
@@ -119,17 +251,30 @@ export const useEducationCentersStore = defineStore("education-centers", () => {
     educationCenters.value = response.data.results.data;
     dataTablePageCount.value = response.data.results.total_pages;
   }
+  async function _delete(id) {
+    try {
+      const response = await axiosInstance.delete(`/education-centers/${id}/`);
+      deleteStatus.value = "success";
+    } catch (e) {
+      console.error("Error:", e);
+    }
+  }
 
   return {
     educationCenters,
+    educationCenterFiles,
+    educationCenterStaff,
     aboutEducationCenter,
     isLoading,
     dataTablePageCount,
     updateStatus,
     createStatus,
     deleteStatus,
+    getFiles,
+    getStaff,
     getAbout,
     getAll,
+    _delete,
   };
 });
 

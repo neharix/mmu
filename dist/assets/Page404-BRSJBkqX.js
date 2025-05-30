@@ -1,0 +1,1 @@
+import{_ as e}from"./TheError-Cxk5-q4s.js";import{c as a,b as o}from"./index-ClwzeL6-.js";const n={__name:"Page404",setup(s){return(t,r)=>(o(),a(e,{"status-code":404,message:"pageNotFound","is-home-link-enabled":!0}))}};export{n as default};

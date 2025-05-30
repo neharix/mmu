@@ -1,13 +1,14 @@
 import axios from "axios";
 import { useAuthStore } from "@/stores/auth.store.js";
 import router from "@/router/index.js";
-import baseUrl from "@/api/base";
+import { baseUrl } from "@/api/base";
 import { useUxStore } from "@/stores/ux.store";
 
 const axiosInstance = axios.create({
   baseURL: baseUrl,
   headers: {
     "Content-Type": "application/json",
+    "X-Service": "mmu",
   },
 });
 

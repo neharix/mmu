@@ -5,14 +5,16 @@ import TheSpinner from "@/components/TheSpinner.vue";
 
 import { useAuthStore } from '@/stores/auth.store.js';
 import SiteTools from "@/components/SiteTools.vue";
-import { onBeforeMount, onMounted } from "vue";
+import { onBeforeMount, onMounted, ref } from "vue";
 import router from "@/router/index.js";
 import { useDashboardStore } from '@/stores/api.store';
 import TooltipMessage from '@/components/TooltipMessage.vue';
 import { storeToRefs } from 'pinia';
+import { onBeforeRouteUpdate } from 'vue-router';
 
 const dashboardStore = useDashboardStore();
 const authStore = useAuthStore();
+const isPwdVisible = ref(false);
 
 const { loginStatus } = storeToRefs(authStore);
 
@@ -33,9 +35,11 @@ function onSubmit(values, { setErrors }) {
 function togglePwdVisibility() {
   let pwdField = document.querySelector('#password');
   if (pwdField.getAttribute('type') === "password") {
-    pwdField.setAttribute('type', 'text')
+    pwdField.setAttribute('type', 'text');
+    isPwdVisible.value = true;
   } else {
     pwdField.setAttribute('type', 'password')
+    isPwdVisible.value = false;
   }
 }
 
@@ -47,6 +51,12 @@ onMounted(() => {
 onBeforeMount(() => {
   if (authStore.isAuthenticated) {
     router.push({ name: 'workspace-view' });
+  } else {
+    try {
+      authStore.fetchUser().then(() => {
+        router.push({ name: 'workspace-view' });
+      });
+    } catch { }
   }
 })
 
@@ -59,11 +69,16 @@ onBeforeMount(() => {
     <div class="flex justify-between">
       <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-2">{{ $t('hello') }}</h2>
       <router-link :to="{ name: 'main' }">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-6" viewBox="0 0 24 24" fill="transparent" stroke="currentColor"
-          stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-          <polyline points="9 22 9 12 15 12 15 22"></polyline>
-        </svg></router-link>
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img"
+          viewBox="0 0 24 24" class="iconify iconify--lucide w-6">
+          <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+            <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
+            <path
+              d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z">
+            </path>
+          </g>
+        </svg>
+      </router-link>
     </div>
     <p class="text-gray-600 dark:text-gray-400 mb-6">{{ $t('signIn') }}</p>
     <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors, isSubmitting }" class="space-y-10">
@@ -81,13 +96,25 @@ onBeforeMount(() => {
         <Field name="password" type="password" id="password" :placeholder="$t('password')" class="peer text-input"
           :class="{ 'is-invalid': errors.password }" />
         <div class="absolute top-0 right-0 p-4" @click="togglePwdVisibility">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 text-gray-500" viewBox="0 0 24 24" fill="none">
-            <path fill-rule="evenodd" clip-rule="evenodd"
-              d="M12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9ZM11 12C11 11.4477 11.4477 11 12 11C12.5523 11 13 11.4477 13 12C13 12.5523 12.5523 13 12 13C11.4477 13 11 12.5523 11 12Z"
-              fill="currentColor" />
-            <path fill-rule="evenodd" clip-rule="evenodd"
-              d="M21.83 11.2807C19.542 7.15186 15.8122 5 12 5C8.18777 5 4.45796 7.15186 2.17003 11.2807C1.94637 11.6844 1.94361 12.1821 2.16029 12.5876C4.41183 16.8013 8.1628 19 12 19C15.8372 19 19.5882 16.8013 21.8397 12.5876C22.0564 12.1821 22.0536 11.6844 21.83 11.2807ZM12 17C9.06097 17 6.04052 15.3724 4.09173 11.9487C6.06862 8.59614 9.07319 7 12 7C14.9268 7 17.9314 8.59614 19.9083 11.9487C17.9595 15.3724 14.939 17 12 17Z"
-              fill="currentColor" />
+          <svg v-if="isPwdVisible" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+            aria-hidden="true" role="img" viewBox="0 0 24 24" class="iconify iconify--lucide w-5 text-gray-500">
+            <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+              <path
+                d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575a1 1 0 0 1 0 .696a10.8 10.8 0 0 1-1.444 2.49m-6.41-.679a3 3 0 0 1-4.242-4.242">
+              </path>
+              <path
+                d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151a1 1 0 0 1 0-.696a10.75 10.75 0 0 1 4.446-5.143M2 2l20 20">
+              </path>
+            </g>
+          </svg>
+          <svg v-else xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"
+            role="img" viewBox="0 0 24 24" class="iconify iconify--lucide w-5 text-gray-500">
+            <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+              <path
+                d="M2.062 12.348a1 1 0 0 1 0-.696a10.75 10.75 0 0 1 19.876 0a1 1 0 0 1 0 .696a10.75 10.75 0 0 1-19.876 0">
+              </path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </g>
           </svg>
         </div>
         <label for="password" class="text-input-placeholder">
@@ -108,7 +135,7 @@ onBeforeMount(() => {
       <div class="-mt-4">
         <router-link :to="{ name: 'reset-password' }" class="w-full">
           <p class="text-center text-emerald-500 dark:text-emerald-600 underline">{{ $t('forgotPassword')
-            }}</p>
+          }}</p>
         </router-link>
       </div>
       <div v-if="loginStatus" class="text-center text-red-500 mt-3 mb-0 text-sm">{{ loginStatus }}</div>

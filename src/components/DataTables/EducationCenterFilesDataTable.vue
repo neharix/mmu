@@ -4,18 +4,19 @@ import ConfirmModal from "@/components/Modals/ConfirmModal.vue";
 import useConfirmModal from "@/use/useModalWindow.js";
 import TheToast from "@/components/TheToast.vue";
 import useToast from "@/use/useToast.js";
-import { useDataTableStore, useEducationCentersStore, useUsersStore } from "@/stores/api.store.js";
+import { useDataTableStore, useFilesStore, useUsersStore } from "@/stores/api.store.js";
 import { storeToRefs } from "pinia";
 import router from "@/router/index.js";
 import { onClickOutside } from '@vueuse/core';
 import { useRoute } from 'vue-router';
 
 const dataTableStore = useDataTableStore();
+const filesStore = useFilesStore();
 const route = useRoute();
 const { isModalOpen, openModal, header, context } = useConfirmModal();
 const { toasts, addToast } = useToast();
-const educationCentersStore = useEducationCentersStore()
-const { deleteStatus, updateStatus, createStatus } = storeToRefs(educationCentersStore);
+const usersStore = useUsersStore();
+const { deleteStatus, updateStatus, createStatus } = storeToRefs(usersStore);
 
 const props = defineProps({
   data: Array,
@@ -39,7 +40,7 @@ const sortOrder = ref(route.query.order || 'asc');
 const currentPage = ref(Number(route.query.page || 1));
 const rowsPerPage = ref(localStorage.getItem("rowsPerPage") || 10);
 const rowsPerPageOptions = [10, 20, 50, 100, 250, 500];
-const searchQuery = ref('');
+const searchQuery = ref(route.query.search ? route.query.search : "");
 const isSearching = ref(!!route.query.search || false);
 const selectedItems = ref([]);
 
@@ -72,7 +73,7 @@ const checkboxClicked = (id) => {
 }
 
 const applySearch = () => {
-  router.push({ name: 'education-centers-list', query: { ...route.query, search: searchQuery.value.toLowerCase() } }).then(() => {
+  router.push({ name: 'about-education-center', params: { id: route.params.id }, query: { ...route.query, search: searchQuery.value.toLowerCase() } }).then(() => {
     emit('update')
   });
 };
@@ -164,7 +165,6 @@ function submitModal() {
 }
 
 watch(deleteStatus, (newVal, oldVal) => {
-  emit("update");
   if (newVal) {
     if (newVal === 'success') {
       addToast('Ýokary okuw mekdebi üstünlikli ýok edildi', 'success');
@@ -176,20 +176,20 @@ watch(deleteStatus, (newVal, oldVal) => {
 })
 
 watch(currentPage, (newVal) => {
-  router.push({ name: 'education-centers-list', query: { ...route.query, page: newVal } }).then(() => {
+  router.push({ name: 'about-education-center', params: { id: route.params.id }, query: { ...route.query, page: newVal } }).then(() => {
     emit('update')
   });
 })
 watch(sortColumn, (newVal) => {
   setTimeout(() => {
-    router.push({ name: 'education-centers-list', query: { ...route.query, order: sortOrder.value, column: newVal } }).then(() => {
+    router.push({ name: 'about-education-center', params: { id: route.params.id }, query: { ...route.query, order: sortOrder.value, column: newVal } }).then(() => {
       emit('update');
     })
   }, 50)
 })
 
 watch(sortOrder, (newVal) => {
-  router.push({ name: 'education-centers-list', query: { ...route.query, order: newVal, column: sortColumn.value } }).then(() => {
+  router.push({ name: 'about-education-center', params: { id: route.params.id }, query: { ...route.query, order: newVal, column: sortColumn.value } }).then(() => {
     emit('update');
   })
 })
@@ -226,34 +226,10 @@ onMounted(() => {
 
 
 const rowCountDropdown = useTemplateRef('rowCountDropdown');
-const actionsDropdown = useTemplateRef('actionsDropdown');
-
 
 onClickOutside(rowCountDropdown, event => {
   closeMenu();
 });
-
-onClickOutside(actionsDropdown, event => {
-  closeMenu();
-});
-
-
-function getExportFile() {
-  dataTableStore.getExportedFile("profile", selectedItems.value).then(() => {
-    const blob = new Blob([dataTableStore.exportFile], { type: dataTableStore.exportFileContentType })
-    console.log(blob)
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.target = "_blank";
-    link.download = "export.xlsx";
-    link.classList.add('hidden');
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    dataTableStore.resetExportStates();
-  })
-}
 
 
 
@@ -262,11 +238,11 @@ function getExportFile() {
 <template>
   <confirm-modal :is-open="isModalOpen" @close="closeModal" @submit="submitModal" :header="header"
     :context='`\"${context}\" ýok edilmegini tassyklaýarsyňyzmy?`'></confirm-modal>
-  <div class="w-full rounded-lg shadow-lg">
-    <div class="pt-1 rounded-t-lg dark:bg-[#112731] bg-white">
-      <div class="flex items-center justify-between space-x-2 py-3 px-4">
+  <div class="w-full">
+    <div class="pt-1 dark:bg-[#112731] bg-white">
+      <div class="flex items-center justify-between space-x-2 py-3">
         <div class="flex items-center">
-          <div class="dropdown relative inline-block text-left">
+          <div class="dropdown relative inline-block text-left" ref="rowCountDropdown">
             <div>
               <button @click="toggleMenu" type="button"
                 class="inline-flex transition duration-200 ease-in w-full justify-center rounded-md border border-gray-300 dark:border-gray-800 bg-white dark:bg-[#113031] dark:text-gray-200 px-2 md:px-4 py-2 text-[0.75rem] md:text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 dark:hover:bg-[#113031] focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:focus:ring-[#2e5152] focus:ring-offset-2 focus:ring-offset-gray-100 dark:focus:ring-offset-[#2e5152] select-none">
@@ -314,34 +290,11 @@ function getExportFile() {
           </button>
           <input v-model="searchQuery" type="text" @keyup.enter="applySearch" :placeholder="$t('search')"
             class="w-full text-[0.8rem] md:text-sm dark:text-gray-300 transition duration-200 ease-in bg-transparent px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md focus:ring focus:ring-emerald-300 dark:focus:ring-emerald-800 focus:outline-none" />
-          <div class="dropdown relative inline-block text-left" ref="actionsDropdown">
-            <div>
-              <button @click="toggleActionsMenu" type="button"
-                class="inline-flex transition duration-200 ease-in w-full justify-center rounded-md border border-gray-300 dark:border-gray-800 bg-white dark:bg-[#113031] dark:text-gray-200 px-4 py-2 text-[0.75rem] text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 dark:hover:bg-[#113031] focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:focus:ring-[#2e5152] focus:ring-offset-2 focus:ring-offset-gray-100 dark:focus:ring-offset-[#2e5152] select-none">
-                <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" stroke-width="2"
-                  viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7"></path>
-                </svg>
-              </button>
-            </div>
 
-            <transition name="fade-scale" @before-enter="el => (el.style.display = 'block')"
-              @after-leave="el => (el.style.display = 'none')">
-              <div v-show="isActionsOpen"
-                class="absolute right-0 z-10 mt-2 w-96 origin-top-right rounded-md bg-white dark:bg-[#112731] shadow-lg ring-1 ring-gray-300 dark:ring-gray-800 ring-opacity-5">
-                <div class="py-1">
-                  <button @click="getExportFile()"
-                    class="w-full text-start text-gray-700 dark:text-gray-200 block px-4 py-2 text-[0.8rem] md:text-sm hover:bg-gray-100 dark:hover:bg-[#113031] select-none">
-                    {{ $t('exportData') }}
-                  </button>
-                </div>
-              </div>
-            </transition>
-          </div>
         </div>
       </div>
     </div>
-    <div class="w-full overflow-x-auto rounded-b-lg">
+    <div class="w-full overflow-x-auto rounded-lg">
       <table class="w-full min-w-full table-auto bg-white dark:bg-[#112731]">
         <thead class="bg-gray-200 dark:bg-[#113031]">
           <tr>
@@ -376,9 +329,9 @@ function getExportFile() {
             </th>
             <th
               class="transition duration-200 ease-in border-y border-gray-300 dark:border-[#113031] dark:hover:bg-emerald-800 p-3 select-none cursor-pointer hover:bg-gray-300  text-left text-[0.8rem]"
-              @click="sort('students_count')">
-              {{ $t('studentsCount').toUpperCase() }}
-              <span :class="sortColumn === 'students_count' ? (sortOrder === 'asc' ? 'rotate-180' : '') : 'opacity-25'"
+              @click="sort('uploader')">
+              {{ $t('uploader').toUpperCase() }}
+              <span :class="sortColumn === 'uploader' ? (sortOrder === 'asc' ? 'rotate-180' : '') : 'opacity-25'"
                 class="ml-2 transition-transform duration-200 inline-block">
                 ▲
               </span>
@@ -406,56 +359,32 @@ function getExportFile() {
             </td>
             <td class="border-y border-gray-300 dark:border-[#113031] px-4 py-2 break-words text-[0.8rem]">{{
               item.id
-              }}
+            }}
             </td>
             <td class="border-y border-gray-300 dark:border-[#113031] p-2 break-words text-[0.8rem]">{{
               item.name
-              }}
+            }}
             </td>
             <td class="border-y border-gray-300 dark:border-[#113031] p-2 break-words text-[0.8rem]">{{
-              item.students_count
-              }}
+              item.uploader.user.username
+            }}
             </td>
             <td class="border-y border-gray-300 dark:border-[#113031] p-2 break-words text-[0.8rem]">
               <div class="w-full flex items-center justify-center">
                 <div class="inline-flex rounded-md shadow-xs" role="group">
-                  <button type="button" :key="item.id" @click="router.push(`/education-centers/edit/${item.id}`)"
-                    class="px-4 py-2 text-[0.8rem] font-medium bg-emerald-400 hover:bg-emerald-500 transition ease-in hover:ease-out duration-200 text-white dark:bg-emerald-700 border border-gray-200 rounded-s-lg focus:z-10 focus:ring-2 focus:ring-emerald-500 dark:border-gray-700 select-none"
-                    :title="$t('edit')">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5" viewBox="0 0 24 24">
-                      <title />
-                      <g id="Complete">
-                        <g id="edit">
-                          <g>
-                            <path d="M20,16v4a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V6A2,2,0,0,1,4,4H8" fill="none"
-                              stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
-                            <polygon fill="none" points="12.5 15.8 22 6.2 17.8 2 8.3 11.5 8 16 12.5 15.8"
-                              stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
-                          </g>
-                        </g>
-                      </g>
-                    </svg>
-                  </button>
                   <button type="button" :key="item.id"
-                    @click="router.push({ name: 'about-education-center', params: { id: item.id } })"
-                    class="px-4 py-2 text-[0.8rem] font-medium bg-violet-400 hover:bg-violet-500 transition ease-in hover:ease-out duration-200 text-white dark:bg-violet-700 border border-gray-200 focus:z-10 focus:ring-2 focus:ring-violet-500 dark:border-gray-700 select-none"
-                    :title="$t('view')">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5" viewBox="0 0 24 24" fill="none">
-                      <path fill-rule="evenodd" clip-rule="evenodd"
-                        d="M12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9ZM11 12C11 11.4477 11.4477 11 12 11C12.5523 11 13 11.4477 13 12C13 12.5523 12.5523 13 12 13C11.4477 13 11 12.5523 11 12Z"
-                        fill="currentColor" />
-                      <path fill-rule="evenodd" clip-rule="evenodd"
-                        d="M21.83 11.2807C19.542 7.15186 15.8122 5 12 5C8.18777 5 4.45796 7.15186 2.17003 11.2807C1.94637 11.6844 1.94361 12.1821 2.16029 12.5876C4.41183 16.8013 8.1628 19 12 19C15.8372 19 19.5882 16.8013 21.8397 12.5876C22.0564 12.1821 22.0536 11.6844 21.83 11.2807ZM12 17C9.06097 17 6.04052 15.3724 4.09173 11.9487C6.06862 8.59614 9.07319 7 12 7C14.9268 7 17.9314 8.59614 19.9083 11.9487C17.9595 15.3724 14.939 17 12 17Z"
-                        fill="currentColor" />
-                    </svg>
-                  </button>
-                  <button type="button" :key="item.id" @click="educationCentersStore._delete(item.id)"
-                    class="px-4 py-2 text-[0.8rem] font-medium bg-red-400 hover:bg-red-500 transition ease-in hover:ease-out duration-200 text-white dark:bg-pink-900 dark:hover:bg-pink-600 border border-gray-200 rounded-e-lg focus:z-10 focus:ring-2 focus:ring-red-500 dark:border-gray-700 dark:focus:ring-pink-500 select-none"
-                    :title="$t('delete')">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5" viewBox="0 0 24 24" fill="none">
-                      <path
-                        d="M18 6L17.1991 18.0129C17.129 19.065 17.0939 19.5911 16.8667 19.99C16.6666 20.3412 16.3648 20.6235 16.0011 20.7998C15.588 21 15.0607 21 14.0062 21H9.99377C8.93927 21 8.41202 21 7.99889 20.7998C7.63517 20.6235 7.33339 20.3412 7.13332 19.99C6.90607 19.5911 6.871 19.065 6.80086 18.0129L6 6M4 6H20M16 6L15.7294 5.18807C15.4671 4.40125 15.3359 4.00784 15.0927 3.71698C14.8779 3.46013 14.6021 3.26132 14.2905 3.13878C13.9376 3 13.523 3 12.6936 3H11.3064C10.477 3 10.0624 3 9.70951 3.13878C9.39792 3.26132 9.12208 3.46013 8.90729 3.71698C8.66405 4.00784 8.53292 4.40125 8.27064 5.18807L8 6M14 10V17M10 10V17"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    @click="filesStore.downloadFile(item.id, item.name)"
+                    class="rounded-lg px-4 py-2 text-[0.8rem] font-medium bg-violet-400 hover:bg-violet-500 transition ease-in hover:ease-out duration-200 text-white dark:bg-violet-700 border border-gray-200 focus:z-10 focus:ring-2 focus:ring-violet-500 dark:border-gray-700 select-none"
+                    :title="$t('download')">
+                    <div v-if="filesStore.fileId === item.id && filesStore.isDownloading" class="radial-progress" style="--size:1.15rem" :style="`--value:${filesStore.downloadedProgress}`" :aria-valuenow="filesStore.downloadedProgress" role="progressbar"></div>
+                    <svg v-else xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                      aria-hidden="true" role="img" viewBox="0 0 24 24"
+                      class="iconify iconify--lucide w-5">
+                      <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                        stroke-width="2">
+                        <path d="M12 15V3m9 12v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <path d="m7 10l5 5l5-5"></path>
+                      </g>
                     </svg>
                   </button>
                 </div>
