@@ -72,6 +72,14 @@ export const useFilesStore = defineStore("files", () => {
       downloadedProgress.value = 0;
     }
   }
+  async function _delete(id) {
+    try {
+      const response = await axiosInstance.delete(`/files/${id}/`);
+    } catch (e) {
+      console.error("Error", e);
+    }
+  }
+
   return {
     fileId,
     fileSize,
@@ -79,6 +87,7 @@ export const useFilesStore = defineStore("files", () => {
     downloadedSize,
     downloadedProgress,
     downloadFile,
+    _delete,
   };
 });
 
@@ -167,6 +176,19 @@ export const useEducationCentersStore = defineStore("education-centers", () => {
 
   const route = useRoute();
 
+  async function create(data) {
+    try {
+      const response = await axiosInstance.post("/education-centers/", data);
+      if (response.status === 200) {
+        createStatus.value = "success";
+      } else {
+        createStatus.value = "error";
+      }
+    } catch (e) {
+      createStatus.value = "error";
+    }
+  }
+
   async function getAbout(id) {
     try {
       const response = await axiosInstance.get(
@@ -177,7 +199,6 @@ export const useEducationCentersStore = defineStore("education-centers", () => {
       console.error(e);
     }
   }
-
   async function getFiles(id, withoutQueries = false) {
     let order = route.query.order ? route.query.order : "asc";
     let column = route.query.column ? route.query.column : "name";
@@ -226,10 +247,8 @@ export const useEducationCentersStore = defineStore("education-centers", () => {
     }
 
     educationCenterStaff.value = response.data.results.data;
-    console.log(educationCenterStaff.value);
     dataTablePageCount.value = response.data.results.total_pages;
   }
-
   async function getAll() {
     let order = route.query.order ? route.query.order : "asc";
     let column = route.query.column ? route.query.column : "name";
@@ -270,6 +289,7 @@ export const useEducationCentersStore = defineStore("education-centers", () => {
     updateStatus,
     createStatus,
     deleteStatus,
+    create,
     getFiles,
     getStaff,
     getAbout,
@@ -287,12 +307,43 @@ export const useRegionsStore = defineStore("regions", () => {
   const regions = ref([]);
 
   async function getAll() {
-    response = await axiosInstance.get("/regions/");
-    regions.value = response.data;
+    try {
+      const response = await axiosInstance.get("/regions/");
+      regions.value = response.data;
+    } catch (e) {
+      console.error("Error:", e);
+    }
   }
 
   return {
     regions,
+    isLoading,
+    updateStatus,
+    createStatus,
+    deleteStatus,
+    getAll,
+  };
+});
+
+export const useCountriesStore = defineStore("countries", () => {
+  const isLoading = ref(false);
+  const deleteStatus = ref(null);
+  const updateStatus = ref(null);
+  const createStatus = ref(null);
+
+  const countries = ref([]);
+
+  async function getAll() {
+    try {
+      const response = await axiosInstance.get("/countries/");
+      countries.value = response.data;
+    } catch (e) {
+      console.error("Error:", e);
+    }
+  }
+
+  return {
+    countries,
     isLoading,
     updateStatus,
     createStatus,
@@ -366,82 +417,4 @@ export const useDataTableStore = defineStore("data-table", () => {
     getExportedFile,
     resetExportStates,
   };
-});
-
-export const useHighSchoolsStore = defineStore({
-  id: "high-schools",
-  state: () => ({
-    highSchools: [],
-    highSchoolsResponse: [],
-    highSchoolAbout: {},
-    deleteStatus: null,
-    updateStatus: null,
-    createStatus: null,
-    facultyRemoveStatus: null,
-    highSchool: {},
-  }),
-  actions: {
-    async getAll() {
-      try {
-        const response = await axiosInstance.get("/high-schools/");
-        this.highSchoolsResponse = response.data;
-      } catch (error) {
-        console.error("Error", error);
-      }
-    },
-    async getAllAdditional() {
-      try {
-        const response = await axiosInstance.get(
-          "/high-schools-with-additional/"
-        );
-        this.highSchools = response.data;
-      } catch (error) {
-        console.error("Error", error);
-      }
-    },
-    async create(data) {
-      try {
-        const response = await axiosInstance.post("/create-high-school/", data);
-        this.createStatus = "success";
-      } catch (error) {
-        this.createStatus = "error";
-      }
-    },
-    async delete(id) {
-      try {
-        const response = await axiosInstance.delete(`/high-schools/${id}/`);
-        this.deleteStatus = "success";
-      } catch (error) {
-        this.deleteStatus = "error";
-      }
-    },
-    async get(id) {
-      try {
-        const response = await axiosInstance.get(`/high-schools/${id}/`);
-        this.highSchool = response.data;
-      } catch (error) {
-        console.error("Error", error);
-      }
-    },
-    async getAbout(id) {
-      try {
-        const response = await axiosInstance.get(`/high-school-about/${id}/`);
-        this.highSchoolAbout = response.data;
-      } catch (error) {
-        console.error("Error", error);
-      }
-    },
-    async put(id, data) {
-      try {
-        const response = await axiosInstance.put(
-          `/update-high-school/${id}/`,
-          data
-        );
-        this.updateStatus = "success";
-      } catch (error) {
-        console.error("Error", error);
-        this.updateStatus = "error";
-      }
-    },
-  },
 });

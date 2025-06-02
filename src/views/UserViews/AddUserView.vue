@@ -58,16 +58,16 @@ const breadcrumbPaths = [
       v-slot="{ errors, isSubmitting }" class="space-y-4 my-4">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
         <div class="relative">
-          <Field name="username" type="text" id="username" class="peer text-input" :placeholder="$t('username')"
+          <Field name="username" type="text" id="username" class="peer text-input" :placeholder="$t('username') + '*'"
             :class="{ 'is-invalid': errors.username }" />
           <p class="error-message" v-if="!!errors.username">{{ $t(errors.username, { fieldName: $t('username') }) }}</p>
           <label for="username" class="text-input-placeholder">
-            {{ $t('username') }}
+            {{ $t('username') + '*' }}
           </label>
         </div>
         <div class="relative">
-          <Field name="password" type="password" id="password" :placeholder="$t('password')" class="peer text-input"
-            :class="{ 'is-invalid': errors.password }" />
+          <Field name="password" type="password" id="password" :placeholder="$t('password') + '*'"
+            class="peer text-input" :class="{ 'is-invalid': errors.password }" />
           <div class="absolute top-0 right-0 p-4" @click="togglePwdVisibility">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 text-gray-500" viewBox="0 0 24 24" fill="none">
               <path fill-rule="evenodd" clip-rule="evenodd"
@@ -79,21 +79,21 @@ const breadcrumbPaths = [
             </svg>
           </div>
           <label for="password" class="text-input-placeholder">
-            {{ $t('password') }}
+            {{ $t('password') + '*' }}
           </label>
           <p class="error-message" v-if="!!errors.password">{{ $t(errors.password, { fieldName: $t('password') }) }}</p>
         </div>
         <div class="relative col-span-1 md:col-span-2">
-          <Field name="email" type="email" id="email" class="peer text-input" :placeholder="$t('email')"
+          <Field name="email" type="email" id="email" class="peer text-input" :placeholder="$t('email') + '*'"
             :class="{ 'is-invalid': errors.email }" />
           <p class="error-message" v-if="!!errors.email">{{ $t(errors.email, { fieldName: $t('email') }) }}</p>
           <label for="email" class="text-input-placeholder">
-            {{ $t('email') }}
+            {{ $t('email') + '*' }}
           </label>
         </div>
         <div class="relative col-span-1 md:col-span-2">
           <Field name="role" as="select" id="role" class="peer text-input" v-model="selectedRole"
-            :placeholder="$t('role')" :class="{ 'is-invalid': errors.role }">
+            :placeholder="$t('role') + '*'" :class="{ 'is-invalid': errors.role }">
             <option class="option" :value="0">{{ $t('unselected') }}</option>
             <option class="option" v-for="role in roles" :value="role.id">{{
               $t(role.name) }}
@@ -101,7 +101,7 @@ const breadcrumbPaths = [
           </Field>
           <p class="error-message" v-if="!!errors.role">{{ $t(errors.role, { fieldName: $t('role') }) }}</p>
           <label for="role" class="text-input-placeholder">
-            {{ $t('role') }}
+            {{ $t('role') + '*' }}
           </label>
         </div>
         <!-- <div class="relative col-span-1 md:col-span-2">

@@ -21,9 +21,14 @@ export default {
   nationality: "Nationality",
   address: "Address",
   download: "Download",
+  close: "Close",
   // Errors
   selectRequiredError: `"{{fieldName}}" doesn't selected `,
   validateError: '"{{fieldName}}" field is required.',
+  minNumberError:
+    'The value of "{{fieldName}}" must be greater than the minimum value.',
+  numberError: 'The value "{{fieldName}}" must be a number',
+  integerError: 'The value of "{{fieldName}}" must be an integer.',
   emailTypeError: "This field only for email",
   pageForbidden: "Forbidden",
   pageNotFound: "Page not found",
@@ -78,6 +83,10 @@ export default {
   edit: "Edit",
   view: "View",
   delete: "Delete",
+  // Files
+  deleteFileConfirm: "Confirm deletion",
+  deleteFileConfirmDesc:
+    "{{fileName}} will be permanently deleted. Do you confirm?",
   // Routes
   // Users route
   addUser: "Add User",
@@ -96,6 +105,7 @@ export default {
   capacityP: "Capacity (students)",
   booksCount: "Books count",
   uploader: "Uploader",
+  addEducationCenter: "Add Education Center",
   // Forms
   unselected: "Unselected",
   addAccept: "Register",

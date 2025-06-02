@@ -21,9 +21,14 @@ export default {
   nationality: "Национальность",
   address: "Адрес",
   download: "Скачать",
+  close: "Закрыть",
   // Errors
   selectRequiredError: '"{{fieldName}}" не выбран',
   validateError: 'Поле "{{fieldName}}" объязателен.',
+  numberError: 'Значение "{{fieldName}}" должно быть цифрой',
+  integerError: 'Значение "{{fieldName}}" должно быть целым числом.',
+  minNumberError:
+    'Значение "{{fieldName}}" должно больше минимального значение.',
   emailTypeError: "Это поле предназначено для электронной почты",
   pageForbidden: "Отказано в доступе",
   pageNotFound: "Страница не найдена",
@@ -79,6 +84,9 @@ export default {
   edit: "Изменить",
   view: "Посмотреть",
   delete: "Удалить",
+  // Files
+  deleteFileConfirm: "Подтвердите удаление",
+  deleteFileConfirmDesc: "{{fileName}} будет безвозвратно удалён. Уверены?",
   // Routes
   // Users route
   addUser: "Добавить пользователя",
@@ -97,6 +105,7 @@ export default {
   capacityP: "Вместительность (слушатели)",
   booksCount: "Количество книг",
   uploader: "Отправитель",
+  addEducationCenter: "Добавить центр обучения",
   // Forms
   unselected: "Не выбрано",
   addAccept: "Регистрировать",

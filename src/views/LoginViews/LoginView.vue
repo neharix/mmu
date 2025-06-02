@@ -48,9 +48,9 @@ onMounted(() => {
   dashboardStore.clearData();
 })
 
-onBeforeMount(() => {
+onBeforeMount(async () => {
   if (authStore.isAuthenticated) {
-    router.push({ name: 'workspace-view' });
+    await router.push({ name: 'workspace-view' });
   } else {
     try {
       authStore.fetchUser().then(() => {
@@ -135,7 +135,7 @@ onBeforeMount(() => {
       <div class="-mt-4">
         <router-link :to="{ name: 'reset-password' }" class="w-full">
           <p class="text-center text-emerald-500 dark:text-emerald-600 underline">{{ $t('forgotPassword')
-          }}</p>
+            }}</p>
         </router-link>
       </div>
       <div v-if="loginStatus" class="text-center text-red-500 mt-3 mb-0 text-sm">{{ loginStatus }}</div>

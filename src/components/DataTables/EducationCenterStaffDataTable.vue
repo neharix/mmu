@@ -1,18 +1,14 @@
 <script setup>
 import { computed, defineProps, onBeforeMount, onMounted, ref, useTemplateRef, watch } from 'vue';
-import ConfirmModal from "@/components/Modals/ConfirmModal.vue";
-import useConfirmModal from "@/use/useModalWindow.js";
 import TheToast from "@/components/TheToast.vue";
 import useToast from "@/use/useToast.js";
-import { useDataTableStore, useUsersStore } from "@/stores/api.store.js";
+import { useUsersStore } from "@/stores/api.store.js";
 import { storeToRefs } from "pinia";
 import router from "@/router/index.js";
 import { onClickOutside } from '@vueuse/core';
 import { useRoute } from 'vue-router';
 
-const dataTableStore = useDataTableStore();
 const route = useRoute();
-const { isModalOpen, openModal, header, context } = useConfirmModal();
 const { toasts, addToast } = useToast();
 const usersStore = useUsersStore();
 const { deleteStatus, updateStatus, createStatus } = storeToRefs(usersStore);
@@ -235,8 +231,6 @@ onClickOutside(rowCountDropdown, event => {
 </script>
 
 <template>
-  <confirm-modal :is-open="isModalOpen" @close="closeModal" @submit="submitModal" :header="header"
-    :context='`\"${context}\" ýok edilmegini tassyklaýarsyňyzmy?`'></confirm-modal>
   <div class="w-full">
     <div class="pt-1 dark:bg-[#112731] bg-white">
       <div class="flex items-center justify-between space-x-2 py-3">
@@ -383,18 +377,14 @@ onClickOutside(rowCountDropdown, event => {
             <td class="border-y border-gray-300 dark:border-[#113031] p-2 break-words text-[0.8rem]">
               <div class="w-full flex items-center justify-center">
                 <div class="inline-flex rounded-md shadow-xs" role="group">
-                  <button type="button" :key="item.id"
-                    @click="console.log('i', item.id)"
-                    class="rounded-lg px-4 py-2 text-[0.8rem] font-medium bg-violet-400 hover:bg-violet-500 transition ease-in hover:ease-out duration-200 text-white dark:bg-violet-700 border border-gray-200 focus:z-10 focus:ring-2 focus:ring-violet-500 dark:border-gray-700 select-none"
-                    :title="$t('download')">
+                  <button type="button" :key="item.id" @click="console.log('i', item.id)" :title="$t('view')"
+                    class="rounded-lg px-4 py-2 text-[0.8rem] font-medium bg-violet-400 hover:bg-violet-500 transition ease-in hover:ease-out duration-200 text-white dark:bg-violet-700 border border-gray-200 focus:z-10 focus:ring-2 focus:ring-violet-500 dark:border-gray-700 select-none">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                      aria-hidden="true" role="img" viewBox="0 0 24 24"
-                      class="iconify iconify--lucide w-5">
-                      <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                        stroke-width="2">
-                        <path d="M12 15V3m9 12v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                        <path d="m7 10l5 5l5-5"></path>
-                      </g>
+                      aria-hidden="true" role="img" viewBox="0 0 24 24" class="iconify iconify--lucide w-5">
+                      <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                        stroke-width="2"
+                        d="m6 14l1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2">
+                      </path>
                     </svg>
                   </button>
                 </div>

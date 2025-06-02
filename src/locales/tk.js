@@ -21,9 +21,14 @@ export default {
   nationality: "Milleti",
   address: "Salgysy",
   download: "Ýüklemek",
+  close: "Ýapmak",
   // Errors
   selectRequiredError: '"{{fieldName}}" saýlanylmady',
   validateError: '"{{fieldName}}" meýdançasy hökmanydyr.',
+  integerError: '"{{fieldName}}" meýdançasynyň bahasy bitin san bolmaly.',
+  numberError: '"{{fieldName}}" meýdançasynyň bahasy san görnüşinde bolmaly',
+  minNumberError:
+    '"{{fieldName}}" meýdançasynyň bahasy minimal bahadan aşak bolmaly.',
   emailTypeError: "Bu meýdança elektron poçta üçindir",
   pageForbidden: "Rugsat berilmedi",
   pageNotFound: "Sahypa tapylmady",
@@ -78,6 +83,10 @@ export default {
   edit: "Üýtgetmek",
   view: "Görmek",
   delete: "Ýok etmek",
+  // Files
+  deleteFileConfirm: "Ýok etmegi tassyklamak",
+  deleteFileConfirmDesc:
+    "{{fileName}} yza gaýduwsyz ýok ediler. Hereketi tassyklaýarsyňyzmy?",
   // Routes
   // Users route
   addUser: "Ulanyjy goşmak",
@@ -96,6 +105,7 @@ export default {
   capacityP: "Orun sany (diňleýji)",
   booksCount: "Kitap sany",
   uploader: "Ýükleýji",
+  addEducationCenter: "Okuw merkezini goşmak",
   // Forms
   unselected: "Saýlanmadyk",
   addAccept: "Hasaba almak",

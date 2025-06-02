@@ -1,7 +1,5 @@
 <script setup>
 import { computed, defineProps, onBeforeMount, onMounted, ref, useTemplateRef, watch } from 'vue';
-import ConfirmModal from "@/components/Modals/ConfirmModal.vue";
-import useConfirmModal from "@/use/useModalWindow.js";
 import TheToast from "@/components/TheToast.vue";
 import useToast from "@/use/useToast.js";
 import { useDataTableStore, useUsersStore } from "@/stores/api.store.js";
@@ -12,7 +10,6 @@ import { useRoute } from 'vue-router';
 
 const dataTableStore = useDataTableStore();
 const route = useRoute();
-const { isModalOpen, openModal, header, context } = useConfirmModal();
 const { toasts, addToast } = useToast();
 const usersStore = useUsersStore();
 const { deleteStatus, updateStatus, createStatus } = storeToRefs(usersStore);
@@ -125,6 +122,7 @@ const sort = (column) => {
     sortOrder.value = 'asc';
   }
 };
+
 const isOpen = ref(false);
 const isActionsOpen = ref(false);
 
@@ -146,21 +144,6 @@ function closeMenu() {
 function openModalWrapper(headerText, content, id) {
   openModal(headerText, content);
   selectedItem.value = id;
-}
-
-
-function closeModal() {
-  isModalOpen.value = false;
-  selectedItem.value = null;
-}
-
-
-function submitModal() {
-  isModalOpen.value = false;
-  usersStore._delete(selectedItem.value).then(() => {
-    emit('update');
-  });
-  selectedItem.value = null;
 }
 
 watch(deleteStatus, (newVal, oldVal) => {
@@ -255,13 +238,10 @@ function getExportFile() {
 }
 
 
-window.addEventListener("click", onClickOutside);
 
 </script>
 
 <template>
-  <confirm-modal :is-open="isModalOpen" @close="closeModal" @submit="submitModal" :header="header"
-    :context='`\"${context}\" ýok edilmegini tassyklaýarsyňyzmy?`'></confirm-modal>
   <div class="w-full rounded-lg shadow-lg">
     <div class="pt-1  rounded-t-lg dark:bg-[#112731] bg-white">
       <div class="flex items-center justify-between space-x-2 py-3 px-4">
@@ -433,9 +413,8 @@ window.addEventListener("click", onClickOutside);
                 <div class="inline-flex rounded-md shadow-xs" role="group">
                   <button type="button" :key="item.id" @click="router.push(`/high-schools/edit/${item.id}`)"
                     class="px-4 py-2 text-[0.8rem] font-medium bg-emerald-400 hover:bg-emerald-500 transition ease-in hover:ease-out duration-200 text-white dark:bg-emerald-700 border border-gray-200 rounded-s-lg focus:z-10 focus:ring-2 focus:ring-emerald-500 dark:border-gray-700 select-none"
-                    title="Üýtgetmek">
+                    :title="$t('edit')">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5" viewBox="0 0 24 24">
-                      <title />
                       <g id="Complete">
                         <g id="edit">
                           <g>
@@ -450,14 +429,13 @@ window.addEventListener("click", onClickOutside);
                   </button>
                   <button type="button" :key="item.id" @click="router.push(`/high-schools/view/${item.id}`)"
                     class="px-4 py-2 text-[0.8rem] font-medium bg-violet-400 hover:bg-violet-500 transition ease-in hover:ease-out duration-200 text-white dark:bg-violet-700 border border-gray-200 focus:z-10 focus:ring-2 focus:ring-violet-500 dark:border-gray-700 select-none"
-                    title="Görmek">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5" viewBox="0 0 24 24" fill="none">
-                      <path fill-rule="evenodd" clip-rule="evenodd"
-                        d="M12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9ZM11 12C11 11.4477 11.4477 11 12 11C12.5523 11 13 11.4477 13 12C13 12.5523 12.5523 13 12 13C11.4477 13 11 12.5523 11 12Z"
-                        fill="currentColor" />
-                      <path fill-rule="evenodd" clip-rule="evenodd"
-                        d="M21.83 11.2807C19.542 7.15186 15.8122 5 12 5C8.18777 5 4.45796 7.15186 2.17003 11.2807C1.94637 11.6844 1.94361 12.1821 2.16029 12.5876C4.41183 16.8013 8.1628 19 12 19C15.8372 19 19.5882 16.8013 21.8397 12.5876C22.0564 12.1821 22.0536 11.6844 21.83 11.2807ZM12 17C9.06097 17 6.04052 15.3724 4.09173 11.9487C6.06862 8.59614 9.07319 7 12 7C14.9268 7 17.9314 8.59614 19.9083 11.9487C17.9595 15.3724 14.939 17 12 17Z"
-                        fill="currentColor" />
+                    :title="$t('view')">
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                      aria-hidden="true" role="img" viewBox="0 0 24 24" class="iconify iconify--lucide w-5">
+                      <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                        stroke-width="2"
+                        d="m6 14l1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2">
+                      </path>
                     </svg>
                   </button>
                   <button type="button" :key="item.id" @click="openModalWrapper('Ýok etmek', item.name, item.id)"

@@ -1,6 +1,5 @@
 <script setup>
 import { computed, defineProps, onBeforeMount, onMounted, ref, useTemplateRef, watch } from 'vue';
-import ConfirmModal from "@/components/Modals/ConfirmModal.vue";
 import useConfirmModal from "@/use/useModalWindow.js";
 import TheToast from "@/components/TheToast.vue";
 import useToast from "@/use/useToast.js";
@@ -9,6 +8,8 @@ import { storeToRefs } from "pinia";
 import router from "@/router/index.js";
 import { onClickOutside } from '@vueuse/core';
 import { useRoute } from 'vue-router';
+import ConfirmModal from '../Modals/ConfirmModal.vue';
+
 
 const dataTableStore = useDataTableStore();
 const filesStore = useFilesStore();
@@ -231,13 +232,34 @@ onClickOutside(rowCountDropdown, event => {
   closeMenu();
 });
 
+const selectedFile = ref({ name: '<none>' });
+
+const deleteModal = useTemplateRef('deleteModal');
+
+function showDeleteModal(item) {
+  selectedFile.value = item;
+  deleteModal.value.openModal();
+}
+
+async function deleteFile() {
+  console.log('delete', selectedFile.value.name);
+  await filesStore._delete(selectedFile.value.id);
+  emit('update');
+}
 
 
 </script>
 
 <template>
-  <confirm-modal :is-open="isModalOpen" @close="closeModal" @submit="submitModal" :header="header"
-    :context='`\"${context}\" ýok edilmegini tassyklaýarsyňyzmy?`'></confirm-modal>
+  <confirm-modal ref="deleteModal" @confirm="deleteFile">
+    <template #header>
+      {{ $t('deleteFileConfirm') }}
+    </template>
+    <template #default>
+      {{ $t('deleteFileConfirmDesc', { fileName: selectedFile.name }) }}
+    </template>
+
+  </confirm-modal>
   <div class="w-full">
     <div class="pt-1 dark:bg-[#112731] bg-white">
       <div class="flex items-center justify-between space-x-2 py-3">
@@ -359,32 +381,43 @@ onClickOutside(rowCountDropdown, event => {
             </td>
             <td class="border-y border-gray-300 dark:border-[#113031] px-4 py-2 break-words text-[0.8rem]">{{
               item.id
-            }}
+              }}
             </td>
             <td class="border-y border-gray-300 dark:border-[#113031] p-2 break-words text-[0.8rem]">{{
               item.name
-            }}
+              }}
             </td>
             <td class="border-y border-gray-300 dark:border-[#113031] p-2 break-words text-[0.8rem]">{{
               item.uploader.user.username
-            }}
+              }}
             </td>
             <td class="border-y border-gray-300 dark:border-[#113031] p-2 break-words text-[0.8rem]">
               <div class="w-full flex items-center justify-center">
                 <div class="inline-flex rounded-md shadow-xs" role="group">
-                  <button type="button" :key="item.id"
-                    @click="filesStore.downloadFile(item.id, item.name)"
-                    class="rounded-lg px-4 py-2 text-[0.8rem] font-medium bg-violet-400 hover:bg-violet-500 transition ease-in hover:ease-out duration-200 text-white dark:bg-violet-700 border border-gray-200 focus:z-10 focus:ring-2 focus:ring-violet-500 dark:border-gray-700 select-none"
+                  <button type="button" :key="item.id" @click="filesStore.downloadFile(item.id, item.name)"
+                    class="rounded-l-lg px-4 py-2 text-[0.8rem] font-medium bg-violet-400 hover:bg-violet-500 transition ease-in hover:ease-out duration-200 text-white dark:bg-violet-700 border border-gray-200 focus:z-10 focus:ring-2 focus:ring-violet-500 dark:border-gray-700 select-none"
                     :title="$t('download')">
-                    <div v-if="filesStore.fileId === item.id && filesStore.isDownloading" class="radial-progress" style="--size:1.15rem" :style="`--value:${filesStore.downloadedProgress}`" :aria-valuenow="filesStore.downloadedProgress" role="progressbar"></div>
+                    <div v-if="filesStore.fileId === item.id && filesStore.isDownloading" class="radial-progress"
+                      style="--size:1.15rem" :style="`--value:${filesStore.downloadedProgress}`"
+                      :aria-valuenow="filesStore.downloadedProgress" role="progressbar"></div>
                     <svg v-else xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                      aria-hidden="true" role="img" viewBox="0 0 24 24"
-                      class="iconify iconify--lucide w-5">
+                      aria-hidden="true" role="img" viewBox="0 0 24 24" class="iconify iconify--lucide w-5">
                       <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                         stroke-width="2">
                         <path d="M12 15V3m9 12v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                         <path d="m7 10l5 5l5-5"></path>
                       </g>
+                    </svg>
+                  </button>
+                  <button type="button" :key="item.id" @click="showDeleteModal(item)"
+                    class="rounded-r-lg px-4 py-2 text-[0.8rem] font-medium bg-red-400 hover:bg-red-500 transition ease-in hover:ease-out duration-200 text-white dark:bg-red-600 border border-gray-200 focus:z-10 focus:ring-2 focus:ring-red-500 dark:border-gray-700 select-none"
+                    :title="$t('delete')">
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                      aria-hidden="true" role="img" viewBox="0 0 24 24" class="iconify iconify--lucide w-5">
+                      <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M3 6h18m-2 0v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6m3 0V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2m-6 5v6m4-6v6">
+                      </path>
                     </svg>
                   </button>
                 </div>
