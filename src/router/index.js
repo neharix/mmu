@@ -79,6 +79,11 @@ const router = createRouter({
           },
           beforeEnter: guards.authGuard,
         },
+        // {
+        //   path: "importer/:model",
+        //   name: "importer",
+        //   component: () => import("../views/SpecialViews/ImporterView.vue"),
+        // },
         {
           path: "education-centers",
           name: "education-centers",
@@ -118,12 +123,12 @@ const router = createRouter({
             },
             {
               path: "edit/:id",
-              name: "edit-high-school",
+              name: "edit-education-center",
               component: () =>
                 import("../views/EducationCenterViews/EditEducationCenter.vue"),
               meta: {
                 layout: "MainLayout",
-                title: "Ýokary okuw mekdebi üýtgetmek",
+                title: "editEducationCenter",
                 authRequired: true,
               },
               beforeEnter: guards.authGuard,

@@ -80,6 +80,11 @@ export default {
   rowCount: "Row count",
   tools: "Tools",
   exportData: "Export selected elements",
+  deleteData: "Delete selected elements",
+  deleteConfirmDesc:
+    "Selected element will be permanently deleted. Do you confirm?",
+  deleteSelectedConfirmDesc:
+    "Selected elements will be permanently deleted. Do you confirm?",
   edit: "Edit",
   view: "View",
   delete: "Delete",
@@ -106,6 +111,7 @@ export default {
   booksCount: "Books count",
   uploader: "Uploader",
   addEducationCenter: "Add Education Center",
+  editEducationCenter: "Edit Education Center",
   // Forms
   unselected: "Unselected",
   addAccept: "Register",

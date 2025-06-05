@@ -80,6 +80,11 @@ export default {
   rowCount: "Setir sany",
   tools: "Gurallar",
   exportData: "Saýlanan elementleri eksportirlemek",
+  deleteData: "Saýlanan elementleri ýok etmek",
+  deleteConfirmDesc:
+    "Saýlanan element yza gaýduwsyz ýok ediler. Hereketi tassyklaýarsyňyzmy?",
+  deleteSelectedConfirmDesc:
+    "Saýlanan elementler yza gaýduwsyz ýok ediler. Hereketi tassyklaýarsyňyzmy?",
   edit: "Üýtgetmek",
   view: "Görmek",
   delete: "Ýok etmek",
@@ -106,6 +111,7 @@ export default {
   booksCount: "Kitap sany",
   uploader: "Ýükleýji",
   addEducationCenter: "Okuw merkezini goşmak",
+  editEducationCenter: "Okuw merkezini üýtgetmek",
   // Forms
   unselected: "Saýlanmadyk",
   addAccept: "Hasaba almak",

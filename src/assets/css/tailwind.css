@@ -19,6 +19,10 @@
   @apply absolute left-4 top-2 text-gray-500 text-sm peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 dark:peer-placeholder-shown:text-gray-500 peer-focus:top-2 peer-focus:text-sm peer-focus:text-emerald-600 transition-all ease-out duration-300 select-none;
 }
 
+.file-uploader {
+  @apply w-full file-input file-input-ghost p-1 ring-0 focus:ring-0 active:ring-0 focus:ring-offset-0 active:ring-offset-0 border active:border focus:border focus:outline-0 border-gray-300 dark:border-gray-500 active:border-emerald-300 focus:border-emerald-300 bg-gray-100 dark:bg-gray-700/50 active:bg-gray-100/70 focus:bg-gray-100/70 dark:active:bg-gray-800/50 dark:focus:bg-gray-800/50 text-gray-800 focus:text-gray-800 active:text-gray-800 dark:text-gray-100 dark:focus:text-gray-100 dark:active:text-gray-100 file:bg-white file:text-black file:border-0 file:inset-shadow-[0] file:rounded-lg dark:file:bg-gray-600 dark:file:text-white rounded-lg;
+}
+
 .link {
   @apply flex items-center space-x-2 text-sm px-4 py-2 my-2 rounded-lg select-none no-underline;
 }
@@ -37,6 +41,10 @@
 
 .btn-primary {
   @apply py-2 select-none text-nowrap px-3 my-2 text-[0.7rem] md:text-sm rounded-lg shadow-md bg-emerald-500 dark:bg-emerald-900 text-white ring-0 ring-emerald-200 dark:ring-emerald-800 active:ring-4 duration-100 ease-in active:scale-95;
+}
+
+.btn-danger {
+  @apply py-2 select-none text-nowrap px-3 my-2 text-[0.7rem] md:text-sm rounded-lg shadow-md bg-red-500 dark:bg-red-900 dark:active:bg-red-700 text-white ring-0 ring-red-200 dark:ring-red-500/25 active:ring-4 duration-100 ease-in active:scale-95;
 }
 
 .option {

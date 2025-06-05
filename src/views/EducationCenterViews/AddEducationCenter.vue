@@ -87,7 +87,7 @@ const breadcrumbPaths = [
         </div>
         <div class="relative col-span-1 md:col-span-2">
           <Field name="address" type="text" as="textarea" id="address" class="peer text-input"
-            :placeholder="$t('address') + '*'" :class="{ 'is-invalid': errors.address }" />
+            :placeholder="$t('address') + '*'" :class="{ 'is-invalid': errors.address }" rows="1" />
           <p class="error-message" v-if="!!errors.address">{{ $t(errors.address, {
             fieldName:
               $t('address')
@@ -197,7 +197,7 @@ const breadcrumbPaths = [
       </div>
       <div v-if="errors.apiError" class="text-center text-red-500 mt-3 mb-0 text-sm select-none">{{
         errors.apiError
-        }}
+      }}
       </div>
     </Form>
   </div>

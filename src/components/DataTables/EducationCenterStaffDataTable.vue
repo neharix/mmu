@@ -235,26 +235,21 @@ onClickOutside(rowCountDropdown, event => {
     <div class="pt-1 dark:bg-[#112731] bg-white">
       <div class="flex items-center justify-between space-x-2 py-3">
         <div class="flex items-center">
-          <div class="dropdown relative inline-block text-left" ref="rowCountDropdown">
-            <div>
-              <button @click="toggleMenu" type="button"
-                class="inline-flex transition duration-200 ease-in w-full justify-center rounded-md border border-gray-300 dark:border-gray-800 bg-white dark:bg-[#113031] dark:text-gray-200 px-2 md:px-4 py-2 text-[0.75rem] md:text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 dark:hover:bg-[#113031] focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:focus:ring-[#2e5152] focus:ring-offset-2 focus:ring-offset-gray-100 dark:focus:ring-offset-[#2e5152] select-none">
-                {{ $t('rowCount') }}: {{ rowsPerPage }}
-              </button>
+          <div class="dropdown">
+            <div tabindex="0" role="button"
+              class="inline-flex text-center transition duration-200 ease-in w-full justify-center rounded-md border border-gray-300 dark:border-gray-800 bg-white dark:bg-[#113031] dark:text-gray-200 px-4 py-2 text-[0.75rem] text-sm font-medium text-gray-700 shadow-sm dark:hover:bg-[#113031] focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:focus:ring-[#2e5152] focus:ring-offset-2 focus:ring-offset-gray-100 dark:focus:ring-offset-[#2e5152] select-none">
+              {{ $t('rowCount') }}: {{ rowsPerPage }}
             </div>
-            <transition name="fade-scale" @before-enter="el => (el.style.display = 'block')"
-              @after-leave="el => (el.style.display = 'none')">
-              <div v-show="isOpen"
-                class="absolute left-0 z-10 mt-2 w-36 origin-top-left rounded-md bg-white dark:bg-[#112731] shadow-lg ring-1 ring-gray-300 dark:ring-gray-800 ring-opacity-5">
-                <div class="py-1">
-                  <button v-for="option in rowsPerPageOptions" :key="option" :value="option"
-                    @click="changeRowsPerPage(option)"
-                    class="w-full text-start text-gray-700 dark:text-gray-200 block px-4 py-2 md:text-sm text-[0.75rem] hover:bg-gray-100 dark:hover:bg-[#113031] select-none">
-                    {{ option }} {{ $t('rows') }}
-                  </button>
-                </div>
-              </div>
-            </transition>
+            <ul tabindex="0"
+              class="dropdown-content menu border border-white/10 bg-mbg dark:bg-mdbg rounded-box z-1 w-36 p-2 shadow-sm">
+              <li>
+                <button v-for="option in rowsPerPageOptions" :key="option" :value="option"
+                  @click="changeRowsPerPage(option)"
+                  class="w-full text-start text-gray-700 active:bg-gray-50 dark:active:bg-[#113031] dark:text-gray-200 block px-4 py-2 md:text-sm text-[0.75rem] hover:bg-gray-100 dark:hover:bg-[#113031] select-none">
+                  {{ option }} {{ $t('rows') }}
+                </button>
+              </li>
+            </ul>
           </div>
         </div>
         <div class="lg:w-1/3 flex items-center space-x-2">

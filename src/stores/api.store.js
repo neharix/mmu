@@ -169,6 +169,7 @@ export const useEducationCentersStore = defineStore("education-centers", () => {
   const updateStatus = ref(null);
   const createStatus = ref(null);
 
+  const educationCenter = ref({});
   const aboutEducationCenter = ref({});
   const educationCenters = ref([]);
   const educationCenterFiles = ref([]);
@@ -189,6 +190,33 @@ export const useEducationCentersStore = defineStore("education-centers", () => {
     }
   }
 
+  async function put(id, data) {
+    try {
+      const response = await axiosInstance.put(
+        `/education-centers/${id}/`,
+        data
+      );
+      if (response.status === 200) {
+        updateStatus.value = "success";
+      } else {
+        updateStatus.value = "error";
+      }
+    } catch (e) {
+      updateStatus.value = "error";
+    }
+  }
+
+  async function get(id) {
+    isLoading.value = true;
+    try {
+      const response = await axiosInstance.get(`/education-centers/${id}/`);
+      educationCenter.value = response.data;
+    } catch (e) {
+      console.error(e);
+    } finally {
+      isLoading.value = false;
+    }
+  }
   async function getAbout(id) {
     try {
       const response = await axiosInstance.get(
@@ -280,6 +308,7 @@ export const useEducationCentersStore = defineStore("education-centers", () => {
   }
 
   return {
+    educationCenter,
     educationCenters,
     educationCenterFiles,
     educationCenterStaff,
@@ -289,6 +318,8 @@ export const useEducationCentersStore = defineStore("education-centers", () => {
     updateStatus,
     createStatus,
     deleteStatus,
+    get,
+    put,
     create,
     getFiles,
     getStaff,
@@ -381,12 +412,20 @@ export const useSpecialFunctionsStore = defineStore("special-functions", () => {
 
 export const useDataTableStore = defineStore("data-table", () => {
   const isExporterLoading = ref(false);
-  const exportFile = ref(null);
-  const exportFileContentType = ref(null);
+  const isDeleting = ref(false);
 
-  function resetExportStates() {
-    exportFile.value = null;
-    exportFileContentType.value = null;
+  async function deleteSelectedItems(model, identificators) {
+    isDeleting.value = true;
+    try {
+      const response = await axiosInstance.post("/delete/", {
+        model,
+        identificators,
+      });
+    } catch (e) {
+      console.error("Error:", e);
+    } finally {
+      isDeleting.value = false;
+    }
   }
 
   async function getExportedFile(model, identificators) {
@@ -402,8 +441,19 @@ export const useDataTableStore = defineStore("data-table", () => {
           responseType: "blob",
         }
       );
-      exportFile.value = response.data;
-      exportFileContentType.value = response.headers["Content-Type"];
+      const blob = new Blob([response.data], {
+        type: response.headers["Content-Type"],
+      });
+      console.log(blob);
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.target = "_blank";
+      link.download = `export-${model}.xlsx`;
+      link.classList.add("hidden");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     } catch (error) {
       console.error("Error", error);
     } finally {
@@ -412,9 +462,9 @@ export const useDataTableStore = defineStore("data-table", () => {
   }
 
   return {
-    exportFile,
-    exportFileContentType,
+    isExporterLoading,
+    isDeleting,
+    deleteSelectedItems,
     getExportedFile,
-    resetExportStates,
   };
 });

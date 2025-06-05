@@ -81,6 +81,10 @@ export default {
   rowCount: "Количество строк",
   tools: "Инструменты",
   exportData: "Экспортировать выбранные элементы",
+  deleteData: "Удалить выбранные элементы",
+  deleteConfirmDesc: "Выбранный элемент будут безвозвратно удалены. Уверены?",
+  deleteSelectedConfirmDesc:
+    "Выбранные элементы будут безвозвратно удалены. Уверены?",
   edit: "Изменить",
   view: "Посмотреть",
   delete: "Удалить",
@@ -106,6 +110,7 @@ export default {
   booksCount: "Количество книг",
   uploader: "Отправитель",
   addEducationCenter: "Добавить центр обучения",
+  editEducationCenter: "Изменить центр обучения",
   // Forms
   unselected: "Не выбрано",
   addAccept: "Регистрировать",

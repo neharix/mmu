@@ -1,22 +1,3 @@
-<template>
-  <teleport to="#modals">
-  <div class="modal" :class="{ 'modal-open': isOpen }">
-    <div class="modal-box bg-mbg dark:bg-mdbg select-none">
-      <h3 class="font-bold text-lg text-black dark:text-white">
-        <slot name="header" />
-      </h3>
-      <div class="text-gray-800 dark:text-gray-200 my-2">
-        <slot name="default"></slot>
-      </div>
-      <div class="modal-action">
-        <button class="btn-primary" @click="close">{{ $t('close') }}</button>
-        <button class="btn-primary" @click="confirm">{{ $t('confirm') }}</button>
-      </div>
-    </div>
-  </div>
-  </teleport>
-</template>
-
 <script setup>
 import { ref } from 'vue';
 
@@ -36,10 +17,29 @@ const confirm = () => {
 
 const close = () => {
   isOpen.value = false;
-  
+
 };
 
 defineExpose({
   openModal,
 });
 </script>
+
+<template>
+  <teleport to="#modals">
+    <div class="modal" :class="{ 'modal-open': isOpen }">
+      <div class="modal-box bg-mbg dark:bg-mdbg select-none">
+        <h3 class="font-bold text-lg text-black dark:text-white">
+          <slot name="header" />
+        </h3>
+        <div class="text-gray-800 dark:text-gray-200 my-2">
+          <slot name="default"></slot>
+        </div>
+        <div class="modal-action">
+          <button class="btn-danger" @click="close">{{ $t('close') }}</button>
+          <button class="btn-primary" @click="confirm">{{ $t('confirm') }}</button>
+        </div>
+      </div>
+    </div>
+  </teleport>
+</template>

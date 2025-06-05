@@ -2,10 +2,10 @@
 import { computed, defineProps, onBeforeMount, onMounted, ref, useTemplateRef, watch } from 'vue';
 import TheToast from "@/components/TheToast.vue";
 import useToast from "@/use/useToast.js";
-import { useDataTableStore, useEducationCentersStore, useUsersStore } from "@/stores/api.store.js";
+import { useDataTableStore, useEducationCentersStore } from "@/stores/api.store.js";
 import { storeToRefs } from "pinia";
 import router from "@/router/index.js";
-import { onClickOutside } from '@vueuse/core';
+import ConfirmModal from '../Modals/ConfirmModal.vue';
 import { useRoute } from 'vue-router';
 
 const dataTableStore = useDataTableStore();
@@ -123,42 +123,7 @@ const sort = (column) => {
   }
 };
 const isOpen = ref(false);
-const isActionsOpen = ref(false);
 
-function toggleMenu() {
-  isOpen.value = !isOpen.value;
-}
-
-function toggleActionsMenu() {
-  isActionsOpen.value = !isActionsOpen.value;
-}
-
-
-function closeMenu() {
-  isOpen.value = false;
-  isActionsOpen.value = false;
-}
-
-
-function openModalWrapper(headerText, content, id) {
-  openModal(headerText, content);
-  selectedItem.value = id;
-}
-
-
-function closeModal() {
-  isModalOpen.value = false;
-  selectedItem.value = null;
-}
-
-
-function submitModal() {
-  isModalOpen.value = false;
-  usersStore._delete(selectedItem.value).then(() => {
-    emit('update');
-  });
-  selectedItem.value = null;
-}
 
 watch(deleteStatus, (newVal, oldVal) => {
   emit("update");
@@ -222,65 +187,61 @@ onMounted(() => {
 })
 
 
-const rowCountDropdown = useTemplateRef('rowCountDropdown');
-const actionsDropdown = useTemplateRef('actionsDropdown');
+const deleteModal = useTemplateRef('deleteModal');
+const deleteSelectedModal = useTemplateRef('deleteSelectedModal');
 
-
-onClickOutside(rowCountDropdown, event => {
-  closeMenu();
-});
-
-onClickOutside(actionsDropdown, event => {
-  closeMenu();
-});
-
-
-function getExportFile() {
-  dataTableStore.getExportedFile("profile", selectedItems.value).then(() => {
-    const blob = new Blob([dataTableStore.exportFile], { type: dataTableStore.exportFileContentType })
-    console.log(blob)
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.target = "_blank";
-    link.download = "export.xlsx";
-    link.classList.add('hidden');
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    dataTableStore.resetExportStates();
-  })
+function deleteItemConfirm(id) {
+  selectedItem.value = id;
+  deleteModal.value.openModal();
 }
 
+async function deleteItem() {
+  await educationCentersStore._delete(selectedItem.value);
+  emit('update')
+}
 
-
+async function deleteItems(model, identificators) {
+  await dataTableStore.deleteSelectedItems(model, identificators);
+  emit('update');
+}
 </script>
 
 <template>
+  <confirm-modal ref="deleteModal" @confirm="deleteItem()">
+    <template #header>
+      {{ $t('confirm') }}
+    </template>
+    <template #default>
+      {{ $t('deleteConfirmDesc') }}
+    </template>
+  </confirm-modal>
+  <confirm-modal ref="deleteSelectedModal" @confirm="deleteItems('education-center', selectedItems)">
+    <template #header>
+      {{ $t('confirm') }}
+    </template>
+    <template #default>
+      {{ $t('deleteSelectedConfirmDesc') }}
+    </template>
+  </confirm-modal>
   <div class="w-full rounded-lg shadow-lg">
     <div class="pt-1 rounded-t-lg dark:bg-[#112731] bg-white">
       <div class="flex items-center justify-between space-x-2 py-3 px-4">
         <div class="flex items-center">
-          <div class="dropdown relative inline-block text-left">
-            <div>
-              <button @click="toggleMenu" type="button"
-                class="inline-flex transition duration-200 ease-in w-full justify-center rounded-md border border-gray-300 dark:border-gray-800 bg-white dark:bg-[#113031] dark:text-gray-200 px-2 md:px-4 py-2 text-[0.75rem] md:text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 dark:hover:bg-[#113031] focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:focus:ring-[#2e5152] focus:ring-offset-2 focus:ring-offset-gray-100 dark:focus:ring-offset-[#2e5152] select-none">
-                {{ $t('rowCount') }}: {{ rowsPerPage }}
-              </button>
+          <div class="dropdown">
+            <div tabindex="0" role="button"
+              class="inline-flex text-center transition duration-200 ease-in w-full justify-center rounded-md border border-gray-300 dark:border-gray-800 bg-white dark:bg-[#113031] dark:text-gray-200 px-4 py-2 text-[0.75rem] text-sm font-medium text-gray-700 shadow-sm dark:hover:bg-[#113031] focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:focus:ring-[#2e5152] focus:ring-offset-2 focus:ring-offset-gray-100 dark:focus:ring-offset-[#2e5152] select-none">
+              {{ $t('rowCount') }}: {{ rowsPerPage }}
             </div>
-            <transition name="fade-scale" @before-enter="el => (el.style.display = 'block')"
-              @after-leave="el => (el.style.display = 'none')">
-              <div v-show="isOpen"
-                class="absolute left-0 z-10 mt-2 w-36 origin-top-left rounded-md bg-white dark:bg-[#112731] shadow-lg ring-1 ring-gray-300 dark:ring-gray-800 ring-opacity-5">
-                <div class="py-1">
-                  <button v-for="option in rowsPerPageOptions" :key="option" :value="option"
-                    @click="changeRowsPerPage(option)"
-                    class="w-full text-start text-gray-700 dark:text-gray-200 block px-4 py-2 md:text-sm text-[0.75rem] hover:bg-gray-100 dark:hover:bg-[#113031] select-none">
-                    {{ option }} {{ $t('rows') }}
-                  </button>
-                </div>
-              </div>
-            </transition>
+            <ul tabindex="0"
+              class="dropdown-content menu border border-white/10 bg-mbg dark:bg-mdbg rounded-box z-1 w-36 p-2 shadow-sm">
+              <li>
+                <button v-for="option in rowsPerPageOptions" :key="option" :value="option"
+                  @click="changeRowsPerPage(option)"
+                  class="w-full text-start text-gray-700 active:bg-gray-50 dark:active:bg-[#113031] dark:text-gray-200 block px-4 py-2 md:text-sm text-[0.75rem] hover:bg-gray-100 dark:hover:bg-[#113031] select-none">
+                  {{ option }} {{ $t('rows') }}
+                </button>
+              </li>
+            </ul>
           </div>
         </div>
         <div class="lg:w-1/3 flex items-center space-x-2">
@@ -309,29 +270,29 @@ function getExportFile() {
           </button>
           <input v-model="searchQuery" type="text" @keyup.enter="applySearch" :placeholder="$t('search')"
             class="w-full text-[0.8rem] md:text-sm dark:text-gray-300 transition duration-200 ease-in bg-transparent px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md focus:ring focus:ring-emerald-300 dark:focus:ring-emerald-800 focus:outline-none" />
-          <div class="dropdown relative inline-block text-left" ref="actionsDropdown">
-            <div>
-              <button @click="toggleActionsMenu" type="button"
-                class="inline-flex transition duration-200 ease-in w-full justify-center rounded-md border border-gray-300 dark:border-gray-800 bg-white dark:bg-[#113031] dark:text-gray-200 px-4 py-2 text-[0.75rem] text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 dark:hover:bg-[#113031] focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:focus:ring-[#2e5152] focus:ring-offset-2 focus:ring-offset-gray-100 dark:focus:ring-offset-[#2e5152] select-none">
-                <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" stroke-width="2"
-                  viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7"></path>
-                </svg>
-              </button>
+          <div class="dropdown dropdown-end">
+            <div tabindex="0" role="button"
+              class="inline-flex transition duration-200 ease-in w-full justify-center rounded-md border border-gray-300 dark:border-gray-800 bg-white dark:bg-[#113031] dark:text-gray-200 px-4 py-2 text-[0.75rem] text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 dark:hover:bg-[#113031] focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:focus:ring-[#2e5152] focus:ring-offset-2 focus:ring-offset-gray-100 dark:focus:ring-offset-[#2e5152] select-none">
+              <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7"></path>
+              </svg>
             </div>
-
-            <transition name="fade-scale" @before-enter="el => (el.style.display = 'block')"
-              @after-leave="el => (el.style.display = 'none')">
-              <div v-show="isActionsOpen"
-                class="absolute right-0 z-10 mt-2 w-96 origin-top-right rounded-md bg-white dark:bg-[#112731] shadow-lg ring-1 ring-gray-300 dark:ring-gray-800 ring-opacity-5">
-                <div class="py-1">
-                  <button @click="getExportFile()"
-                    class="w-full text-start text-gray-700 dark:text-gray-200 block px-4 py-2 text-[0.8rem] md:text-sm hover:bg-gray-100 dark:hover:bg-[#113031] select-none">
-                    {{ $t('exportData') }}
-                  </button>
-                </div>
-              </div>
-            </transition>
+            <ul tabindex="0"
+              class="dropdown-content menu border border-white/10 bg-mbg dark:bg-mdbg rounded-box z-1 w-48 lg:w-96 p-2 shadow-sm">
+              <li>
+                <button @click="dataTableStore.getExportedFile('education-center', selectedItems)"
+                  class="w-full text-start text-gray-700 dark:text-gray-200 block px-4 py-2 text-[0.8rem] md:text-sm hover:bg-gray-100 dark:hover:bg-[#113031] select-none">
+                  {{ $t('exportData') }}
+                </button>
+              </li>
+              <li>
+                <button @click="deleteSelectedModal.openModal()"
+                  class="w-full text-start text-gray-700 dark:text-gray-200 block px-4 py-2 text-[0.8rem] md:text-sm hover:bg-gray-100 dark:hover:bg-[#113031] select-none">
+                  {{ $t('deleteData') }}
+                </button>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
@@ -414,7 +375,8 @@ function getExportFile() {
             <td class="border-y border-gray-300 dark:border-[#113031] p-2 break-words text-[0.8rem]">
               <div class="w-full flex items-center justify-center">
                 <div class="inline-flex rounded-md shadow-xs" role="group">
-                  <button type="button" :key="item.id" @click="router.push(`/education-centers/edit/${item.id}`)"
+                  <button type="button" :key="item.id"
+                    @click="router.push({ name: 'edit-education-center', params: { id: item.id } })"
                     class="px-4 py-2 text-[0.8rem] font-medium bg-emerald-400 hover:bg-emerald-500 transition ease-in hover:ease-out duration-200 text-white dark:bg-emerald-700 border border-gray-200 rounded-s-lg focus:z-10 focus:ring-2 focus:ring-emerald-500 dark:border-gray-700 select-none"
                     :title="$t('edit')">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5" viewBox="0 0 24 24">
@@ -443,7 +405,7 @@ function getExportFile() {
                       </path>
                     </svg>
                   </button>
-                  <button type="button" :key="item.id" @click="educationCentersStore._delete(item.id)"
+                  <button type="button" :key="item.id" @click="deleteItemConfirm(item.id)"
                     class="px-4 py-2 text-[0.8rem] font-medium bg-red-400 hover:bg-red-500 transition ease-in hover:ease-out duration-200 text-white dark:bg-pink-900 dark:hover:bg-pink-600 border border-gray-200 rounded-e-lg focus:z-10 focus:ring-2 focus:ring-red-500 dark:border-gray-700 dark:focus:ring-pink-500 select-none"
                     :title="$t('delete')">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5" viewBox="0 0 24 24" fill="none">
