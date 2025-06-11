@@ -95,6 +95,7 @@ export default {
   resetAll: "Сбросить всё",
   objectsCount: "Всего {{objectsCount}} элементов",
   selectedObjectsCount: "{{selectedItemsCount}} элементов выбрано",
+  courseName: "Название курса",
   // Files
   deleteFileConfirm: "Подтвердите удаление",
   deleteFileConfirmDesc: "{{fileName}} будет безвозвратно удалён. Уверены?",
@@ -131,6 +132,15 @@ export default {
   countries: "Страны",
   // Region route
   regions: "Регионы",
+  // Student route
+  infoAboutStudent: "Информация о слушателе",
+  studentCourses: "Курсы слушателя",
+  studentCertificates: "Сертификаты слушателя",
+  viewStudent: "О слушателе",
+  // Direction route
+  direction: "Направление",
+  // Certificate route
+  viewCertificate: "Посмотреть сертификат",
   // Forms
   unselected: "Не выбрано",
   addAccept: "Регистрировать",

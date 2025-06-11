@@ -95,6 +95,7 @@ export default {
   resetAll: "Reset All",
   objectsCount: "{{objectsCount}} elements at all",
   selectedObjectsCount: "{{selectedItemsCount}} elements selected",
+  courseName: "Course Name",
   // Files
   deleteFileConfirm: "Confirm deletion",
   deleteFileConfirmDesc:
@@ -132,6 +133,15 @@ export default {
   countries: "Countries",
   // Region route
   regions: "Regions",
+  // Student route
+  infoAboutStudent: "Info about Student",
+  studentCourses: "Student Courses",
+  studentCertificates: "Student Certificates",
+  viewStudent: "View Student",
+  // Direction route
+  direction: "Direction",
+  // Certificate route
+  viewCertificate: "View Certificate",
   // Forms
   unselected: "Unselected",
   addAccept: "Register",

@@ -95,6 +95,7 @@ export default {
   resetAll: "Täzelemek",
   objectsCount: "Umumy: {{objectsCount}} element",
   selectedObjectsCount: "{{selectedItemsCount}} element saýlanan",
+  courseName: "Okuwyň ady",
   // Files
   deleteFileConfirm: "Ýok etmegi tassyklamak",
   deleteFileConfirmDesc:
@@ -132,6 +133,15 @@ export default {
   countries: "Döwletler",
   // Region route
   regions: "Welaýatlar",
+  // Student route
+  infoAboutStudent: "Diňleýji barada maglumat",
+  studentCourses: "Diňleýjiniň gatnaýan okuwlary",
+  studentCertificates: "Diňleýjiniň sertifikatlary",
+  viewStudent: "Diňleýjini görmek",
+  // Direction route
+  direction: "Ugur",
+  // Certificate route
+  viewCertificate: "Sertifikaty görmek",
   // Forms
   unselected: "Saýlanmadyk",
   addAccept: "Hasaba almak",

@@ -1,0 +1,1 @@
+import{_ as e}from"./TheError-Tnj3xcN4.js";import{c as s,b as a}from"./index-DHY7-PiM.js";const m={__name:"Page429",setup(t){return(o,c)=>(a(),s(e,{"status-code":429,message:"tooManyRequests"}))}};export{m as default};

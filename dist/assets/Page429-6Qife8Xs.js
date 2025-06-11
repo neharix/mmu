@@ -1,1 +1,0 @@
-import{_ as e}from"./TheError-BklRqlgG.js";import{c as s,b as a}from"./index-DDRD8TYs.js";const m={__name:"Page429",setup(t){return(o,c)=>(a(),s(e,{"status-code":429,message:"tooManyRequests"}))}};export{m as default};
