@@ -79,6 +79,9 @@ export default {
   rows: "rows",
   rowCount: "Row count",
   tools: "Tools",
+  studentsCount: "Students count",
+  maleCount: "Males",
+  femaleCount: "Females",
   exportData: "Export selected elements",
   deleteData: "Delete selected elements",
   deleteConfirmDesc:
@@ -88,6 +91,10 @@ export default {
   edit: "Edit",
   view: "View",
   delete: "Delete",
+  filters: "Filters",
+  resetAll: "Reset All",
+  objectsCount: "{{objectsCount}} elements at all",
+  selectedObjectsCount: "{{selectedItemsCount}} elements selected",
   // Files
   deleteFileConfirm: "Confirm deletion",
   deleteFileConfirmDesc:
@@ -96,7 +103,6 @@ export default {
   // Users route
   addUser: "Add User",
   // Education centers route
-  studentsCount: "Students count",
   mainInfo: "Main Information",
   materialSupply: "Material Supply",
   workers: "Workers",
@@ -112,6 +118,20 @@ export default {
   uploader: "Uploader",
   addEducationCenter: "Add Education Center",
   editEducationCenter: "Edit Education Center",
+  // Achievement route
+  achievements: "Achievements",
+  achievement: "Achievement",
+  addAchievement: "Add Achievement",
+  editAchievement: "Edit Achievement",
+  // Specialization route
+  specializations: "Specializations",
+  specialization: "Specialization",
+  addSpecialization: "Add Specialization",
+  editSpecialization: "Edit Specialization",
+  // Country route
+  countries: "Countries",
+  // Region route
+  regions: "Regions",
   // Forms
   unselected: "Unselected",
   addAccept: "Register",
@@ -119,4 +139,12 @@ export default {
   publisher: "Publisher",
   director: "Education center director",
   personal: "Education center personal",
+  // Toasts
+  createToast: "{{object}} was successfully created",
+  createToastError: "An error occurred during the creation process",
+  editToast: "{{object}} was successfully edited",
+  editToastError: "An error occurred during the editing process",
+  deleteToast: "{{object}} was successfully deleted",
+  deleteToastError: "An error occurred during the deleting process",
+  notFoundToastError: "{{object}} not found",
 };

@@ -1,19 +1,19 @@
 <script setup>
 import { computed, defineProps, onBeforeMount, onMounted, ref, useTemplateRef, watch } from 'vue';
-import TheToast from "@/components/TheToast.vue";
-import useToast from "@/use/useToast.js";
 import { useDataTableStore, useUsersStore } from "@/stores/api.store.js";
+import { useUxStore } from "@/stores/ux.store";
 import { storeToRefs } from "pinia";
 import router from "@/router/index.js";
 import { onClickOutside } from '@vueuse/core';
 import { useRoute } from 'vue-router';
 import ConfirmModal from '../Modals/ConfirmModal.vue';
 
+
 const dataTableStore = useDataTableStore();
 const route = useRoute();
-const { toasts, addToast } = useToast();
 const usersStore = useUsersStore();
 const { deleteStatus, updateStatus, createStatus } = storeToRefs(usersStore);
+const uxStore = useUxStore()
 
 const props = defineProps({
   data: Array,
@@ -127,14 +127,6 @@ const sort = (column) => {
 const isOpen = ref(false);
 const isActionsOpen = ref(false);
 
-function toggleMenu() {
-  isOpen.value = !isOpen.value;
-}
-
-function toggleActionsMenu() {
-  isActionsOpen.value = !isActionsOpen.value;
-}
-
 
 function closeMenu() {
   isOpen.value = false;
@@ -150,9 +142,9 @@ function openModalWrapper(headerText, content, id) {
 watch(deleteStatus, (newVal, oldVal) => {
   if (newVal) {
     if (newVal === 'success') {
-      addToast('Ýokary okuw mekdebi üstünlikli ýok edildi', 'success');
+      uxStore.addToast('Ýokary okuw mekdebi üstünlikli ýok edildi', 'success');
     } else if (newVal === 'error') {
-      addToast('Ýok etme prosesinde ýalňyşlyk ýüze çykdy', 'error');
+      uxStore.addToast('Ýok etme prosesinde ýalňyşlyk ýüze çykdy', 'error');
     }
   }
   deleteStatus.value = null;
@@ -190,18 +182,18 @@ onBeforeMount(() => {
 onMounted(() => {
   if (updateStatus.value) {
     if (updateStatus.value === 'success') {
-      addToast('Ýokary okuw mekdebi üstünlikli üýtgedildi', 'success');
+      uxStore.addToast('Ýokary okuw mekdebi üstünlikli üýtgedildi', 'success');
     } else if (updateStatus.value === 'error') {
-      addToast('Üýtgetme prosesinde ýalňyşlyk ýüze çykdy', 'error');
+      uxStore.addToast('Üýtgetme prosesinde ýalňyşlyk ýüze çykdy', 'error');
     }
   }
   updateStatus.value = null;
 
   if (createStatus.value) {
     if (createStatus.value === 'success') {
-      addToast('Ýokary okuw mekdebi üstünlikli hasaba alyndy', 'success');
+      uxStore.addToast('Ýokary okuw mekdebi üstünlikli hasaba alyndy', 'success');
     } else if (createStatus.value === 'error') {
-      addToast('Hasaba alma prosesinde ýalňyşlyk ýüze çykdy', 'error');
+      uxStore.addToast('Hasaba alma prosesinde ýalňyşlyk ýüze çykdy', 'error');
     }
   }
   createStatus.value = null;
@@ -495,15 +487,6 @@ async function deleteItems(model, identificators) {
       </svg>
     </button>
   </div>
-  <teleport to="body">
-    <div class="toast-container w-5/6 fixed top-25
-       md:top-auto md:bottom-5 right-5 md:w-1/4 flex flex-col-reverse space-y-2">
-      <TransitionGroup name="toast">
-        <the-toast v-for="toast in toasts" :key="toast.id" :message="toast.message" :type="toast.type"
-          :duration="toast.duration" :onClose="() => (toasts = toasts.filter((t) => t.id !== toast.id))"></the-toast>
-      </TransitionGroup>
-    </div>
-  </teleport>
 </template>
 
 <style scoped>

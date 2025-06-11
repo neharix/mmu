@@ -79,6 +79,9 @@ export default {
   rows: "setir",
   rowCount: "Setir sany",
   tools: "Gurallar",
+  studentsCount: "Diňleýji sany",
+  maleCount: "Oglanlaryň sany",
+  femaleCount: "Gyzlaryň sany",
   exportData: "Saýlanan elementleri eksportirlemek",
   deleteData: "Saýlanan elementleri ýok etmek",
   deleteConfirmDesc:
@@ -88,6 +91,10 @@ export default {
   edit: "Üýtgetmek",
   view: "Görmek",
   delete: "Ýok etmek",
+  filters: "Süzgüçler",
+  resetAll: "Täzelemek",
+  objectsCount: "Umumy: {{objectsCount}} element",
+  selectedObjectsCount: "{{selectedItemsCount}} element saýlanan",
   // Files
   deleteFileConfirm: "Ýok etmegi tassyklamak",
   deleteFileConfirmDesc:
@@ -96,7 +103,6 @@ export default {
   // Users route
   addUser: "Ulanyjy goşmak",
   // Education centers route
-  studentsCount: "Diňleýji sany",
   mainInfo: "Esasy maglumatlar",
   materialSupply: "Maddy üpjünçilik",
   workers: "Işgärler",
@@ -112,6 +118,20 @@ export default {
   uploader: "Ýükleýji",
   addEducationCenter: "Okuw merkezini goşmak",
   editEducationCenter: "Okuw merkezini üýtgetmek",
+  // Achievement route
+  achievements: "Başarnyklar",
+  achievement: "Başarnyk",
+  addAchievement: "Başarnyk goşmak",
+  editAchievement: "Başarnygy üýtgetmek",
+  // Specialization route
+  specializations: "Hünärler",
+  specialization: "Hünär",
+  addSpecialization: "Hünär goşmak",
+  editSpecialization: "Hünäri üýtgetmek",
+  // Country route
+  countries: "Döwletler",
+  // Region route
+  regions: "Welaýatlar",
   // Forms
   unselected: "Saýlanmadyk",
   addAccept: "Hasaba almak",
@@ -119,4 +139,12 @@ export default {
   publisher: "Makala redaktory",
   director: "Okuw merkeziniň ýolbaşçysy",
   personal: "Okuw merkeziniň işgäri",
+  // Toasts
+  createToast: "{{object}} üstünlikli döredildi",
+  createToastError: "Hasaba alma prosesinde ýalňyşlyk ýüze çykdy",
+  editToast: "{{object}} üstünlikli üýtgedildi",
+  editToastError: "Üýtgetme prosesinde ýalňyşlyk ýüze çykdy",
+  deleteToast: "{{object}} üstünlikli ýok edildi",
+  deleteToastError: "Ýok etme prosesinde ýalňyşlyk ýüze çykdy",
+  notFoundToastError: "{{object}} tapylmady",
 };

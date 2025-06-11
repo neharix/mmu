@@ -1,15 +1,18 @@
 <script setup>
 import { computed, defineProps, onBeforeMount, onMounted, ref, useTemplateRef, watch } from 'vue';
-import TheToast from "@/components/TheToast.vue";
-import useToast from "@/use/useToast.js";
 import { useUsersStore } from "@/stores/api.store.js";
 import { storeToRefs } from "pinia";
 import router from "@/router/index.js";
 import { onClickOutside } from '@vueuse/core';
 import { useRoute } from 'vue-router';
+import { useUxStore } from '@/stores/ux.store';
+import { useTranslation } from 'i18next-vue';
+
+const uxStore = useUxStore()
 
 const route = useRoute();
-const { toasts, addToast } = useToast();
+const { t } = useTranslation();
+
 const usersStore = useUsersStore();
 const { deleteStatus, updateStatus, createStatus } = storeToRefs(usersStore);
 
@@ -68,7 +71,7 @@ const checkboxClicked = (id) => {
 }
 
 const applySearch = () => {
-  router.push({ name: 'about-education-center', params: { id: route.params.id }, query: { ...route.query, search: searchQuery.value.toLowerCase() } }).then(() => {
+  router.push({ name: 'about-education-center', params: { id: route.params.id }, query: { ...route.query, search: searchQuery.value } }).then(() => {
     emit('update')
   });
 };
@@ -162,14 +165,13 @@ function submitModal() {
 watch(deleteStatus, (newVal, oldVal) => {
   if (newVal) {
     if (newVal === 'success') {
-      addToast('Ýokary okuw mekdebi üstünlikli ýok edildi', 'success');
+      uxStore.addToast(t('deleteToast', { object: t('staff') }), 'success');
     } else if (newVal === 'error') {
-      addToast('Ýok etme prosesinde ýalňyşlyk ýüze çykdy', 'error');
+      uxStore.addToast(t('deleteToastError'), 'error');
     }
   }
   deleteStatus.value = null;
 })
-
 watch(currentPage, (newVal) => {
   router.push({ name: 'about-education-center', params: { id: route.params.id }, query: { ...route.query, page: newVal } }).then(() => {
     emit('update')
@@ -202,18 +204,18 @@ onBeforeMount(() => {
 onMounted(() => {
   if (updateStatus.value) {
     if (updateStatus.value === 'success') {
-      addToast('Ýokary okuw mekdebi üstünlikli üýtgedildi', 'success');
+      uxStore.addToast(t("editToast", { object: t('staff') }), 'success');
     } else if (updateStatus.value === 'error') {
-      addToast('Üýtgetme prosesinde ýalňyşlyk ýüze çykdy', 'error');
+      uxStore.addToast(t('editToastError'), 'error');
     }
   }
   updateStatus.value = null;
 
   if (createStatus.value) {
     if (createStatus.value === 'success') {
-      addToast('Ýokary okuw mekdebi üstünlikli hasaba alyndy', 'success');
+      uxStore.addToast(t("createToast", { object: t('staff') }), 'success');
     } else if (createStatus.value === 'error') {
-      addToast('Hasaba alma prosesinde ýalňyşlyk ýüze çykdy', 'error');
+      uxStore.addToast(t('createToastError'), 'error');
     }
   }
   createStatus.value = null;
@@ -435,45 +437,6 @@ onClickOutside(rowCountDropdown, event => {
       </svg>
     </button>
   </div>
-  <teleport to="body">
-    <div class="toast-container w-5/6 fixed top-25
-       md:top-auto md:bottom-5 right-5 md:w-1/4 flex flex-col-reverse space-y-2">
-      <TransitionGroup name="toast">
-        <the-toast v-for="toast in toasts" :key="toast.id" :message="toast.message" :type="toast.type"
-          :duration="toast.duration" :onClose="() => (toasts = toasts.filter((t) => t.id !== toast.id))"></the-toast>
-      </TransitionGroup>
-    </div>
-  </teleport>
 </template>
 
-<style scoped>
-.fade-scale-enter-active,
-.fade-scale-leave-active {
-  transition: opacity 0.2s ease, transform 0.2s ease;
-}
-
-.fade-scale-enter-from,
-.fade-scale-leave-to {
-  opacity: 0;
-  transform: scale(0.95);
-}
-
-.fade-scale-enter-to,
-.fade-scale-leave-from {
-  opacity: 1;
-  transform: scale(1);
-}
-
-
-.toast-move,
-.toast-enter-active,
-.toast-leave-active {
-  transition: all 0.3s ease;
-}
-
-.toast-enter-from,
-.toast-leave-to {
-  opacity: 0;
-  transform: translateY(20px);
-}
-</style>
+<style scoped></style>

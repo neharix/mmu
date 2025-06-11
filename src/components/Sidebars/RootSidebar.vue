@@ -121,6 +121,69 @@ onBeforeMount(() => {
             </div>
             <span v-if="sidebarExpanded" class="text-nowrap">{{ $t('educationCenters') }}</span>
           </sidebar-link>
+          <!-- <sidebar-link :link="{ name: 'regions-list' }">
+            <div class="flex justify-center" :class="{ 'w-full': !sidebarExpanded }">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-6" viewBox="0 0 24 24">
+                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                  <path
+                    d="M18 8c0 3.613-3.869 7.429-5.393 8.795a1 1 0 0 1-1.214 0C9.87 15.429 6 11.613 6 8a6 6 0 0 1 12 0" />
+                  <circle cx="12" cy="8" r="2" />
+                  <path
+                    d="M8.714 14h-3.71a1 1 0 0 0-.948.683l-2.004 6A1 1 0 0 0 3 22h18a1 1 0 0 0 .948-1.316l-2-6a1 1 0 0 0-.949-.684h-3.712" />
+                </g>
+              </svg>
+            </div>
+            <span v-if="sidebarExpanded" class="text-nowrap">{{ $t('regions') }}</span>
+          </sidebar-link>
+          <sidebar-link :link="{ name: 'regions-list' }">
+            <div class="flex justify-center" :class="{ 'w-full': !sidebarExpanded }">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-6" viewBox="0 0 24 24">
+                <rect width="24" height="24" fill="none" />
+                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 7v14m4-9h2m-2-4h2M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4a4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3a3 3 0 0 0-3-3zm3-6h2M6 8h2" />
+              </svg>
+            </div>
+            <span v-if="sidebarExpanded" class="text-nowrap">{{ $t('courses') }}</span>
+          </sidebar-link> -->
+          <sidebar-link :link="{ name: 'achievements-list' }">
+            <div class="flex justify-center" :class="{ 'w-full': !sidebarExpanded }">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <rect width="24" height="24" fill="none" />
+                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                  <path
+                    d="M7.21 15L2.66 7.14a2 2 0 0 1 .13-2.2L4.4 2.8A2 2 0 0 1 6 2h12a2 2 0 0 1 1.6.8l1.6 2.14a2 2 0 0 1 .14 2.2L16.79 15M11 12L5.12 2.2M13 12l5.88-9.8M8 7h8" />
+                  <circle cx="12" cy="17" r="5" />
+                  <path d="M12 18v-2h-.5" />
+                </g>
+              </svg>
+            </div>
+            <span v-if="sidebarExpanded" class="text-nowrap">{{ $t('achievements') }}</span>
+          </sidebar-link>
+          <sidebar-link :link="{ name: 'specializations-list' }">
+            <div class="flex justify-center" :class="{ 'w-full': !sidebarExpanded }">
+              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"
+                role="img" class="w-6" viewBox="0 0 24 24">
+                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                  <path d="M10 2v8l3-3l3 3V2"></path>
+                  <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20">
+                  </path>
+                </g>
+              </svg>
+            </div>
+            <span v-if="sidebarExpanded" class="text-nowrap">{{ $t('specializations') }}</span>
+          </sidebar-link>
+          <sidebar-link :link="{ name: 'students-list' }">
+            <div class="flex justify-center" :class="{ 'w-full': !sidebarExpanded }">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-6" viewBox="0 0 24 24">
+                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                  <path
+                    d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0zM22 10v6" />
+                  <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5" />
+                </g>
+              </svg>
+            </div>
+            <span v-if="sidebarExpanded" class="text-nowrap">{{ $t('students') }}</span>
+          </sidebar-link>
         </div>
         <div class="h-16"></div>
       </div>

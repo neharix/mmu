@@ -80,6 +80,9 @@ export default {
   rows: "строк",
   rowCount: "Количество строк",
   tools: "Инструменты",
+  studentsCount: "Количество слушателей",
+  maleCount: "Мужчины",
+  femaleCount: "Женщины",
   exportData: "Экспортировать выбранные элементы",
   deleteData: "Удалить выбранные элементы",
   deleteConfirmDesc: "Выбранный элемент будут безвозвратно удалены. Уверены?",
@@ -88,6 +91,10 @@ export default {
   edit: "Изменить",
   view: "Посмотреть",
   delete: "Удалить",
+  filters: "Филтры",
+  resetAll: "Сбросить всё",
+  objectsCount: "Всего {{objectsCount}} элементов",
+  selectedObjectsCount: "{{selectedItemsCount}} элементов выбрано",
   // Files
   deleteFileConfirm: "Подтвердите удаление",
   deleteFileConfirmDesc: "{{fileName}} будет безвозвратно удалён. Уверены?",
@@ -95,7 +102,6 @@ export default {
   // Users route
   addUser: "Добавить пользователя",
   // Education centers route
-  studentsCount: "Количество слушателей",
   mainInfo: "Основная информация",
   materialSupply: "Поставка материалов",
   workers: "Работники",
@@ -111,6 +117,20 @@ export default {
   uploader: "Отправитель",
   addEducationCenter: "Добавить центр обучения",
   editEducationCenter: "Изменить центр обучения",
+  // Achievement route
+  achievements: "Достижения",
+  achievement: "Достижение",
+  addAchievement: "Добавить достижение",
+  editAchievement: "Изменить достижение",
+  // Specialization route
+  specializations: "Специализации",
+  specialization: "Специализация",
+  addSpecialization: "Добавить специализацию",
+  editSpecialization: "Изменить специализацию",
+  // Country route
+  countries: "Страны",
+  // Region route
+  regions: "Регионы",
   // Forms
   unselected: "Не выбрано",
   addAccept: "Регистрировать",
@@ -118,4 +138,12 @@ export default {
   publisher: "Редактор публикаций",
   director: "Директор центра обучения",
   personal: "Персонал центра обучения",
+  // Toasts
+  createToast: "{{object}} был(-а/-о) успешно создан(-а/-о)",
+  createToastError: "Произошла ошибка в процессе создания",
+  editToast: "{{object}} был(-а/-о) успешно изменен(-а/-о)",
+  editToastError: "Произошла ошибка в процессе изменения",
+  deleteToast: "{{object}} был(-а/-о) успешно удален(-а/-о)",
+  deleteToastError: "Произошла ошибка в процессе удаления",
+  notFoundToastError: "{{object}} не найден",
 };

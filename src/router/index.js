@@ -196,6 +196,212 @@ const router = createRouter({
           ],
           beforeEnter: guards.authGuard,
         },
+        {
+          path: "regions",
+          name: "regions",
+          component: () => import("../views/RegionViews/Regions.vue"),
+          meta: {
+            layout: "MainLayout",
+            title: "regions",
+            adminRequired: true,
+          },
+          children: [
+            {
+              path: "",
+              name: "regions-list",
+              component: () =>
+                import("../views/RegionViews/RegionsListView.vue"),
+              meta: {
+                layout: "MainLayout",
+                title: "regions",
+                adminRequired: true,
+              },
+              beforeEnter: guards.authGuard,
+            },
+            {
+              path: "add",
+              name: "add-region",
+              component: () => import("../views/RegionViews/AddRegion.vue"),
+              meta: {
+                layout: "MainLayout",
+                title: "addRegion",
+                adminRequired: true,
+              },
+              beforeEnter: guards.authGuard,
+            },
+            {
+              path: "edit/:id",
+              name: "edit-region",
+              component: () => import("../views/RegionViews/EditRegion.vue"),
+              meta: {
+                layout: "MainLayout",
+                title: "editRegion",
+                adminRequired: true,
+              },
+              beforeEnter: guards.authGuard,
+            },
+          ],
+          beforeEnter: guards.authGuard,
+        },
+        {
+          path: "achievements",
+          name: "achievements",
+          component: () => import("../views/AchievementViews/Achievements.vue"),
+          meta: {
+            layout: "MainLayout",
+            title: "achievements",
+            adminRequired: true,
+          },
+          children: [
+            {
+              path: "",
+              name: "achievements-list",
+              component: () =>
+                import("../views/AchievementViews/AchievementsListView.vue"),
+              meta: {
+                layout: "MainLayout",
+                title: "achievements",
+                adminRequired: true,
+              },
+              beforeEnter: guards.authGuard,
+            },
+            {
+              path: "add",
+              name: "add-achievement",
+              component: () =>
+                import("../views/AchievementViews/AddAchievement.vue"),
+              meta: {
+                layout: "MainLayout",
+                title: "addAchievement",
+                adminRequired: true,
+              },
+              beforeEnter: guards.authGuard,
+            },
+            {
+              path: "edit/:id",
+              name: "edit-achievement",
+              component: () =>
+                import("../views/AchievementViews/EditAchievement.vue"),
+              meta: {
+                layout: "MainLayout",
+                title: "editAchievement",
+                adminRequired: true,
+              },
+              beforeEnter: guards.authGuard,
+            },
+          ],
+          beforeEnter: guards.authGuard,
+        },
+        {
+          path: "specializations",
+          name: "specializations",
+          component: () =>
+            import("../views/SpecializationViews/Specializations.vue"),
+          meta: {
+            layout: "MainLayout",
+            title: "specializations",
+            adminRequired: true,
+          },
+          children: [
+            {
+              path: "",
+              name: "specializations-list",
+              component: () =>
+                import(
+                  "../views/SpecializationViews/SpecializationsListView.vue"
+                ),
+              meta: {
+                layout: "MainLayout",
+                title: "specializations",
+                adminRequired: true,
+              },
+              beforeEnter: guards.authGuard,
+            },
+            {
+              path: "add",
+              name: "add-specialization",
+              component: () =>
+                import("../views/SpecializationViews/AddSpecialization.vue"),
+              meta: {
+                layout: "MainLayout",
+                title: "addSpecialization",
+                adminRequired: true,
+              },
+              beforeEnter: guards.authGuard,
+            },
+            {
+              path: "edit/:id",
+              name: "edit-specialization",
+              component: () =>
+                import("../views/SpecializationViews/EditSpecialization.vue"),
+              meta: {
+                layout: "MainLayout",
+                title: "editSpecialization",
+                adminRequired: true,
+              },
+              beforeEnter: guards.authGuard,
+            },
+          ],
+          beforeEnter: guards.authGuard,
+        },
+        {
+          path: "students",
+          name: "students",
+          component: () => import("../views/StudentViews/Students.vue"),
+          meta: {
+            layout: "MainLayout",
+            title: "students",
+            adminRequired: true,
+          },
+          children: [
+            {
+              path: "",
+              name: "students-list",
+              component: () =>
+                import("../views/StudentViews/StudentsListView.vue"),
+              meta: {
+                layout: "MainLayout",
+                title: "students",
+                adminRequired: true,
+              },
+              beforeEnter: guards.authGuard,
+            },
+            {
+              path: "add",
+              name: "add-student",
+              component: () => import("../views/StudentViews/AddStudent.vue"),
+              meta: {
+                layout: "MainLayout",
+                title: "addStudent",
+                adminRequired: true,
+              },
+              beforeEnter: guards.authGuard,
+            },
+            {
+              path: "edit/:id",
+              name: "edit-student",
+              component: () => import("../views/StudentViews/EditStudent.vue"),
+              meta: {
+                layout: "MainLayout",
+                title: "editStudent",
+                adminRequired: true,
+              },
+              beforeEnter: guards.authGuard,
+            },
+            {
+              path: "view/:id",
+              name: "about-student",
+              component: () => import("../views/StudentViews/Student.vue"),
+              meta: {
+                layout: "MainLayout",
+                title: "viewStudent",
+                adminRequired: true,
+              },
+              beforeEnter: guards.authGuard,
+            },
+          ],
+          beforeEnter: guards.authGuard,
+        },
       ],
     },
     {

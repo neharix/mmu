@@ -14,6 +14,7 @@ export const useUxStore = defineStore("ux", () => {
   const sidebarHover = ref(false);
   const isLoading = ref(false);
   const errorPageStatus = ref(null);
+  const toasts = ref([]);
 
   const isDark = computed(() => {
     return theme.value === "dark";
@@ -80,6 +81,31 @@ export const useUxStore = defineStore("ux", () => {
     return sidebarExpand.value === "1";
   });
 
+  function addToast(message, _type) {
+    const id = toasts.value.length;
+    toasts.value.push({ id, message, _type });
+    setTimeout(() => {
+      try {
+        toasts.value.splice(
+          toasts.value[
+            toasts.value.indexOf(toasts.value.find((obj) => obj.id === id))
+          ],
+          1
+        );
+      } catch (e) {
+        console.warn(e);
+      }
+    }, 5000);
+  }
+  function deleteToast(id) {
+    toasts.value.splice(
+      toasts.value[
+        toasts.value.indexOf(toasts.value.find((obj) => obj.id === id))
+      ],
+      1
+    );
+  }
+
   return {
     language,
     theme,
@@ -89,6 +115,7 @@ export const useUxStore = defineStore("ux", () => {
     isLoading,
     isDark,
     errorPageStatus,
+    toasts,
     changeLanguage,
     toggleTheme,
     toggleSidebar,
@@ -97,5 +124,7 @@ export const useUxStore = defineStore("ux", () => {
     mouseLeaveSidebar,
     mouseOverSidebar,
     goToError,
+    addToast,
+    deleteToast,
   };
 });

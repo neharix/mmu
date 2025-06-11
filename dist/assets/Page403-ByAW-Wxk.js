@@ -1,1 +1,0 @@
-import{_ as e}from"./TheError-Cxk5-q4s.js";import{c as a,b as s}from"./index-ClwzeL6-.js";const n={__name:"Page403",setup(o){return(r,t)=>(s(),a(e,{"status-code":403,message:"pageForbidden","is-home-link-enabled":!0}))}};export{n as default};

@@ -1,8 +1,10 @@
 <template>
   <component :is="layout"></component>
+  <toast-container></toast-container>
 </template>
 
 <script setup>
+import ToastContainer from "./components/ToastContainer.vue";
 import { defineAsyncComponent, onBeforeMount, onMounted, ref, shallowRef, watch } from "vue";
 import { useRoute } from "vue-router";
 import LoaderLayout from "@/layouts/LoaderLayout.vue";

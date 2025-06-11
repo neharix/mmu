@@ -1,21 +1,19 @@
 <script setup>
 import { computed, defineProps, onBeforeMount, onMounted, ref, useTemplateRef, watch } from 'vue';
-import useConfirmModal from "@/use/useModalWindow.js";
-import TheToast from "@/components/TheToast.vue";
-import useToast from "@/use/useToast.js";
-import { useDataTableStore, useFilesStore, useUsersStore } from "@/stores/api.store.js";
+import { useFilesStore, useUsersStore } from "@/stores/api.store.js";
 import { storeToRefs } from "pinia";
 import router from "@/router/index.js";
 import { onClickOutside } from '@vueuse/core';
 import { useRoute } from 'vue-router';
 import ConfirmModal from '../Modals/ConfirmModal.vue';
+import { useUxStore } from '@/stores/ux.store';
+import { useTranslation } from 'i18next-vue';
 
+const uxStore = useUxStore();
+const { t } = useTranslation();
 
-const dataTableStore = useDataTableStore();
 const filesStore = useFilesStore();
 const route = useRoute();
-const { isModalOpen, openModal, header, context } = useConfirmModal();
-const { toasts, addToast } = useToast();
 const usersStore = useUsersStore();
 const { deleteStatus, updateStatus, createStatus } = storeToRefs(usersStore);
 
@@ -130,47 +128,18 @@ const sort = (column) => {
 const isOpen = ref(false);
 const isActionsOpen = ref(false);
 
-function toggleMenu() {
-  isOpen.value = !isOpen.value;
-}
-
-function toggleActionsMenu() {
-  isActionsOpen.value = !isActionsOpen.value;
-}
-
 
 function closeMenu() {
   isOpen.value = false;
   isActionsOpen.value = false;
 }
 
-
-function openModalWrapper(headerText, content, id) {
-  openModal(headerText, content);
-  selectedItem.value = id;
-}
-
-
-function closeModal() {
-  isModalOpen.value = false;
-  selectedItem.value = null;
-}
-
-
-function submitModal() {
-  isModalOpen.value = false;
-  usersStore._delete(selectedItem.value).then(() => {
-    emit('update');
-  });
-  selectedItem.value = null;
-}
-
 watch(deleteStatus, (newVal, oldVal) => {
   if (newVal) {
     if (newVal === 'success') {
-      addToast('Ýokary okuw mekdebi üstünlikli ýok edildi', 'success');
+      uxStore.addToast(t('deleteToast', { object: t('file') }), 'success');
     } else if (newVal === 'error') {
-      addToast('Ýok etme prosesinde ýalňyşlyk ýüze çykdy', 'error');
+      uxStore.addToast(t('deleteToastError'), 'error');
     }
   }
   deleteStatus.value = null;
@@ -208,18 +177,18 @@ onBeforeMount(() => {
 onMounted(() => {
   if (updateStatus.value) {
     if (updateStatus.value === 'success') {
-      addToast('Ýokary okuw mekdebi üstünlikli üýtgedildi', 'success');
+      uxStore.addToast(t("editToast", { object: t('file') }), 'success');
     } else if (updateStatus.value === 'error') {
-      addToast('Üýtgetme prosesinde ýalňyşlyk ýüze çykdy', 'error');
+      uxStore.addToast(t('editToastError'), 'error');
     }
   }
   updateStatus.value = null;
 
   if (createStatus.value) {
     if (createStatus.value === 'success') {
-      addToast('Ýokary okuw mekdebi üstünlikli hasaba alyndy', 'success');
+      uxStore.addToast(t("createToast", { object: t('file') }), 'success');
     } else if (createStatus.value === 'error') {
-      addToast('Hasaba alma prosesinde ýalňyşlyk ýüze çykdy', 'error');
+      uxStore.addToast(t('createToastError'), 'error');
     }
   }
   createStatus.value = null;
@@ -376,15 +345,15 @@ async function deleteFile() {
             </td>
             <td class="border-y border-gray-300 dark:border-[#113031] px-4 py-2 break-words text-[0.8rem]">{{
               item.id
-              }}
+            }}
             </td>
             <td class="border-y border-gray-300 dark:border-[#113031] p-2 break-words text-[0.8rem]">{{
               item.name
-              }}
+            }}
             </td>
             <td class="border-y border-gray-300 dark:border-[#113031] p-2 break-words text-[0.8rem]">{{
               item.uploader.user.username
-              }}
+            }}
             </td>
             <td class="border-y border-gray-300 dark:border-[#113031] p-2 break-words text-[0.8rem]">
               <div class="w-full flex items-center justify-center">
@@ -468,45 +437,6 @@ async function deleteFile() {
       </svg>
     </button>
   </div>
-  <teleport to="body">
-    <div class="toast-container w-5/6 fixed top-25
-       md:top-auto md:bottom-5 right-5 md:w-1/4 flex flex-col-reverse space-y-2">
-      <TransitionGroup name="toast">
-        <the-toast v-for="toast in toasts" :key="toast.id" :message="toast.message" :type="toast.type"
-          :duration="toast.duration" :onClose="() => (toasts = toasts.filter((t) => t.id !== toast.id))"></the-toast>
-      </TransitionGroup>
-    </div>
-  </teleport>
 </template>
 
-<style scoped>
-.fade-scale-enter-active,
-.fade-scale-leave-active {
-  transition: opacity 0.2s ease, transform 0.2s ease;
-}
-
-.fade-scale-enter-from,
-.fade-scale-leave-to {
-  opacity: 0;
-  transform: scale(0.95);
-}
-
-.fade-scale-enter-to,
-.fade-scale-leave-from {
-  opacity: 1;
-  transform: scale(1);
-}
-
-
-.toast-move,
-.toast-enter-active,
-.toast-leave-active {
-  transition: all 0.3s ease;
-}
-
-.toast-enter-from,
-.toast-leave-to {
-  opacity: 0;
-  transform: translateY(20px);
-}
-</style>
+<style scoped></style>

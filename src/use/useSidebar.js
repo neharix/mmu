@@ -1,4 +1,4 @@
-import { onBeforeMount, ref } from "vue";
+import { ref } from "vue";
 
 export default function useSidebar() {
   const linksCarouselSettings = ref(null);

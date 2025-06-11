@@ -67,6 +67,7 @@ async function authGuard(to, from, next) {
   const { t, i18next } = useTranslation();
   const authStore = useAuthStore();
   const uxStore = useUxStore();
+
   if (!authStore.user) {
     await authStore.fetchUser();
   }
